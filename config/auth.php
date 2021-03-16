@@ -40,10 +40,29 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
-
         'api' => [
             'driver' => 'token',
             'provider' => 'users',
+            'hash' => false,
+        ],
+        
+        'marketing' => [
+            'driver' => 'session',
+            'provider' => 'marketing',
+        ],
+        'apimarketing' => [
+            'driver' => 'token',
+            'provider' => 'marketing',
+            'hash' => false,
+        ],
+
+        'cs' => [
+            'driver' => 'session',
+            'provider' => 'cs',
+        ],
+        'apics' => [
+            'driver' => 'token',
+            'provider' => 'cs',
             'hash' => false,
         ],
     ],
@@ -69,6 +88,14 @@ return [
         'users' => [
             'driver' => 'eloquent',
             'model' => App\User::class,
+        ],
+        'marketing' => [
+            'driver' => 'eloquent',
+            'model' => App\Login_Marketing::class,
+        ],
+        'cs' => [
+            'driver' => 'eloquent',
+            'model' => App\Login_Cs::class,
         ],
 
         // 'users' => [

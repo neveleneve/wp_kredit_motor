@@ -2,24 +2,42 @@
 
 use Illuminate\Support\Facades\Route;
 // General
-Route::get('/', 'LoginController@index');
-Route::get('/credit-check', 'KreditController@index');
+Route::get('/', 'LoginController@index')->name('login');
+Route::get('/credit-check', 'KreditController@index')->name('credit-check');
+Route::get('/logout', 'MarketingController@logout')->name('logout');
 
-// Admin
-Route::get('/administrator', 'AdminController@dashboard')->name('dashboard');
+#region MARKETING
 
-Route::get('/administrator/nasabah', 'AdminController@nasabah')->name('nasabah');
-Route::get('/administrator/nasabah/add', 'AdminController@addnasabah')->name('addnasabah');
-Route::post('/administrator/nasabah/add', 'AdminController@ceknasabah')->name('ceknasabah');
-Route::get('/administrator/nasabah/view/{id}', 'AdminController@viewnasabah')->name('viewnasabah');
+#region MARKETING-DASHBOAR
+Route::get('/marketing', 'MarketingController@dashboard')->name('dashboard');
+#endregion
 
-Route::get('/administrator/kredit', 'AdminController@kredit')->name('kredit');
-Route::get('/administrator/kredit/add', 'AdminController@addkredit')->name('addkredit');
-Route::get('/administrator/kredit/view/{id}', 'AdminController@viewkredit')->name('viewkredit');
+#region MARKETING-NASABAH
+Route::get('/marketing/nasabah', 'MarketingController@nasabah')->name('nasabah');
+Route::get('/marketing/nasabah/add', 'MarketingController@addnasabah')->name('addnasabah');
+Route::post('/marketing/nasabah/add', 'MarketingController@ceknasabah')->name('ceknasabah');
+Route::get('/marketing/nasabah/view/{id}', 'MarketingController@viewnasabah')->name('viewnasabah');
+Route::get('/marketing/nasabah/transaksi/{id}', 'MarketingController@transaksinasabah')->name('transaksinasabah');
+#endregion
 
-Route::get('/administrator/payment', 'AdminController@payment')->name('payment');
-Route::get('/administrator/payment/add', 'AdminController@addpayment')->name('addpayment');
+#region MARKETING-KREDIT
+Route::get('/marketing/kredit', 'MarketingController@kredit')->name('kredit');
+Route::get('/marketing/kredit/add', 'MarketingController@addkredit')->name('addkredit');
+Route::get('/marketing/kredit/view/{id}', 'MarketingController@viewkredit')->name('viewkredit');
+#endregion
 
-Route::get('/administrator/setting', 'AdminController@setting')->name('setting');
+#region MARKETING-PAYMENT
+Route::get('/marketing/payment', 'MarketingController@payment')->name('payment');
+Route::get('/marketing/payment/add', 'MarketingController@addpayment')->name('addpayment');
+#endregion
 
-Route::get('/administrator/logout', 'AdminController@logout')->name('logout');
+#region MARKETING-SETTING
+Route::get('/marketing/setting', 'MarketingController@setting')->name('setting');
+#endregion
+
+#endregion
+
+#region CS
+Route::get('/cs/setting', 'MarketingController@setting')->name('cssetting');
+
+#endregion

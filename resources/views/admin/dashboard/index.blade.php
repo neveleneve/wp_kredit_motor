@@ -24,7 +24,6 @@
                 </div>
             </div>
         </div>
-
         <div class="col-xl-3 col-md-6 mb-4">
             <div class="card border-left-success shadow h-100 py-2">
                 <div class="card-body">
@@ -44,7 +43,6 @@
                 </div>
             </div>
         </div>
-
         <div class="col-xl-3 col-md-6 mb-4">
             <div class="card border-left-info shadow h-100 py-2">
                 <div class="card-body">
@@ -71,7 +69,6 @@
                 </div>
             </div>
         </div>
-
         <div class="col-xl-3 col-md-6 mb-4">
             <div class="card border-left-warning shadow h-100 py-2">
                 <div class="card-body">
@@ -87,6 +84,52 @@
                     </div>
                 </div>
             </div>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <h3 class="font-weight-bold">Tabel Penilaian Nasabah</h3>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-12">
+            <table class="table table-hover table-bordered">
+                <thead class="bg-primary text-light text-center">
+                    <tr>
+                        <th>No</th>
+                        <th>Kriteria Penilaian</th>
+                        <th>Bobot</th>
+                    </tr>
+                </thead>
+                <tbody class="text-center">
+                    <tr>
+                        <td>1</td>
+                        <td>Pekerjaan</td>
+                        <td>5</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Penghasilan</td>
+                        <td>4</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Status Kepemilikan Rumah</td>
+                        <td>3</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>Status Kendaraan</td>
+                        <td>3</td>
+                    </tr>
+                </tbody>
+                <tfoot class="bg-primary text-light text-center">
+                    <tr>
+                        <td class="font-weight-bold" colspan="2">Total Bobot</td>
+                        <td class="font-weight-bold">15</td>
+                    </tr>
+                </tfoot>
+            </table>
         </div>
     </div>
 @endsection

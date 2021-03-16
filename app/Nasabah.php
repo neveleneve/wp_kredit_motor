@@ -1,0 +1,20 @@
+<?php
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Nasabah extends Model
+{
+    protected $table = "nasabah";
+
+    protected $fillable = [
+        'nik',
+        'nama',
+        'jenis_kelamin',
+        'status_nikah',
+        'tmpt_lahir',
+        'tgl_lahir',
+        'no_hp',
+    ];
+}
