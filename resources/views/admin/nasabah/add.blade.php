@@ -437,12 +437,6 @@
                                 <input type="date" name="masaberlakustnk" id="masaberlakustnk" class="form-control">
                             </div>
                         </div>
-                        {{-- Data Penunjang --}}
-                        <div class="row">
-                            <div class="col-12">
-                                <h1 class="h4 font-weight-bold">Data Tamabahan</h1>
-                            </div>
-                        </div>
                         {{-- Tombol --}}
                         <div class="row mb-3">
                             <div class="col-6">
