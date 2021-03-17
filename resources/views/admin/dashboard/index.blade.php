@@ -14,7 +14,7 @@
                                 Jumlah Nasabah
                             </div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                {{ $data['jmlnsb'] }}
+                                {{ $data['jmlnsb'] }} Orang
                             </div>
                         </div>
                         <div class="col-auto">
@@ -33,7 +33,7 @@
                                 Jumlah Transaksi Kredit
                             </div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                $215,000
+                                {{ $data['jmlkrd'] }} Transaksi
                             </div>
                         </div>
                         <div class="col-auto">

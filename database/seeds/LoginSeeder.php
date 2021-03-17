@@ -15,6 +15,7 @@ class LoginSeeder extends Seeder
     {
         Login::insert([
             [
+                'nama' => 'Zatira Alan G.',
                 'username' => 'zatiraalan',
                 'password' => Hash::make('zatiraalan123', [
                     'rounds' => 10
@@ -24,6 +25,7 @@ class LoginSeeder extends Seeder
                 'updated_at' => date('Y-m-d H:i:s')
             ],
             [
+                'nama' => 'Budiman Cokro Danuardi',
                 'username' => 'budiman',
                 'password' => Hash::make('budiman123', [
                     'rounds' => 10

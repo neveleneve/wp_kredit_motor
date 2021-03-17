@@ -1,39 +1,5 @@
 @extends('layouts.master')
 
-{{-- @section('search1')
-    <form class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-        <div class="input-group">
-            <input type="text" class="form-control bg-light border-0 small" placeholder="Pencarian..." aria-label="Search"
-                aria-describedby="basic-addon2" name="pencarian">
-            <div class="input-group-append">
-                <button class="btn btn-primary" type="submit">
-                    <i class="fas fa-search fa-sm"></i>
-                </button>
-            </div>
-        </div>
-    </form>
-@endsection --}}
-{{-- @section('search2')
-    <li class="nav-item dropdown no-arrow d-sm-none">
-        <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false">
-            <i class="fas fa-search fa-fw"></i>
-        </a>
-        <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
-            <form class="form-inline mr-auto w-100 navbar-search">
-                <div class="input-group">
-                    <input type="text" class="form-control bg-light border-0 small" placeholder="Pencarian..."
-                        aria-label="Search" aria-describedby="basic-addon2">
-                    <div class="input-group-append">
-                        <button class="btn btn-primary" type="button">
-                            <i class="fas fa-search fa-sm"></i>
-                        </button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </li>
-@endsection --}}
 @section('content')
     <div class="d-sm-flex align-items-center justify-content-between mb-3">
         <h1 class="h3 mb-0 text-gray-800">Tambah Nasabah</h1>
@@ -55,42 +21,50 @@
                             </div>
                         </div>
                         <div class="row mb-3">
-                            <div class="col-6">
+                            <div class="col-4">
                                 <label class="font-weight-bold" for="nik">Nomor Induk Kependudukan <strong
                                         class="text-danger">*</strong></label>
                                 <input type="text" pattern="^[0-9]{16}" minlength="16" maxlength="16" name="nik" id="nik"
                                     class="form-control" placeholder="Masukkan 16 digit angka NIK"
                                     title="- Masukkan 16 digit pada NIK" required>
                             </div>
-                            <div class="col-6">
+                            <div class="col-4">
                                 <label class="font-weight-bold" for="fotoktp">Foto KTP <strong
                                         class="text-danger">*</strong></label>
                                 <input class="form-control" type="file" name="fotoktp" id="fotoktp" required>
+                            </div>
+                            <div class="col-4">
+                                <label class="font-weight-bold" for="fotoktp">Foto Kartu Keluarga <strong
+                                        class="text-danger">*</strong></label>
+                                <input class="form-control" type="file" name="fotokk" id="fotokk" required>
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-12">
                                 <label class="font-weight-bold" for="nama">Nama Pemohon
                                     <strong class="text-danger">*</strong></label>
-                                <input name="nama" id="nama" type="text" class="form-control" placeholder="Budi Cokro Dewo">
+                                <input name="nama" id="nama" type="text" class="form-control" placeholder="Budi Cokro Dewo"
+                                    required>
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-6">
                                 <label class="font-weight-bold" for="jeniskelamin">Jenis Kelamin <strong
                                         class="text-danger">*</strong></label>
-                                <select class="form-control" name="jeniskelamin" id="jeniskelamin">
+                                <select class="form-control" name="jeniskelamin" id="jeniskelamin" required>
+                                    <option disabled selected>Pilih Jenis Kelamin</option>
                                     <option value="L">Laki - laki</option>
                                     <option value="P">Perempuan</option>
                                 </select>
                             </div>
                             <div class="col-6">
                                 <label class="font-weight-bold" for="statusperkawinan">
-                                    Status Perkawinan
+                                    Status Pernikahan
                                     <strong class="text-danger">*</strong>
                                 </label>
-                                <select class="form-control" name="statusperkawinan" id="statusperkawinan"
+                                <select class="form-control" name="statusperkawinan" id="statusperkawinan" required
                                     onchange="pilihankawin(this.value)">
+                                    <option disabled selected>Pilih Status Penikahan</option>
                                     <option value="1">Sudah Menikah</option>
                                     <option value="2">Belum Menikah</option>
                                     <option value="3">Cerai Hidup</option>
@@ -108,13 +82,14 @@
                             <div class="col-3">
                                 <label class="font-weight-bold" for="tanggallahir">Tanggal Lahir <strong
                                         class="text-danger">*</strong></label>
-                                <input type="date" name="tanggallahir" id="tanggallahir" class="form-control">
+                                <input type="date" name="tanggallahir" id="tanggallahir" value="{{ date('Y-m-d') }}"
+                                    onchange="getAge(this.value, 'usia')" class="form-control">
                             </div>
                             <div class="col-3">
                                 <label class="font-weight-bold" for="usia">Usia <strong
                                         class="text-danger">*</strong></label>
                                 <input type="number" name="usia" id="usia" class="form-control"
-                                    placeholder="Minimal usia : 21">
+                                    placeholder="Minimal usia : 21" required readonly>
                             </div>
                             <div class="col-3">
                                 <label class="font-weight-bold" for="nohp">Nomor Handphone <strong
@@ -123,7 +98,7 @@
                             </div>
                         </div>
                         {{-- Data Pasangan (bila sudah menikah) --}}
-                        <div id="pasangan" style="display: block">
+                        <div id="pasangan" style="display: none">
                             <div class="row">
                                 <div class="col-12">
                                     <h1 class="h4 font-weight-bold">Data Pasangan</h1>
@@ -134,21 +109,22 @@
                                     <label class="font-weight-bold" for="namapasangan">Nama Pasangan <strong
                                             class="text-danger">*</strong></label>
                                     <input type="text" name="namapasangan" id="namapasangan" class="form-control"
-                                        placeholder="Eka Fitria Gultom" required>
+                                        placeholder="Eka Fitria Gultom">
                                 </div>
                             </div>
                             <div class="row mb-3">
                                 <div class="col-4">
                                     <label class="font-weight-bold" for="tanggallahirpasangan">Tanggal Lahir <strong
                                             class="text-danger">*</strong></label>
-                                    <input type="date" name="tanggallahirpasangan" id="tanggallahirpasangan"
-                                        class="form-control" required>
+                                    <input type="date" value="{{ date('Y-m-d') }}"
+                                        onchange="getAge(this.value, 'usiapasangan')" name="tanggallahirpasangan"
+                                        id="tanggallahirpasangan" class="form-control">
                                 </div>
                                 <div class="col-4">
                                     <label class="font-weight-bold" for="usiapasangan">Usia <strong
                                             class="text-danger">*</strong></label>
                                     <input type="number" name="usiapasangan" id="usiapasangan" class="form-control"
-                                        placeholder="Minimal usia : 21" required>
+                                        placeholder="Minimal usia : 21">
                                 </div>
                                 <div class="col-4">
                                     <label class="font-weight-bold" for="nohppasangan">Nomor Handphone <strong
@@ -177,8 +153,8 @@
                                 <div class="col-3">
                                     <label class="font-weight-bold" for="tanggallahirpenjamin">Tanggal Lahir <strong
                                             class="text-danger">*</strong></label>
-                                    <input type="date" name="tanggallahirpenjamin" id="tanggallahirpenjamin"
-                                        class="form-control">
+                                    <input type="date" value="{{ date('Y-m-d') }}" onchange="getAge(this.value, 'usiapenjamin')" name="tanggallahirpenjamin"
+                                        id="tanggallahirpenjamin" class="form-control">
                                 </div>
                                 <div class="col-3">
                                     <label class="font-weight-bold" for="usiapenjamin">Usia <strong
@@ -428,14 +404,28 @@
                                     Masa Berlaku Pajak
                                     <strong class="text-danger">*</strong>
                                 </label>
-                                <input type="date" name="masaberlakupajak" id="masaberlakupajak" class="form-control">
+                                <input type="date" value="{{ date('Y-m-d') }}" name="masaberlakupajak"
+                                    id="masaberlakupajak" class="form-control">
                             </div>
                             <div class="col-4">
                                 <label class="font-weight-bold" for="masaberlakustnk">
                                     Masa Berlaku STNK
                                     <strong class="text-danger">*</strong>
                                 </label>
-                                <input type="date" name="masaberlakustnk" id="masaberlakustnk" class="form-control">
+                                <input type="date" value="{{ date('Y-m-d') }}" name="masaberlakustnk" id="masaberlakustnk"
+                                    class="form-control">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-6">
+                                <label class="font-weight-bold" for="fotobpkb">Foto BPKP <strong
+                                        class="text-danger">*</strong></label>
+                                <input type="file" class="form-control" name="fotobpkb" id="fotobpkb">
+                            </div>
+                            <div class="col-6">
+                                <label class="font-weight-bold" for="fotostnk">Foto STNK <strong
+                                        class="text-danger">*</strong></label>
+                                <input type="file" class="form-control" name="fotostnk" id="fotostnk">
                             </div>
                         </div>
                         {{-- Tombol --}}
@@ -474,6 +464,17 @@
 
                 document.getElementById('penjamin').style.display = 'block';
             }
+        }
+
+        function getAge(dateString, target) {
+            var today = new Date();
+            var birthDate = new Date(dateString);
+            var age = today.getFullYear() - birthDate.getFullYear();
+            var m = today.getMonth() - birthDate.getMonth();
+            if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+                age--;
+            }
+            document.getElementById(target).value = age;
         }
 
     </script>
