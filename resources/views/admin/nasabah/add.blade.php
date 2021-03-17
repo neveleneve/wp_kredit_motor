@@ -40,6 +40,7 @@
     </div>
     <form action="{{ route('ceknasabah') }}" method="post" enctype="multipart/form-data">
         {{ csrf_field() }}
+        <input type="hidden" name="id_marketing" value="{{ Auth::user()->id }}">
         <div class="row mb-3">
             <div class="col-12">
                 <div class="card">

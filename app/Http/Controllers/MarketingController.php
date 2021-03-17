@@ -4,24 +4,29 @@ namespace App\Http\Controllers;
 
 use App\Kecamatan;
 use App\Kelurahan;
+use App\MasterKredit;
 use App\Nasabah;
 use App\Pasangan;
 use App\Penjamin;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class MarketingController extends Controller
 {
     #region DASHBOARD
     public function dashboard()
     {
-        return view('admin.dashboard.index');
-    }
-    #endregion
+        $jumlahnasabah = Nasabah::count();
+        $jumlahkredit = MasterKredit::count();
 
-    #region KREDIT
-    public function kredit()
-    {
-        return view('admin.kredit.index');
+        $datax = [
+            'jmlnsb' => $jumlahnasabah,
+            'jmlkrd' => $jumlahkredit
+        ];
+
+        return view('admin.dashboard.index', [
+            'data' => $datax
+        ]);
     }
     #endregion
 
@@ -29,7 +34,7 @@ class MarketingController extends Controller
     // menampilkan halaman list nasabah
     public function nasabah()
     {
-        $datanasabah = Nasabah::get();
+        $datanasabah = Nasabah::where('id_marketing', Auth::user()->id)->get();
         return view('admin.nasabah.index', [
             'data' => $datanasabah
         ]);
@@ -65,6 +70,7 @@ class MarketingController extends Controller
 
         // mengambil data pemohon ke dalam array variable
         $datapemohon = [
+            "id_marketing" => $data->id_marketing,
             "nik" => $data->nik,
             "nama" => $data->nama,
             "jenis_kelamin" => $data->jeniskelamin,
@@ -103,13 +109,6 @@ class MarketingController extends Controller
         }
         Nasabah::insert($datapemohon);
         return redirect(route('nasabah'));
-    }
-    #endregion
-
-    #region PAYMENT
-    public function payment()
-    {
-        return view('admin.payment.index');
     }
     #endregion
 

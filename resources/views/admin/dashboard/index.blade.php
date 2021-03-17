@@ -14,7 +14,7 @@
                                 Jumlah Nasabah
                             </div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                1289
+                                {{ $data['jmlnsb'] }}
                             </div>
                         </div>
                         <div class="col-auto">
