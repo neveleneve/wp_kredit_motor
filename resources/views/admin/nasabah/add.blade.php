@@ -101,7 +101,8 @@
                             <div class="col-3">
                                 <label class="font-weight-bold" for="tempatlahir">Tempat Lahir <strong
                                         class="text-danger">*</strong></label>
-                                <input type="text" name="tempatlahir" id="tempatlahir" class="form-control" placeholder="Tanjungpinang">
+                                <input type="text" name="tempatlahir" id="tempatlahir" class="form-control"
+                                    placeholder="Tanjungpinang">
                             </div>
                             <div class="col-3">
                                 <label class="font-weight-bold" for="tanggallahir">Tanggal Lahir <strong
@@ -434,6 +435,12 @@
                                     <strong class="text-danger">*</strong>
                                 </label>
                                 <input type="date" name="masaberlakustnk" id="masaberlakustnk" class="form-control">
+                            </div>
+                        </div>
+                        {{-- Data Penunjang --}}
+                        <div class="row">
+                            <div class="col-12">
+                                <h1 class="h4 font-weight-bold">Data Tamabahan</h1>
                             </div>
                         </div>
                         {{-- Tombol --}}

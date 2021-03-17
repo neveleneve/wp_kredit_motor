@@ -10,4 +10,9 @@ class LoginController extends Controller
     {
         return view('login');
     }
+    
+    public function loggingin(Request $data)
+    {
+        dd($data->all());
+    }
 }

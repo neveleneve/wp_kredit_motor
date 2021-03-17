@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 // General
 Route::get('/', 'LoginController@index')->name('login');
 Route::get('/credit-check', 'KreditController@index')->name('credit-check');
+Route::post('/login', 'LoginController@loggingin')->name('loggingin');
 Route::get('/logout', 'MarketingController@logout')->name('logout');
 
 #region MARKETING
