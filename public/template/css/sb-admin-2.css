@@ -10824,7 +10824,7 @@ a:focus {
 }
 
 .bg-login-image {
-  background: url("logo.png");
+  background: url("/penyimpanan/logo/alco.jpg");
   background-position: center;
   background-size: cover;
 }
