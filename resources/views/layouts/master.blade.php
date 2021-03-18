@@ -18,10 +18,12 @@
     <div id="wrapper">
         @include('layouts.incl.side')
         <div id="content-wrapper" class="d-flex flex-column">
-            <div id="content">
-                @include('layouts.incl.nav')
-                <div class="container-fluid">
-                    @yield('content')
+            <div id="content" class="pt-5">
+                <div id="content" class="pt-5">
+                    @include('layouts.incl.nav')
+                    <div class="container-fluid">
+                        @yield('content')
+                    </div>
                 </div>
             </div>
         </div>
@@ -42,7 +44,7 @@
                 <div class="modal-body">Tekan tombol "Keluar" dibawah jika ingin mengakhiri sesi anda.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Batal</button>
-                    <a class="btn btn-primary" href="{{route('logout')}}">Keluar</a>
+                    <a class="btn btn-primary" href="{{ route('logout') }}">Keluar</a>
                 </div>
             </div>
         </div>

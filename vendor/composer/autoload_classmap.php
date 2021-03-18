@@ -26,6 +26,7 @@ return array(
     'App\\Login' => $baseDir . '/app/Login.php',
     'App\\Login_Cs' => $baseDir . '/app/Login_Cs.php',
     'App\\Login_Marketing' => $baseDir . '/app/Login_Marketing.php',
+    'App\\MasterKredit' => $baseDir . '/app/MasterKredit.php',
     'App\\Nasabah' => $baseDir . '/app/Nasabah.php',
     'App\\Pasangan' => $baseDir . '/app/Pasangan.php',
     'App\\Penjamin' => $baseDir . '/app/Penjamin.php',

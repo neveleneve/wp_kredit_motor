@@ -10,11 +10,18 @@ use App\Pasangan;
 use App\Penjamin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Input;
 
 class MarketingController extends Controller
 {
+    #region CUSTOM FUNCTION
+    private function addImagePemohon($nama, $storage, $img)
+    {
+        $destination = public_path($storage);
+        $img->move($destination, $nama);
+    }
+    #endregion
+
     #region DASHBOARD
     public function dashboard()
     {
@@ -26,7 +33,7 @@ class MarketingController extends Controller
             'jmlkrd' => $jumlahkredit
         ];
 
-        return view('admin.dashboard.index', [
+        return view('marketing.dashboard.index', [
             'data' => $datax
         ]);
     }
@@ -36,14 +43,13 @@ class MarketingController extends Controller
     // menampilkan halaman list nasabah
     public function nasabah()
     {
-        $q = Input::get('q');
-
+        $q = Input::get('search');
         if ($q == null || $q == '') {
             $datanasabah = Nasabah::where('id_marketing', Auth::user()->id)->get();
         } else {
             $datanasabah = Nasabah::where('id_marketing', Auth::user()->id)->where('nik', 'like', '%' . $q . '%')->orWhere('nama', 'like', '%' . $q . '%')->get();
         }
-        return view('admin.nasabah.index', [
+        return view('marketing.nasabah.index', [
             'data' => $datanasabah,
             'search' => $q
         ]);
@@ -53,7 +59,7 @@ class MarketingController extends Controller
     {
         $kelurahan = Kelurahan::orderBy('kelurahan')->get();
         $kecamatan = Kecamatan::orderBy('kecamatan')->get();
-        return view('admin.nasabah.add', [
+        return view('marketing.nasabah.add', [
             'kecamatan' => $kecamatan,
             'kelurahan' => $kelurahan
         ]);
@@ -61,45 +67,17 @@ class MarketingController extends Controller
     // proses add nasabah
     public function ceknasabah(Request $data)
     {
-        // pemberian nama file menggunakan nomot NIK
         $namafile = $data->nik;
-
-        // mengambil data gambar ktp, mengubah namanya, lalu mengatur lokasi simpan
-        $input['ktpname'] =  $namafile . '_ktp.jpg';
-        $destinationktp = public_path('/penyimpanan/ktp');
-        // mengambil data gambar kk, mengubah namanya, lalu mengatur lokasi simpan
-        $input['kkname'] =  $namafile . '_kk.jpg';
-        $destinationkk = public_path('/penyimpanan/kk');
-        // mengambil data gambar kepemilikan rumah, mengubah namanya, lalu mengatur lokasi simpan
-        $input['kepemilikanname'] =  $namafile . '_' . $data->buktikepemilikan . '.jpg';
-        $destinationkepemilikan = public_path('/penyimpanan/buktikepemilikan');
-        // mengambil data gambar bpkb, mengubah namanya, lalu mengatur lokasi simpan
-        $input['bpkbname'] =  $namafile . '_bpkb.jpg';
-        $destinationbpkb = public_path('/penyimpanan/bpkb');
-        // mengambil data gambar kepemilikan rumah, mengubah namanya, lalu mengatur lokasi simpan
-        $input['stnkname'] =  $namafile . '_' . $data->nopol . '_stnk.jpg';
-        $destinationstnk = public_path('/penyimpanan/stnk');
-
-        // proses penyimpanan file foto ktp
-        $imgktp = $data->file('fotoktp');
-        $imgktp->move($destinationktp, $input['ktpname']);
-        // proses penyimpanan file foto kk
-        $imgkk = $data->file('fotokk');
-        $imgkk->move($destinationkk, $input['kkname']);
-        // proses penyimpanan file foto kepemilikan rumah
-        $imgkepemilikan = $data->file('fotokepemilikanhunian');
-        $imgkepemilikan->move($destinationkepemilikan, $input['kepemilikanname']);
-        // proses penyimpanan file foto bpkb
-        $imgbpkb = $data->file('fotobpkb');
-        $imgbpkb->move($destinationbpkb, $input['bpkbname']);
-        // proses penyimpanan file foto stnk
-        $imgstnk = $data->file('fotostnk');
-        $imgstnk->move($destinationstnk, $input['stnkname']);
-
+        $tanggal = date('dMYHis');
+        $this->addImagePemohon($namafile . '_ktp_' . $tanggal . '.jpg', '/penyimpanan/ktp', $data->file('fotoktp'));
+        $this->addImagePemohon($namafile . '_kk_' . $tanggal . '.jpg', '/penyimpanan/kk', $data->file('fotokk'));
+        // $this->addImagePemohon($namafile . '_' . $data->buktikepemilikan . '_' . $tanggal . '.jpg', '/penyimpanan/buktikepemilikan', $data->file('fotokepemilikanhunian'));
+        // $this->addImagePemohon($namafile . '_bpkb_' . $tanggal . '.jpg', '/penyimpanan/bpkb', $data->file('fotobpkb'));
+        // $this->addImagePemohon($namafile . '_' . $data->nopol . '_stnk_' . $tanggal . '.jpg', '/penyimpanan/stnk', $data->file('fotostnk'));
         // mengambil data pemohon ke dalam array variable
         $datapemohon = [
             "id_marketing" => $data->id_marketing,
-            "nik" => $data->nik,
+            "nik" => $namafile,
             "nama" => $data->nama,
             "jenis_kelamin" => $data->jeniskelamin,
             "status_nikah" => $data->statusperkawinan,
@@ -109,28 +87,37 @@ class MarketingController extends Controller
         ];
         // mengambil data pasangan pemohon ke dalam array variable
         $datapasangan = [
-            'nik_nasabah' => $data->nik,
+            'nik_nasabah' => $namafile,
             'nama' => $data->namapasangan,
             'tgl_lahir' => $data->tanggallahirpasangan,
             'no_hp' => $data->nohppasangan
         ];
         // mengambil data penjamin pemohon ke dalam array variable
         $datapenjamin = [
-            'nik_nasabah' => $data->nik,
+            'nik_nasabah' => $namafile,
             'nama' => $data->namapenjamin,
             'tgl_lahir' => $data->tanggallahirpenjamin,
             'no_hp' => $data->nohppenjamin,
             'status_penjamin' => $data->statuspenjamin,
         ];
         // mengambil data alamat pemohon ke dalam array variable
-        $dataalamat = [];
+        $dataalamat = [
+            'nik_nasabah' => $namafile,
+            'alamat' => $data->alamat,
+            'kecamatan' => $data->kecamatan,
+            'kelurahan' => $data->kelurahan,
+            'lama_tinggal' => $data->lamatinggal,
+        ];
         // mengambil data pekerjaan pemohon ke dalam array variable
-        $datapekerjaan = [];
+        $datapekerjaan = [
+            'nik_nasabah' => $namafile
+        ];
         // mengambil data rumah hunian pemohon ke dalam array variable
-        $datahunian = [];
+        $datahunian = [
+            'nik_nasabah' => $namafile
+        ];
         // mengambil data unit kendaraan pemohon ke dalam array variable
         $datakendaraan = [];
-
         if ($data->statusperkawinan == 1) {
             Pasangan::insert($datapasangan);
         } else {
@@ -144,7 +131,7 @@ class MarketingController extends Controller
     #region SETTING
     public function setting()
     {
-        return view('admin.setting.index');
+        return view('marketing.setting.index');
     }
     #endregion
 }

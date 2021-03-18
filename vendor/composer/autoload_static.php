@@ -435,6 +435,7 @@ class ComposerStaticInit6ed86eeefe614f7e3b159d27ede229e9
         'App\\Login' => __DIR__ . '/../..' . '/app/Login.php',
         'App\\Login_Cs' => __DIR__ . '/../..' . '/app/Login_Cs.php',
         'App\\Login_Marketing' => __DIR__ . '/../..' . '/app/Login_Marketing.php',
+        'App\\MasterKredit' => __DIR__ . '/../..' . '/app/MasterKredit.php',
         'App\\Nasabah' => __DIR__ . '/../..' . '/app/Nasabah.php',
         'App\\Pasangan' => __DIR__ . '/../..' . '/app/Pasangan.php',
         'App\\Penjamin' => __DIR__ . '/../..' . '/app/Penjamin.php',

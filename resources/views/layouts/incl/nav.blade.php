@@ -1,9 +1,13 @@
-<nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+<nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow fixed-top">
     <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
         <i class="fa fa-bars"></i>
     </button>
-    @yield('search1')
-
+    <ul class="navbar-nav">
+        <a class="navbar-brand" href="{{ route('dashboard') }}">
+            <img class="d-none d-md-inline" src="{{ asset('/penyimpanan/logo/alco-width.png') }}" style="width: 10%" alt="">
+        </a>
+        @yield('search1')
+    </ul>
     <ul class="navbar-nav ml-auto">
         @yield('search2')
         <li class="nav-item dropdown no-arrow">

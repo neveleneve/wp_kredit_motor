@@ -26,32 +26,31 @@
                                         class="text-danger">*</strong></label>
                                 <input type="text" pattern="^[0-9]{16}" minlength="16" maxlength="16" name="nik" id="nik"
                                     class="form-control" placeholder="Masukkan 16 digit angka NIK"
-                                    title="- Masukkan 16 digit pada NIK" required>
+                                    title="- Masukkan 16 digit pada NIK">
                             </div>
                             <div class="col-4">
                                 <label class="font-weight-bold" for="fotoktp">Foto KTP <strong
                                         class="text-danger">*</strong></label>
-                                <input class="form-control" type="file" name="fotoktp" id="fotoktp" required>
+                                <input class="form-control" type="file" name="fotoktp" id="fotoktp">
                             </div>
                             <div class="col-4">
                                 <label class="font-weight-bold" for="fotoktp">Foto Kartu Keluarga <strong
                                         class="text-danger">*</strong></label>
-                                <input class="form-control" type="file" name="fotokk" id="fotokk" required>
+                                <input class="form-control" type="file" name="fotokk" id="fotokk">
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-12">
                                 <label class="font-weight-bold" for="nama">Nama Pemohon
                                     <strong class="text-danger">*</strong></label>
-                                <input name="nama" id="nama" type="text" class="form-control" placeholder="Budi Cokro Dewo"
-                                    required>
+                                <input name="nama" id="nama" type="text" class="form-control" placeholder="Budi Cokro Dewo">
                             </div>
                         </div>
                         <div class="row mb-3">
                             <div class="col-6">
                                 <label class="font-weight-bold" for="jeniskelamin">Jenis Kelamin <strong
                                         class="text-danger">*</strong></label>
-                                <select class="form-control" name="jeniskelamin" id="jeniskelamin" required>
+                                <select class="form-control" name="jeniskelamin" id="jeniskelamin">
                                     <option disabled selected>Pilih Jenis Kelamin</option>
                                     <option value="L">Laki - laki</option>
                                     <option value="P">Perempuan</option>
@@ -62,7 +61,7 @@
                                     Status Pernikahan
                                     <strong class="text-danger">*</strong>
                                 </label>
-                                <select class="form-control" name="statusperkawinan" id="statusperkawinan" required
+                                <select class="form-control" name="statusperkawinan" id="statusperkawinan"
                                     onchange="pilihankawin(this.value)">
                                     <option disabled selected>Pilih Status Penikahan</option>
                                     <option value="1">Sudah Menikah</option>
@@ -88,8 +87,8 @@
                             <div class="col-3">
                                 <label class="font-weight-bold" for="usia">Usia <strong
                                         class="text-danger">*</strong></label>
-                                <input type="number" name="usia" id="usia" class="form-control"
-                                    placeholder="Minimal usia : 21" required readonly>
+                                <input type="number" name="usia" id="usia" class="form-control" min="21"
+                                    placeholder="Minimal usia : 21" required>
                             </div>
                             <div class="col-3">
                                 <label class="font-weight-bold" for="nohp">Nomor Handphone <strong
@@ -124,7 +123,7 @@
                                     <label class="font-weight-bold" for="usiapasangan">Usia <strong
                                             class="text-danger">*</strong></label>
                                     <input type="number" name="usiapasangan" id="usiapasangan" class="form-control"
-                                        placeholder="Minimal usia : 21">
+                                        placeholder="Minimal usia : 21" readonly>
                                 </div>
                                 <div class="col-4">
                                     <label class="font-weight-bold" for="nohppasangan">Nomor Handphone <strong
@@ -153,14 +152,15 @@
                                 <div class="col-3">
                                     <label class="font-weight-bold" for="tanggallahirpenjamin">Tanggal Lahir <strong
                                             class="text-danger">*</strong></label>
-                                    <input type="date" value="{{ date('Y-m-d') }}" onchange="getAge(this.value, 'usiapenjamin')" name="tanggallahirpenjamin"
+                                    <input type="date" value="{{ date('Y-m-d') }}"
+                                        onchange="getAge(this.value, 'usiapenjamin')" name="tanggallahirpenjamin"
                                         id="tanggallahirpenjamin" class="form-control">
                                 </div>
                                 <div class="col-3">
                                     <label class="font-weight-bold" for="usiapenjamin">Usia <strong
                                             class="text-danger">*</strong></label>
                                     <input type="number" name="usiapenjamin" id="usiapenjamin" class="form-control"
-                                        placeholder="Minimal usia : 21">
+                                        placeholder="Minimal usia : 21" readonly>
                                 </div>
                                 <div class="col-3">
                                     <label class="font-weight-bold" for="nohppenjamin">Nomor Handphone <strong
@@ -172,6 +172,7 @@
                                     <label for="statuspenjamin" class="font-weight-bold">Status Hubungan <strong
                                             class="text-danger">*</strong></label>
                                     <select class="form-control" name="statuspenjamin" id="statuspenjamin">
+                                        <option selected disabled>Pilih Hubungan Pemohon</option>
                                         <option value="1">Keluarga</option>
                                         <option value="2">Tetangga</option>
                                         <option value="3">Lainnya</option>
@@ -195,20 +196,25 @@
                         </div>
                         <div class="row mb-3">
                             <div class="col-4">
-                                <label class="font-weight-bold" for="kecamatan">Kecamatan <strong
-                                        class="text-danger">*</strong></label>
-                                <input list="kecamatan" name="kecamatan" class="form-control" placeholder="Pilih Kecamatan">
-                                <datalist id="kecamatan">
+                                <label class="font-weight-bold" for="kecamatan">
+                                    Kecamatan
+                                    <strong class="text-danger">*</strong>
+                                </label>
+                                <input list="kecamatanlist" id="kecamatan" name="kecamatan" class="form-control" placeholder="Pilih Kecamatan">
+                                <datalist id="kecamatanlist">
                                     @foreach ($kecamatan as $item)
                                         <option value="{{ $item->kecamatan }}"></option>
                                     @endforeach
                                 </datalist>
                             </div>
                             <div class="col-4">
-                                <label class="font-weight-bold" for="kelurahan">Kelurahan <strong
-                                        class="text-danger">*</strong></label>
-                                <input list="kelurahan" name="kelurahan" class="form-control" placeholder="Pilih Kelurahan">
-                                <datalist id="kelurahan">
+                                <label class="font-weight-bold" for="kelurahan">
+                                    Kelurahan
+                                    <strong class="text-danger">*</strong>
+                                </label>
+                                <input list="kelurahanlist" id="kelurahan" name="kelurahan" class="form-control" placeholder="Pilih Kelurahan"
+                                    required>
+                                <datalist id="kelurahanlist">
                                     @foreach ($kelurahan as $item)
                                         <option value="{{ $item->kelurahan }}"></option>
                                     @endforeach
@@ -218,7 +224,7 @@
                                 <label class="font-weight-bold" for="lamatinggal">Lama Tinggal (Tahun) <strong
                                         class="text-danger">*</strong></label>
                                 <input type="number" name="lamatinggal" id="lamatinggal" class="form-control"
-                                    placeholder="Minimal 3 Tahun">
+                                    placeholder="Minimal 3 Tahun" min="3">
                             </div>
                         </div>
                         {{-- Pekerjaan Pemohon --}}

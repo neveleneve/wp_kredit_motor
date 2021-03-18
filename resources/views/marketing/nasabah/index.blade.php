@@ -1,10 +1,10 @@
 @extends('layouts.master')
 
 @section('search1')
-    <form method="get" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+    <form method="get" class="d-none d-sm-inline-block form-inline ml-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
         <div class="input-group">
             <input type="text" class="form-control bg-light border-0 small" placeholder="Pencarian"
-                value="{{ $search }}" aria-label="Search" aria-describedby="basic-addon2" name="q">
+                value="{{ $search }}" aria-label="Search" aria-describedby="basic-addon2" name="search">
             <div class="input-group-append">
                 <button class="btn btn-primary" type="submit">
                     <i class="fas fa-search fa-sm"></i>
@@ -20,10 +20,10 @@
             <i class="fas fa-search fa-fw"></i>
         </a>
         <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
-            <form class="form-inline mr-auto w-100 navbar-search">
+            <form method="get" class="form-inline mr-auto w-100 navbar-search">
                 <div class="input-group">
-                    <input type="text" class="form-control bg-light border-0 small" placeholder="Pencarian..."
-                        aria-label="Search" aria-describedby="basic-addon2">
+                    <input type="text" class="form-control bg-light border-0 small" placeholder="Pencarian" name="search"
+                        value="{{ $search }}" aria-label="Search" aria-describedby="basic-addon2">
                     <div class="input-group-append">
                         <button class="btn btn-primary" type="button">
                             <i class="fas fa-search fa-sm"></i>
@@ -49,7 +49,8 @@
     @if ($search != null || $search != '')
         <div class="row mb-3">
             <div class="col-12">
-                Hasil pencarian untuk "{{ $search }}". <a class="text-gray-700" href="{{ route('nasabah') }}">Kembali</a>
+                Hasil pencarian untuk "{{ $search }}". <a class="text-gray-700"
+                    href="{{ route('nasabah') }}">Kembali</a>
             </div>
         </div>
     @endif
