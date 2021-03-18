@@ -397,6 +397,28 @@
                             </div>
                         </div>
                         <div class="row mb-3">
+                            <div class="col-6">
+                                <label class="font-weight-bold" for="tenor">
+                                    Tenor
+                                    <strong class="text-danger">*</strong>
+                                </label>
+                                <select class="form-control" name="tenor" id="tenor">
+                                    <option selected disabled>Pilih Tenor Kredit</option>
+                                    <option value="6">6 Bulan</option>
+                                    <option value="12">12 Bulan</option>
+                                    <option value="18">18 Bulan</option>
+                                    <option value="24">24 Bulan</option>
+                                </select>
+                            </div>
+                            <div class="col-6">
+                                <label class="font-weight-bold" for="angsuran">
+                                    Angsuran
+                                    <strong class="text-danger">*</strong>
+                                </label>
+                                <input type="text" name="angsuran" id="angsuran" class="form-control" placeholder="Angsuran Pinjaman">
+                            </div>
+                        </div>
+                        <div class="row mb-3">
                             <div class="col-4">
                                 <label class="font-weight-bold" for="nopol">
                                     Nomor Polisi

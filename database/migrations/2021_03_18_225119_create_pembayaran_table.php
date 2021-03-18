@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateKreditTable extends Migration
+class CreatePembayaranTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,8 @@ class CreateKreditTable extends Migration
      */
     public function up()
     {
-        Schema::create('kredit', function (Blueprint $table) {
+        Schema::create('pembayaran', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('pinjaman');
-            $table->integer('tenor');
-            $table->integer('angsuran');
             $table->timestamps();
         });
     }
@@ -29,6 +26,6 @@ class CreateKreditTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('kredit');
+        Schema::dropIfExists('pembayaran');
     }
 }

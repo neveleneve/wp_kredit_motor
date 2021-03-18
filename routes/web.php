@@ -9,7 +9,7 @@ Route::get('/logout', 'LoginController@logout')->name('logout');
 
 #region MARKETING
 Route::group(['middleware' => 'auth:marketing'], function () {
-    #region MARKETING-DASHBOAR
+    #region MARKETING-DASHBOARD
     Route::get('/marketing', 'MarketingController@dashboard')->name('dashboard');
     #endregion
 
