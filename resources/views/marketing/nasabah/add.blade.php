@@ -200,25 +200,21 @@
                                     Kecamatan
                                     <strong class="text-danger">*</strong>
                                 </label>
-                                <input list="kecamatanlist" id="kecamatan" name="kecamatan" class="form-control" placeholder="Pilih Kecamatan">
-                                <datalist id="kecamatanlist">
+                                <select class="form-control" name="kecamatan" id="kecamatan">
+                                    <option selected disabled>Pilih Kecamatan</option>
                                     @foreach ($kecamatan as $item)
-                                        <option value="{{ $item->kecamatan }}"></option>
+                                        <option value="{{ $item->id }}">{{ $item->kecamatan }}</option>
                                     @endforeach
-                                </datalist>
+                                </select>
                             </div>
                             <div class="col-4">
                                 <label class="font-weight-bold" for="kelurahan">
                                     Kelurahan
                                     <strong class="text-danger">*</strong>
                                 </label>
-                                <input list="kelurahanlist" id="kelurahan" name="kelurahan" class="form-control" placeholder="Pilih Kelurahan"
-                                    required>
-                                <datalist id="kelurahanlist">
-                                    @foreach ($kelurahan as $item)
-                                        <option value="{{ $item->kelurahan }}"></option>
-                                    @endforeach
-                                </datalist>
+                                <select class="form-control" name="kelurahan" id="kelurahan" disabled>
+                                    <option selected disabled>Pilih Kelurahan</option>
+                                </select>
                             </div>
                             <div class="col-4">
                                 <label class="font-weight-bold" for="lamatinggal">Lama Tinggal (Tahun) <strong
@@ -415,7 +411,8 @@
                                     Angsuran
                                     <strong class="text-danger">*</strong>
                                 </label>
-                                <input type="text" name="angsuran" id="angsuran" class="form-control" placeholder="Angsuran Pinjaman">
+                                <input type="text" name="angsuran" id="angsuran" class="form-control"
+                                    placeholder="Angsuran Pinjaman">
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -473,7 +470,31 @@
 @endsection
 
 @section('customjs')
-    <script language="javascript">
+    <script>
+        $(document).ready(function() {
+            var kelurahan = $('#kelurahan');
+            var a = $('#a');
+            $('#kecamatan').on('change', function(e) {
+                e.preventDefault();
+                var id = $(this).val();
+                $.ajax({
+                    url: '/kelurahan/' + id,
+                    type: 'GET',
+                    success: function(datax) {
+                        kelurahan.empty();
+                        kelurahan.append(
+                            '<option selected disabled>Pilih Kelurahan');
+                        var data = datax.replace('"', '');
+                        kelurahan.append(data.replace('"', ''));
+                        kelurahan.prop("disabled", false);
+                    },
+                    error: function(xhr, ajaxOptions, thrownError) {
+                        alert(xhr.status);
+                    },
+                });
+            });
+        });
+
         function pilihankawin(id) {
             if (id == 1) {
                 document.getElementById('pasangan').style.display = 'block';

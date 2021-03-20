@@ -7,6 +7,8 @@ Route::get('/credit-check', 'KreditController@index')->name('credit-check');
 Route::post('/login', 'LoginController@loggingin')->name('loggingin');
 Route::get('/logout', 'LoginController@logout')->name('logout');
 
+Route::get('/kelurahan/{id}', 'DataController@kelurahan');
+
 #region MARKETING
 Route::group(['middleware' => 'auth:marketing'], function () {
     #region MARKETING-DASHBOARD
