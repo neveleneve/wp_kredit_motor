@@ -1,5 +1,7 @@
 <?php
 
+use App\TahunHarga;
+use App\TipeKendaraan;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -15,5 +17,8 @@ class DatabaseSeeder extends Seeder
         $this->call(KelurahanSeeder::class);
         $this->call(KreditSeeder::class);
         $this->call(LoginSeeder::class);
+        $this->call(MerkSeeder::class);
+        $this->call(TipeKendaraanSeeder::class);
+        $this->call(TahunHargaSeeder::class);
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Kecamatan;
 use App\Kelurahan;
 use App\MasterKredit;
+use App\Merk;
 use App\Nasabah;
 use App\Pasangan;
 use App\Penjamin;
@@ -59,25 +60,27 @@ class MarketingController extends Controller
     {
         $kelurahan = Kelurahan::orderBy('kelurahan')->get();
         $kecamatan = Kecamatan::orderBy('kecamatan')->get();
+        $merk = Merk::orderBy('merk')->get();
         return view('marketing.nasabah.add', [
             'kecamatan' => $kecamatan,
-            'kelurahan' => $kelurahan
+            'kelurahan' => $kelurahan,
+            'merk' => $merk,
         ]);
     }
     // proses add nasabah
     public function ceknasabah(Request $data)
     {
-        $namafile = $data->nik;
+        $nik = $data->nik;
         $tanggal = date('dMYHis');
-        $this->addImagePemohon($namafile . '_ktp_' . $tanggal . '.jpg', '/penyimpanan/ktp', $data->file('fotoktp'));
-        $this->addImagePemohon($namafile . '_kk_' . $tanggal . '.jpg', '/penyimpanan/kk', $data->file('fotokk'));
+        $this->addImagePemohon($nik . '_ktp_' . $tanggal . '.jpg', '/penyimpanan/ktp', $data->file('fotoktp'));
+        $this->addImagePemohon($nik . '_kk_' . $tanggal . '.jpg', '/penyimpanan/kk', $data->file('fotokk'));
         // $this->addImagePemohon($namafile . '_' . $data->buktikepemilikan . '_' . $tanggal . '.jpg', '/penyimpanan/buktikepemilikan', $data->file('fotokepemilikanhunian'));
         // $this->addImagePemohon($namafile . '_bpkb_' . $tanggal . '.jpg', '/penyimpanan/bpkb', $data->file('fotobpkb'));
         // $this->addImagePemohon($namafile . '_' . $data->nopol . '_stnk_' . $tanggal . '.jpg', '/penyimpanan/stnk', $data->file('fotostnk'));
         // mengambil data pemohon ke dalam array variable
         $datapemohon = [
             "id_marketing" => $data->id_marketing,
-            "nik" => $namafile,
+            "nik" => $nik,
             "nama" => $data->nama,
             "jenis_kelamin" => $data->jeniskelamin,
             "status_nikah" => $data->statusperkawinan,
@@ -87,14 +90,14 @@ class MarketingController extends Controller
         ];
         // mengambil data pasangan pemohon ke dalam array variable
         $datapasangan = [
-            'nik_nasabah' => $namafile,
+            'nik_nasabah' => $nik,
             'nama' => $data->namapasangan,
             'tgl_lahir' => $data->tanggallahirpasangan,
             'no_hp' => $data->nohppasangan
         ];
         // mengambil data penjamin pemohon ke dalam array variable
         $datapenjamin = [
-            'nik_nasabah' => $namafile,
+            'nik_nasabah' => $nik,
             'nama' => $data->namapenjamin,
             'tgl_lahir' => $data->tanggallahirpenjamin,
             'no_hp' => $data->nohppenjamin,
@@ -102,7 +105,7 @@ class MarketingController extends Controller
         ];
         // mengambil data alamat pemohon ke dalam array variable
         $dataalamat = [
-            'nik_nasabah' => $namafile,
+            'nik_nasabah' => $nik,
             'alamat' => $data->alamat,
             'kecamatan' => $data->kecamatan,
             'kelurahan' => $data->kelurahan,
@@ -110,14 +113,16 @@ class MarketingController extends Controller
         ];
         // mengambil data pekerjaan pemohon ke dalam array variable
         $datapekerjaan = [
-            'nik_nasabah' => $namafile
+            'nik_nasabah' => $nik
         ];
         // mengambil data rumah hunian pemohon ke dalam array variable
         $datahunian = [
-            'nik_nasabah' => $namafile
+            'nik_nasabah' => $nik
         ];
         // mengambil data unit kendaraan pemohon ke dalam array variable
-        $datakendaraan = [];
+        $datakendaraan = [
+            'nik_nasabah' => $nik
+        ];
         if ($data->statusperkawinan == 1) {
             Pasangan::insert($datapasangan);
         } else {

@@ -8,6 +8,9 @@ Route::post('/login', 'LoginController@loggingin')->name('loggingin');
 Route::get('/logout', 'LoginController@logout')->name('logout');
 
 Route::get('/kelurahan/{id}', 'DataController@kelurahan');
+Route::get('/tipekendaraan/{id}', 'DataController@tipekendaraan');
+Route::get('/tahunharga/{id}', 'DataController@tahunharga');
+Route::get('/harga/{id}', 'DataController@harga');
 
 #region MARKETING
 Route::group(['middleware' => 'auth:marketing'], function () {

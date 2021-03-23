@@ -360,18 +360,26 @@
                             <div class="col-4">
                                 <label class="font-weight-bold" for="merk">Merk <strong
                                         class="text-danger">*</strong></label>
-                                <input class="form-control" type="text" name="merk" id="merk" placeholder="Merk Kendaraan">
+                                <select class="form-control" name="merk" id="merk">
+                                    <option selected disabled>Pilih Merk Kendaraan</option>
+                                    @foreach ($merk as $item)
+                                        <option value="{{ $item->id }}">{{ $item->merk }}</option>
+                                    @endforeach
+                                </select>
                             </div>
                             <div class="col-4">
                                 <label class="font-weight-bold" for="tipe">Type <strong
                                         class="text-danger">*</strong></label>
-                                <input class="form-control" type="text" name="tipe" id="tipe" placeholder="Tipe Kendaraan">
+                                <select class="form-control" name="tipe" id="tipe">
+                                    <option selected disabled>Pilih Nama Kendaraan</option>
+                                </select>
                             </div>
                             <div class="col-4">
                                 <label class="font-weight-bold" for="tahunkendaraan">Tahun <strong
                                         class="text-danger">*</strong></label>
-                                <input class="form-control" type="text" name="tahunkendaraan" id="tahunkendaraan"
-                                    placeholder="Tahun Kendaraan">
+                                <select class="form-control" name="tahunkendaraan" id="tahunkendaraan">
+                                    <option selected disabled>Pilih Tahun Kendaraan</option>
+                                </select>
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -380,8 +388,8 @@
                                     Harga On the Road (OTR)
                                     <strong class="text-danger">*</strong>
                                 </label>
-                                <input type="number" class="form-control" placeholder="10000000" name="hargaotr"
-                                    id="hargaotr">
+                                <input type="text" class="form-control" placeholder="Rp. xx.xxx.xxx" name="hargaotr"
+                                    id="hargaotr" readonly>
                             </div>
                             <div class="col-6">
                                 <label class="font-weight-bold" for="pengajuanplafon">
@@ -389,7 +397,7 @@
                                     <strong class="text-danger">*</strong>
                                 </label>
                                 <input class="form-control" type="number" name="pengajuanplafon" id="pengajuanplafon"
-                                    placeholder="8000000">
+                                    placeholder="Maks. Pencairan : Rp. x.xxx.xxx" min="2000000" step="500000">
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -437,8 +445,8 @@
                                     Masa Berlaku STNK
                                     <strong class="text-danger">*</strong>
                                 </label>
-                                <input type="date" value="{{ date('Y-m-d') }}" name="masaberlakustnk" id="masaberlakustnk"
-                                    class="form-control">
+                                <input type="date" value="{{ date('Y-m-d') }}" name="masaberlakustnk"
+                                    id="masaberlakustnk" class="form-control">
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -472,10 +480,13 @@
 @section('customjs')
     <script>
         $(document).ready(function() {
-            var kelurahan = $('#kelurahan');
-            var a = $('#a');
+            var pengajuan = $('#pengajuanplafon');
+            var hargaotr = $('#hargaotr');
+            var tipe = $('#tipe');
+            var tahun = $('#tahunkendaraan');
             $('#kecamatan').on('change', function(e) {
                 e.preventDefault();
+                var kelurahan = $('#kelurahan');
                 var id = $(this).val();
                 $.ajax({
                     url: '/kelurahan/' + id,
@@ -487,6 +498,79 @@
                         var data = datax.replace('"', '');
                         kelurahan.append(data.replace('"', ''));
                         kelurahan.prop("disabled", false);
+                    },
+                    error: function(xhr, ajaxOptions, thrownError) {
+                        alert(xhr.status);
+                    },
+                });
+            });
+            $('#merk').on('change', function(e) {
+                e.preventDefault();
+                var id = $(this).val();
+                $.ajax({
+                    url: '/tipekendaraan/' + id,
+                    type: 'GET',
+                    success: function(datax) {
+                        pengajuan.val('');
+                        tipe.empty();
+                        tipe.append(
+                            '<option selected disabled>Pilih Nama Kendaraan');
+                        var data = datax.replace('"', '');
+                        tipe.append(data.replace('"', ''));
+                        tipe.prop("disabled", false);
+                    },
+                    error: function(xhr, ajaxOptions, thrownError) {
+                        alert(xhr.status);
+                    },
+                });
+            });
+            $('#tipe').on('change', function(e) {
+                e.preventDefault();
+                var id = $(this).val();
+                $.ajax({
+                    url: '/tahunharga/' + id,
+                    type: 'GET',
+                    success: function(datax) {
+                        pengajuan.val('');
+                        tahun.empty();
+                        tahun.append(
+                            '<option selected disabled>Pilih Tahun Kendaraan');
+                        var data = datax.replace('"', '');
+                        tahun.append(data.replace('"', ''));
+                        tahun.prop("disabled", false);
+                    },
+                    error: function(xhr, ajaxOptions, thrownError) {
+                        alert(xhr.status);
+                    },
+                });
+            });
+            $('#tahunkendaraan').on('change', function(e) {
+                e.preventDefault();
+                var id = $(this).val();
+                $.ajax({
+                    url: '/harga/' + id,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(datax) {
+                        pengajuan.val('');
+                        if (datax.otr == 0) {
+                            hargaotr.val("Pencairan Bersih");
+                            pengajuan.attr({
+                                'max': datax.cair,
+                                'placeholder': "Pencairan Bersih : " + new Intl
+                                    .NumberFormat(
+                                        'de-DE').format(datax.cair)
+                            });
+                        } else {
+                            hargaotr.val("Rp. " + new Intl.NumberFormat('de-DE').format(datax
+                                .otr));
+                            pengajuan.attr({
+                                'max': datax.cair,
+                                'placeholder': "Maks. Pencairan : " + new Intl
+                                    .NumberFormat(
+                                        'de-DE').format(datax.cair)
+                            });
+                        }
                     },
                     error: function(xhr, ajaxOptions, thrownError) {
                         alert(xhr.status);
