@@ -16,7 +16,7 @@ class CreateTahunHargaKendaraanTable extends Migration
         Schema::create('tahun_harga_kendaraan', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('id_tipe_kendaraan');
-            $table->integer('tahun');
+            $table->string('tahun');
             $table->integer('harga_otr');
             $table->integer('maks_pencairan');
             $table->timestamps();

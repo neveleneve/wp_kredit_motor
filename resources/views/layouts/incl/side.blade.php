@@ -1,4 +1,5 @@
-<ul class="navbar-nav bg-light sidebar sidebar-light accordion border" id="accordionSidebar">
+<ul class="navbar-nav bg-light sidebar sidebar-light accordion border {{ Session::get('sidebarState') }}"
+    id="accordionSidebar">
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('dashboard') }}">
         <div class="sidebar-brand-icon">
             <img class="img-fluid" src="{{ asset('/penyimpanan/logo/alco-width.png') }}" style="width: 50%">

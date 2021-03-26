@@ -60,7 +60,7 @@ class MarketingController extends Controller
     {
         $kelurahan = Kelurahan::orderBy('kelurahan')->get();
         $kecamatan = Kecamatan::orderBy('kecamatan')->get();
-        $merk = Merk::orderBy('merk')->get();
+        $merk = Merk::orderBy('merk')->get();        
         return view('marketing.nasabah.add', [
             'kecamatan' => $kecamatan,
             'kelurahan' => $kelurahan,
@@ -72,11 +72,12 @@ class MarketingController extends Controller
     {
         $nik = $data->nik;
         $tanggal = date('dMYHis');
-        $this->addImagePemohon($nik . '_ktp_' . $tanggal . '.jpg', '/penyimpanan/ktp', $data->file('fotoktp'));
-        $this->addImagePemohon($nik . '_kk_' . $tanggal . '.jpg', '/penyimpanan/kk', $data->file('fotokk'));
-        // $this->addImagePemohon($namafile . '_' . $data->buktikepemilikan . '_' . $tanggal . '.jpg', '/penyimpanan/buktikepemilikan', $data->file('fotokepemilikanhunian'));
-        // $this->addImagePemohon($namafile . '_bpkb_' . $tanggal . '.jpg', '/penyimpanan/bpkb', $data->file('fotobpkb'));
-        // $this->addImagePemohon($namafile . '_' . $data->nopol . '_stnk_' . $tanggal . '.jpg', '/penyimpanan/stnk', $data->file('fotostnk'));
+        // $this->addImagePemohon($nik . '_ktp_' . $tanggal . '.jpg', '/penyimpanan/ktp', $data->file('fotoktp'));
+        // $this->addImagePemohon($nik . '_kk_' . $tanggal . '.jpg', '/penyimpanan/kk', $data->file('fotokk'));
+        // $this->addImagePemohon($nik . '_' . $data->buktikepemilikan . '_' . $tanggal . '.jpg', '/penyimpanan/buktikepemilikan', $data->file('fotokepemilikanhunian'));
+        // $this->addImagePemohon($nik . '_bpkb_' . $tanggal . '.jpg', '/penyimpanan/bpkb', $data->file('fotobpkb'));
+        // $this->addImagePemohon($nik . '_' . $data->nopol . '_stnk_' . $tanggal . '.jpg', '/penyimpanan/stnk', $data->file('fotostnk'));
+
         // mengambil data pemohon ke dalam array variable
         $datapemohon = [
             "id_marketing" => $data->id_marketing,
@@ -113,7 +114,12 @@ class MarketingController extends Controller
         ];
         // mengambil data pekerjaan pemohon ke dalam array variable
         $datapekerjaan = [
-            'nik_nasabah' => $nik
+            'nik_nasabah' => $nik,
+            'jenis_kerja' => $data->jenispekerjaan,
+            'desk_kerja' => $data->pekerjaan,
+            'penghasilan' => $data->penghasilan,
+            'pengeluaran' => $data->pengeluaran,
+            'alamat_kerja' => $data->alamatkerja,
         ];
         // mengambil data rumah hunian pemohon ke dalam array variable
         $datahunian = [
@@ -123,13 +129,41 @@ class MarketingController extends Controller
         $datakendaraan = [
             'nik_nasabah' => $nik
         ];
-        if ($data->statusperkawinan == 1) {
-            Pasangan::insert($datapasangan);
-        } else {
-            Penjamin::insert($datapenjamin);
-        }
-        Nasabah::insert($datapemohon);
-        return redirect(route('nasabah'));
+        echo 'data pemohon';
+        echo '<br>';
+        print_r($datapemohon);
+        echo '<br>';
+        echo 'data pasangan';
+        echo '<br>';
+        print_r($datapasangan);
+        echo '<br>';
+        echo 'data penjamin';
+        echo '<br>';
+        print_r($datapenjamin);
+        echo '<br>';
+        echo 'data alamat';
+        echo '<br>';
+        print_r($dataalamat);
+        echo '<br>';
+        echo 'data pekerjaan';
+        echo '<br>';
+        print_r($datapekerjaan);
+        echo '<br>';
+        echo 'data hunian';
+        echo '<br>';
+        print_r($datahunian);
+        echo '<br>';
+        echo 'data kendaraan';
+        echo '<br>';
+        print_r($datakendaraan);
+        echo '<br>';
+        // if ($data->statusperkawinan == 1) {
+        //     Pasangan::insert($datapasangan);
+        // } else {
+        //     Penjamin::insert($datapenjamin);
+        // }
+        // Nasabah::insert($datapemohon);
+        // return redirect(route('nasabah'));
     }
     #endregion
 

@@ -11,6 +11,10 @@ Route::get('/kelurahan/{id}', 'DataController@kelurahan');
 Route::get('/tipekendaraan/{id}', 'DataController@tipekendaraan');
 Route::get('/tahunharga/{id}', 'DataController@tahunharga');
 Route::get('/harga/{id}', 'DataController@harga');
+Route::get('/tenor/{id}', 'DataController@tenor');
+Route::get('/angsuran/{id}', 'DataController@angsuran');
+
+Route::get('/sidebar', 'DataController@sidebar');
 
 #region MARKETING
 Route::group(['middleware' => 'auth:marketing'], function () {

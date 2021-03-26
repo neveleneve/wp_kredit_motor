@@ -212,7 +212,7 @@
                                     Kelurahan
                                     <strong class="text-danger">*</strong>
                                 </label>
-                                <select class="form-control" name="kelurahan" id="kelurahan" disabled>
+                                <select class="form-control" name="kelurahan" id="kelurahan">
                                     <option selected disabled>Pilih Kelurahan</option>
                                 </select>
                             </div>
@@ -396,8 +396,10 @@
                                     Pengajuan Plafon
                                     <strong class="text-danger">*</strong>
                                 </label>
-                                <input class="form-control" type="number" name="pengajuanplafon" id="pengajuanplafon"
-                                    placeholder="Maks. Pencairan : Rp. x.xxx.xxx" min="2000000" step="500000">
+                                <select class="form-control" name="pengajuanplafon" id="pengajuanplafon">
+                                    <option disabled selected>Pilih Dana Peminjaman (Maks. Pencairan : Rp. x.xxx.xxx)
+                                    </option>
+                                </select>
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -408,10 +410,6 @@
                                 </label>
                                 <select class="form-control" name="tenor" id="tenor">
                                     <option selected disabled>Pilih Tenor Kredit</option>
-                                    <option value="6">6 Bulan</option>
-                                    <option value="12">12 Bulan</option>
-                                    <option value="18">18 Bulan</option>
-                                    <option value="24">24 Bulan</option>
                                 </select>
                             </div>
                             <div class="col-6">
@@ -480,13 +478,17 @@
 @section('customjs')
     <script>
         $(document).ready(function() {
+            var kecamatan = $('#kecamatan');
+            var kelurahan = $('#kelurahan');
+            var merk = $('#merk');
             var pengajuan = $('#pengajuanplafon');
             var hargaotr = $('#hargaotr');
             var tipe = $('#tipe');
             var tahun = $('#tahunkendaraan');
-            $('#kecamatan').on('change', function(e) {
+            var tenor = $('#tenor');
+            var angsuran = $('#angsuran');
+            kecamatan.on('change', function(e) {
                 e.preventDefault();
-                var kelurahan = $('#kelurahan');
                 var id = $(this).val();
                 $.ajax({
                     url: '/kelurahan/' + id,
@@ -504,47 +506,43 @@
                     },
                 });
             });
-            $('#merk').on('change', function(e) {
+            merk.on('change', function(e) {
                 e.preventDefault();
                 var id = $(this).val();
                 $.ajax({
                     url: '/tipekendaraan/' + id,
                     type: 'GET',
                     success: function(datax) {
-                        pengajuan.val('');
                         tipe.empty();
                         tipe.append(
                             '<option selected disabled>Pilih Nama Kendaraan');
                         var data = datax.replace('"', '');
                         tipe.append(data.replace('"', ''));
-                        tipe.prop("disabled", false);
                     },
                     error: function(xhr, ajaxOptions, thrownError) {
                         alert(xhr.status);
                     },
                 });
             });
-            $('#tipe').on('change', function(e) {
+            tipe.on('change', function(e) {
                 e.preventDefault();
                 var id = $(this).val();
                 $.ajax({
                     url: '/tahunharga/' + id,
                     type: 'GET',
                     success: function(datax) {
-                        pengajuan.val('');
                         tahun.empty();
                         tahun.append(
                             '<option selected disabled>Pilih Tahun Kendaraan');
                         var data = datax.replace('"', '');
                         tahun.append(data.replace('"', ''));
-                        tahun.prop("disabled", false);
                     },
                     error: function(xhr, ajaxOptions, thrownError) {
                         alert(xhr.status);
                     },
                 });
             });
-            $('#tahunkendaraan').on('change', function(e) {
+            tahun.on('change', function(e) {
                 e.preventDefault();
                 var id = $(this).val();
                 $.ajax({
@@ -552,29 +550,55 @@
                     type: 'GET',
                     dataType: 'json',
                     success: function(datax) {
-                        pengajuan.val('');
+                        pengajuan.empty();
                         if (datax.otr == 0) {
                             hargaotr.val("Pencairan Bersih");
-                            pengajuan.attr({
-                                'max': datax.cair,
-                                'placeholder': "Pencairan Bersih : " + new Intl
-                                    .NumberFormat(
-                                        'de-DE').format(datax.cair)
-                            });
+                            pengajuan.append(
+                                "<option selected disabled>Pilih Dana Peminjaman (Maks. Pencairan : Rp. " +
+                                new Intl
+                                .NumberFormat(
+                                    'de-DE').format(datax.cair) + ")");
+                            pengajuan.append(datax.kredit);
                         } else {
                             hargaotr.val("Rp. " + new Intl.NumberFormat('de-DE').format(datax
                                 .otr));
-                            pengajuan.attr({
-                                'max': datax.cair,
-                                'placeholder': "Maks. Pencairan : " + new Intl
-                                    .NumberFormat(
-                                        'de-DE').format(datax.cair)
-                            });
+                            pengajuan.append(
+                                "<option selected disabled>Pilih Dana Peminjaman (Maks. Pencairan : Rp. " +
+                                new Intl
+                                .NumberFormat(
+                                    'de-DE').format(datax.cair) + ")");
+                            pengajuan.append(datax.kredit);
                         }
                     },
                     error: function(xhr, ajaxOptions, thrownError) {
                         alert(xhr.status);
                     },
+                });
+            });
+            pengajuan.on('change', function(e) {
+                e.preventDefault();
+                var id = $(this).val();
+                $.ajax({
+                    url: '/tenor/' + id,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(datax) {
+                        tenor.empty();
+                        tenor.append('<option selected disabled>Pilih Tenor Kredit');
+                        tenor.append(datax);
+                    }
+                });
+            });
+            tenor.on('change', function(e) {
+                e.preventDefault();
+                var id = $(this).val();
+                $.ajax({
+                    url: '/angsuran/' + id,
+                    type: 'GET',
+                    dataType: 'json',
+                    success: function(datax) {
+                        angsuran.val(datax);
+                    }
                 });
             });
         });
