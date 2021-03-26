@@ -123,40 +123,28 @@ class MarketingController extends Controller
         ];
         // mengambil data rumah hunian pemohon ke dalam array variable
         $datahunian = [
-            'nik_nasabah' => $nik
+            'nik_nasabah' => $nik,
+            'status_kepemilikan' => $data->statuskepemilikan,
+            'bukti_kepemilikan' => $data->buktikepemilikan,
         ];
         // mengambil data unit kendaraan pemohon ke dalam array variable
         $datakendaraan = [
             'nik_nasabah' => $nik
         ];
-        echo 'data pemohon';
-        echo '<br>';
-        print_r($datapemohon);
-        echo '<br>';
-        echo 'data pasangan';
-        echo '<br>';
-        print_r($datapasangan);
-        echo '<br>';
-        echo 'data penjamin';
-        echo '<br>';
-        print_r($datapenjamin);
-        echo '<br>';
-        echo 'data alamat';
-        echo '<br>';
-        print_r($dataalamat);
-        echo '<br>';
-        echo 'data pekerjaan';
-        echo '<br>';
-        print_r($datapekerjaan);
-        echo '<br>';
-        echo 'data hunian';
-        echo '<br>';
-        print_r($datahunian);
-        echo '<br>';
-        echo 'data kendaraan';
-        echo '<br>';
-        print_r($datakendaraan);
-        echo '<br>';
+        echo 'datapemohon';
+        dump($datapemohon);
+        echo 'datapasangan';
+        dump($datapasangan);
+        echo 'datapenjamin';
+        dump($datapenjamin);
+        echo 'dataalamat';
+        dump($dataalamat);
+        echo 'datapekerjaan';
+        dump($datapekerjaan);
+        echo 'datahunian';
+        dump($datahunian);
+        echo 'datakendaraan';
+        dump($datakendaraan);
         // if ($data->statusperkawinan == 1) {
         //     Pasangan::insert($datapasangan);
         // } else {

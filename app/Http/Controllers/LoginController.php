@@ -6,6 +6,7 @@ use App\Login;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 
 class LoginController extends Controller
 {
@@ -29,7 +30,7 @@ class LoginController extends Controller
                 if ($datalogin[0]['level'] == 0) {
                     Auth::guard('cs')->LoginUsingId($datalogin[0]['id']);
                     return redirect(route('csdashboard'));
-                }elseif ($datalogin[0]['level'] == 1) {
+                } elseif ($datalogin[0]['level'] == 1) {
                     Auth::guard('marketing')->LoginUsingId($datalogin[0]['id']);
                     return redirect(route('dashboard'));
                 }

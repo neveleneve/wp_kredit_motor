@@ -1,8 +1,19 @@
 @extends('layouts.master')
 
+@section('title')
+    <title>Tambah Nasabah</title>
+@endsection
+
 @section('content')
     <div class="d-sm-flex align-items-center justify-content-between mb-3">
         <h1 class="h3 mb-0 text-gray-800">Tambah Nasabah</h1>
+    </div>
+    <div class="row mb-3">
+        <div class="col-1">
+            <a class="btn btn-danger btn-block" href="{{ route('nasabah') }}">
+                <i class="fa fa-chevron-left"></i>
+            </a>
+        </div>
     </div>
     <form action="{{ route('ceknasabah') }}" method="post" enctype="multipart/form-data">
         {{ csrf_field() }}
@@ -240,7 +251,7 @@
                                     <option value="Wirausaha"></option>
                                     <option value="Wirawasta"></option>
                                     <option value="Buruh"></option>
-                                    <option value="Lainnnya"></option>
+                                    <option value="Lainnya"></option>
                                 </datalist>
                             </div>
                             <div class="col-6">
@@ -461,11 +472,8 @@
                         </div>
                         {{-- Tombol --}}
                         <div class="row mb-3">
-                            <div class="col-6">
-                                <button class="btn btn-sm btn-primary btn-block" type="submit">Simpan</button>
-                            </div>
-                            <div class="col-6">
-                                <a href="{{ route('nasabah') }}" class="btn btn-sm btn-danger btn-block">Kembali</a>
+                            <div class="col-12">
+                                <button class="btn btn-primary btn-block" type="submit">Simpan</button>
                             </div>
                         </div>
                     </div>
