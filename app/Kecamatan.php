@@ -8,5 +8,7 @@ class Kecamatan extends Model
 {
     protected $table = 'kecamatan';
 
-    protected $fillable = ['kecamatan'];
+    protected $fillable = [
+        'kecamatan'
+    ];
 }

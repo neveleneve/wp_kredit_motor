@@ -21,6 +21,7 @@ class LoginSeeder extends Seeder
                     'rounds' => 10
                 ]),
                 'level' => 0,
+                'kontak' => '082263746637',
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s')
             ],
@@ -31,6 +32,7 @@ class LoginSeeder extends Seeder
                     'rounds' => 10
                 ]),
                 'level' => 1,
+                'kontak' => '082264756637',
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s')
             ],

@@ -15,6 +15,7 @@ class CreateMasterKreditTable extends Migration
     {
         Schema::create('master_kredit', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->integer('id_marketing');
             $table->string('trx_code');
             $table->string('nik_nasabah', 16);
             $table->string('penilaian');

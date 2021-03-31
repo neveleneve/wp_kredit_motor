@@ -16,10 +16,7 @@ class CreateKendaraanTable extends Migration
         Schema::create('kendaraan', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('trx_code');
-            $table->string('nik_nasabah', 16);
-            $table->integer('merk');
-            $table->integer('tipe');
-            $table->string('tahun');
+            $table->integer('id_tahun_harga_kendaraan');
             $table->string('nopol');
             $table->date('tgl_pajak');
             $table->date('tgl_stnk');

@@ -17,7 +17,6 @@ class CreateAlamatTable extends Migration
             $table->bigIncrements('id');
             $table->string('nik_nasabah', 16);
             $table->longText('alamat');
-            $table->integer('kecamatan');
             $table->integer('kelurahan');
             $table->integer('lama_tinggal');
             $table->timestamps();

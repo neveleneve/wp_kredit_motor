@@ -394,6 +394,7 @@
                                     <option selected disabled>Pilih Tahun Kendaraan</option>
                                 </select>
                             </div>
+
                         </div>
                         <div class="row mb-3">
                             <div class="col-6">
@@ -431,7 +432,7 @@
                                     <strong class="text-danger">*</strong>
                                 </label>
                                 <input type="text" name="angsuran" id="angsuran" class="form-control"
-                                    placeholder="Angsuran Pinjaman">
+                                    placeholder="Angsuran Pinjaman" required readonly>
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -499,6 +500,7 @@
             var tahun = $('#tahunkendaraan');
             var tenor = $('#tenor');
             var angsuran = $('#angsuran');
+            var tahunkendaraan = $('#id_tahun_kendaraan');
             kecamatan.on('change', function(e) {
                 e.preventDefault();
                 var id = $(this).val();
@@ -609,7 +611,10 @@
                     type: 'GET',
                     dataType: 'json',
                     success: function(datax) {
-                        angsuran.val(datax);
+                        angsuran.attr("placeholder", "Sedang Mendapatkan Data...");
+                        setTimeout(function () {
+                            angsuran.val(datax);
+                        }, 3000);
                     }
                 });
             });

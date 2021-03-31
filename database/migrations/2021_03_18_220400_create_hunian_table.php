@@ -15,6 +15,9 @@ class CreateHunianTable extends Migration
     {
         Schema::create('hunian', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('nik_nasabah', 16);
+            $table->string('status_kepemilikan');
+            $table->string('bukti_kepemilikan');
             $table->timestamps();
         });
     }

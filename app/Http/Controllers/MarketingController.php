@@ -2,12 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Alamat;
+use App\Hunian;
 use App\Kecamatan;
 use App\Kelurahan;
+use App\Kendaraan;
 use App\MasterKredit;
 use App\Merk;
 use App\Nasabah;
 use App\Pasangan;
+use App\Pekerjaan;
+use App\Pengajuan;
 use App\Penjamin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -48,7 +53,7 @@ class MarketingController extends Controller
     // menampilkan halaman list nasabah
     public function nasabah()
     {
-        $q = Input::get('search');
+        $q = Input::get('s');
         if ($q == null || $q == '') {
             $datanasabah = Nasabah::where('id_marketing', Auth::user()->id)->get();
         } else {
@@ -64,7 +69,7 @@ class MarketingController extends Controller
     {
         $kelurahan = Kelurahan::orderBy('kelurahan')->get();
         $kecamatan = Kecamatan::orderBy('kecamatan')->get();
-        $merk = Merk::orderBy('merk')->get();        
+        $merk = Merk::orderBy('merk')->get();
         return view('marketing.nasabah.add', [
             'kecamatan' => $kecamatan,
             'kelurahan' => $kelurahan,
@@ -85,14 +90,14 @@ class MarketingController extends Controller
 
         // mengambil data pemohon ke dalam array variable
         $datapemohon = [
-            "id_marketing" => $data->id_marketing,
-            "nik" => $nik,
-            "nama" => $data->nama,
-            "jenis_kelamin" => $data->jeniskelamin,
-            "status_nikah" => $data->statusperkawinan,
-            "tmpt_lahir" => $data->tempatlahir,
-            "tgl_lahir" => $data->tanggallahir,
-            "no_hp" => $data->nohp
+            'id_marketing' => $data->id_marketing,
+            'nik' => $nik,
+            'nama' => $data->nama,
+            'jenis_kelamin' => $data->jeniskelamin,
+            'status_nikah' => $data->statusperkawinan,
+            'tmpt_lahir' => $data->tempatlahir,
+            'tgl_lahir' => $data->tanggallahir,
+            'no_hp' => $data->nohp
         ];
         // mengambil data pasangan pemohon ke dalam array variable
         $datapasangan = [
@@ -113,7 +118,6 @@ class MarketingController extends Controller
         $dataalamat = [
             'nik_nasabah' => $nik,
             'alamat' => $data->alamat,
-            'kecamatan' => $data->kecamatan,
             'kelurahan' => $data->kelurahan,
             'lama_tinggal' => $data->lamatinggal,
         ];
@@ -135,45 +139,34 @@ class MarketingController extends Controller
         // mengambil data unit kendaraan pemohon ke dalam array variable
         $datakendaraan = [
             'trx_code' => $kodetrx,
-            'nik_nasabah' => $nik,
-            'merk' => $data->merk,
-            'tipe' => $data->tipe,
-            'tahun_kendaraan' => $data->tahunkendaraan,
+            'id_tahun_kendaraan' => $data->tahunkendaraan,
             'nopol' => $data->nopol,
             'tgl_pajak' => $data->masaberlakupajak,
             'tgl_stnk' => $data->masaberlakustnk,
         ];
         $datapengajuan = [
             'trx_code' => $kodetrx,
-            'nik_nasabah' => $nik,
             'id_kredit' => $data->tenor
         ];
         $datamasterkredit = [
-
+            'id_marketing' => $data->id_marketing,
+            'trx_code' => $kodetrx,
+            'nik_nasabah' => $nik,
+            'penilaian' => '0'
         ];
-        echo 'datapemohon';
-        dump($datapemohon);
-        echo 'datapasangan';
-        dump($datapasangan);
-        echo 'datapenjamin';
-        dump($datapenjamin);
-        echo 'dataalamat';
-        dump($dataalamat);
-        echo 'datapekerjaan';
-        dump($datapekerjaan);
-        echo 'datahunian';
-        dump($datahunian);
-        echo 'datakendaraan';
-        dump($datakendaraan);
-        echo 'datapengajuan';
-        dump($datapengajuan);
-        // if ($data->statusperkawinan == 1) {
-        //     Pasangan::insert($datapasangan);
-        // } else {
-        //     Penjamin::insert($datapenjamin);
-        // }
-        // Nasabah::insert($datapemohon);
-        // return redirect(route('nasabah'));
+        if ($data->statusperkawinan == 1) {
+            Pasangan::insert($datapasangan);
+        } else {
+            Penjamin::insert($datapenjamin);
+        }
+        Nasabah::insert($datapemohon);
+        MasterKredit:: insert($datamasterkredit);
+        Pengajuan:: insert($datapengajuan);
+        Kendaraan:: insert($datakendaraan);
+        Hunian:: insert($datahunian);
+        Pekerjaan:: insert($datapekerjaan);
+        Alamat:: insert($dataalamat);
+        return redirect(route('nasabah'));
     }
     #endregion
 

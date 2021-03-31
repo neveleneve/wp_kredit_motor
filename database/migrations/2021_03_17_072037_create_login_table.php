@@ -19,6 +19,7 @@ class CreateLoginTable extends Migration
             $table->string('username', 20);
             $table->string('password');
             $table->integer('level');
+            $table->string('kontak');
             $table->rememberToken();
             $table->timestamps();
         });
