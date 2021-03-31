@@ -42,12 +42,14 @@
                             <div class="col-4">
                                 <label class="font-weight-bold" for="fotoktp">Foto KTP <strong
                                         class="text-danger">*</strong></label>
-                                <input class="form-control" type="file" name="fotoktp" id="fotoktp">
+                                <input class="form-control" type="file" name="fotoktp" id="fotoktp"
+                                    accept="image/x-png,image/gif,image/jpeg">
                             </div>
                             <div class="col-4">
                                 <label class="font-weight-bold" for="fotoktp">Foto Kartu Keluarga <strong
                                         class="text-danger">*</strong></label>
-                                <input class="form-control" type="file" name="fotokk" id="fotokk">
+                                <input class="form-control" type="file" name="fotokk" id="fotokk"
+                                    accept="image/x-png,image/gif,image/jpeg">
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -358,7 +360,7 @@
                                 <label class="font-weight-bold" for="fotokepemilikanhunian">Foto Bukti Kepemilikan <strong
                                         class="text-danger"> *</strong></label>
                                 <input class="form-control" type="file" name="fotokepemilikanhunian"
-                                    id="fotokepemilikanhunian">
+                                    id="fotokepemilikanhunian" accept="image/x-png,image/gif,image/jpeg">
                             </div>
                         </div>
                         {{-- Unit --}}
@@ -462,12 +464,14 @@
                             <div class="col-6">
                                 <label class="font-weight-bold" for="fotobpkb">Foto BPKP <strong
                                         class="text-danger">*</strong></label>
-                                <input type="file" class="form-control" name="fotobpkb" id="fotobpkb">
+                                <input type="file" class="form-control" name="fotobpkb" id="fotobpkb"
+                                    accept="image/x-png,image/gif,image/jpeg">
                             </div>
                             <div class="col-6">
                                 <label class="font-weight-bold" for="fotostnk">Foto STNK <strong
                                         class="text-danger">*</strong></label>
-                                <input type="file" class="form-control" name="fotostnk" id="fotostnk">
+                                <input type="file" class="form-control" name="fotostnk" id="fotostnk"
+                                    accept="image/x-png,image/gif,image/jpeg">
                             </div>
                         </div>
                         {{-- Tombol --}}

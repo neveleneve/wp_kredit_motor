@@ -21,6 +21,11 @@ class MarketingController extends Controller
         $destination = public_path($storage);
         $img->move($destination, $nama);
     }
+    private function randomstringlah()
+    {
+        $randomString = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 15);
+        return $randomString;
+    }
     #endregion
 
     #region DASHBOARD
@@ -28,7 +33,6 @@ class MarketingController extends Controller
     {
         $jumlahnasabah = Nasabah::count();
         $jumlahkredit = MasterKredit::count();
-
         $datax = [
             'jmlnsb' => $jumlahnasabah,
             'jmlkrd' => $jumlahkredit
@@ -70,6 +74,7 @@ class MarketingController extends Controller
     // proses add nasabah
     public function ceknasabah(Request $data)
     {
+        $kodetrx = $this->randomstringlah();
         $nik = $data->nik;
         $tanggal = date('dMYHis');
         // $this->addImagePemohon($nik . '_ktp_' . $tanggal . '.jpg', '/penyimpanan/ktp', $data->file('fotoktp'));
@@ -129,7 +134,22 @@ class MarketingController extends Controller
         ];
         // mengambil data unit kendaraan pemohon ke dalam array variable
         $datakendaraan = [
-            'nik_nasabah' => $nik
+            'trx_code' => $kodetrx,
+            'nik_nasabah' => $nik,
+            'merk' => $data->merk,
+            'tipe' => $data->tipe,
+            'tahun_kendaraan' => $data->tahunkendaraan,
+            'nopol' => $data->nopol,
+            'tgl_pajak' => $data->masaberlakupajak,
+            'tgl_stnk' => $data->masaberlakustnk,
+        ];
+        $datapengajuan = [
+            'trx_code' => $kodetrx,
+            'nik_nasabah' => $nik,
+            'id_kredit' => $data->tenor
+        ];
+        $datamasterkredit = [
+
         ];
         echo 'datapemohon';
         dump($datapemohon);
@@ -145,6 +165,8 @@ class MarketingController extends Controller
         dump($datahunian);
         echo 'datakendaraan';
         dump($datakendaraan);
+        echo 'datapengajuan';
+        dump($datapengajuan);
         // if ($data->statusperkawinan == 1) {
         //     Pasangan::insert($datapasangan);
         // } else {

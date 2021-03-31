@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMasterKreditTable extends Migration
+class CreateKendaraanTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,16 @@ class CreateMasterKreditTable extends Migration
      */
     public function up()
     {
-        Schema::create('master_kredit', function (Blueprint $table) {
+        Schema::create('kendaraan', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('trx_code');
             $table->string('nik_nasabah', 16);
-            $table->string('penilaian');
+            $table->integer('merk');
+            $table->integer('tipe');
+            $table->string('tahun');
+            $table->string('nopol');
+            $table->date('tgl_pajak');
+            $table->date('tgl_stnk');
             $table->timestamps();
         });
     }
@@ -29,6 +34,6 @@ class CreateMasterKreditTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('master_kredit');
+        Schema::dropIfExists('kendaraan');
     }
 }
