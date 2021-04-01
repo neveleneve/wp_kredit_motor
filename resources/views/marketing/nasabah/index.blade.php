@@ -58,6 +58,14 @@
             </div>
         </div>
     @endif
+    @if (session('alert'))
+        <div class="alert alert-{{ session('warna') }} alert-dismissable fade show">
+            {{ session('alert') }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    @endif
     <div class="row mb-3">
         <div class="col-12">
             <table class="table table-hover table-bordered">

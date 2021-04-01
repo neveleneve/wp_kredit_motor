@@ -486,6 +486,9 @@
             </div>
         </div>
     </form>
+    <a class="scroll-to-top rounded bg-danger" href="{{ route('nasabah') }}" style="margin-right: 50px">
+        <i class="fas fa-angle-left"></i>
+    </a>
 @endsection
 
 @section('customjs')
@@ -612,7 +615,7 @@
                     dataType: 'json',
                     success: function(datax) {
                         angsuran.attr("placeholder", "Sedang Mendapatkan Data...");
-                        setTimeout(function () {
+                        setTimeout(function() {
                             angsuran.val(datax);
                         }, 3000);
                     }
