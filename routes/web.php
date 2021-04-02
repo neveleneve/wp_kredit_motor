@@ -29,6 +29,7 @@ Route::group(['middleware' => 'auth:marketing'], function () {
     Route::get('/marketing/nasabah/view/{id}', 'MarketingController@viewnasabah')->name('viewnasabah');
     Route::get('/marketing/nasabah/pengajuan/{id}', 'MarketingController@transaksinasabah')->name('transaksinasabah');
     Route::get('/marketing/nasabah/pengajuan/add/{id}', 'MarketingController@pengajuannasabah')->name('pengajuannasabah');
+    Route::get('/marketing/nasabah/pengajuan/delete/{id}', 'MarketingController@hapuspengajuan')->name('hapuspengajuan');
     #endregion
 
     #region MARKETING-KREDIT

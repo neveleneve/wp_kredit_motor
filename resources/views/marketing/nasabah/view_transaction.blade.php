@@ -47,6 +47,7 @@
                                         <th class="text-right">Pinjaman</th>
                                         <th class="text-right">Angsuran</th>
                                         <th class="text-center">Status</th>
+                                        <th class="text-center">Aksi</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -64,6 +65,15 @@
                                                     Belum Verifikasi
                                                 @else
                                                     Sudah Diverifikasi
+                                                @endif
+                                            </td>
+                                            <td class="text-center">
+                                                @if ($item->penilaian == 0)
+                                                    <a onclick="return confirm('Hapus Data Pengajuan?')" class="btn btn-danger btn-sm" href="{{ route('hapuspengajuan', ['id'=>$item->id]) }}">
+                                                        Hapus Pengajuan
+                                                    </a>
+                                                @else
+                                                    
                                                 @endif
                                             </td>
                                         </tr>

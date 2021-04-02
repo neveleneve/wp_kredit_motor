@@ -14,6 +14,7 @@ use App\Pasangan;
 use App\Pekerjaan;
 use App\Pengajuan;
 use App\Penjamin;
+use Dotenv\Regex\Success;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -33,7 +34,7 @@ class MarketingController extends Controller
         return $randomString;
     }
 
-    public function generateDataPemohon($data, $kodetrx, $tanggal, $nik)
+    public function generateDataPemohon($data, $tanggal, $nik)
     {
         $datapemohon = [
             'id_marketing' => $data->id_marketing,
@@ -55,7 +56,6 @@ class MarketingController extends Controller
             'created_at' => $tanggal,
             'updated_at' => $tanggal
         ];
-        // mengambil data penjamin pemohon ke dalam array variable
         $datapenjamin = [
             'nik_nasabah' => $nik,
             'nama' => $data->namapenjamin,
@@ -90,7 +90,14 @@ class MarketingController extends Controller
             'created_at' => $tanggal,
             'updated_at' => $tanggal
         ];
-        $datax = [];
+        $datax = [
+            'datapemohon' => $datapemohon,
+            'datapasangan' => $datapasangan,
+            'datapenjamin' => $datapenjamin,
+            'dataalamat' => $dataalamat,
+            'datapekerjaan' => $datapekerjaan,
+            'datahunian' => $datahunian,
+        ];
         return $datax;
     }
 
@@ -182,9 +189,15 @@ class MarketingController extends Controller
         $nik = $data->nik;
         $tanggal = date('Y-m-d H:i:s');
         $ceknik = Nasabah::where('nik', $nik)->count();
+        $pengajuan = $this->generateDataPengajuan($data, $kodetrx, $tanggal, $nik);
+        $pemohon = $this->generateDataPemohon($data, $tanggal, $nik);
         if ($data->has('pengajuan')) {
-            $pengajuan = $this->generateDataPengajuan($data, $kodetrx, $tanggal, $nik);
-            dd($pengajuan);
+            $this->addImagePemohon($kodetrx . '_bpkb.jpg', '/penyimpanan/bpkb', $data->file('fotobpkb'));
+            $this->addImagePemohon($kodetrx . '_stnk.jpg', '/penyimpanan/stnk', $data->file('fotostnk'));
+            MasterKredit::insert($pengajuan['datamasterkredit']);
+            Pengajuan::insert($pengajuan['datapengajuan']);
+            Kendaraan::insert($pengajuan['datakendaraan']);
+            return redirect(route('nasabah'))->with('alert', 'Data Pengajuan Berhasil Ditambah!')->with('warna', 'success');
         } else if ($data->has('tambahnasabah')) {
             if ($ceknik > 0) {
                 return redirect(route('nasabah'))->with('alert', 'Data Nasabah Sudah Ada!!!')->with('warna', 'danger');
@@ -192,30 +205,23 @@ class MarketingController extends Controller
                 $this->addImagePemohon($nik . '_ktp.jpg', '/penyimpanan/ktp', $data->file('fotoktp'));
                 $this->addImagePemohon($nik . '_kk.jpg', '/penyimpanan/kk', $data->file('fotokk'));
                 $this->addImagePemohon($nik . '_' . $data->buktikepemilikan . '.jpg', '/penyimpanan/buktikepemilikan', $data->file('fotokepemilikanhunian'));
-                //     if ($data->statusperkawinan == 1) {
-                //         Pasangan::insert($datapasangan);
-                //     } else {
-                //         Penjamin::insert($datapenjamin);
-                //     }
+                $this->addImagePemohon($kodetrx . '_bpkb.jpg', '/penyimpanan/bpkb', $data->file('fotobpkb'));
+                $this->addImagePemohon($kodetrx . '_stnk.jpg', '/penyimpanan/stnk', $data->file('fotostnk'));
+                if ($data->statusperkawinan == 1) {
+                    Pasangan::insert($pemohon['datapasangan']);
+                } else {
+                    Penjamin::insert($pemohon['datapenjamin']);
+                }
+                Nasabah::insert($pemohon['datapemohon']);
+                Hunian::insert($pemohon['datahunian']);
+                Pekerjaan::insert($pemohon['datapekerjaan']);
+                Alamat::insert($pemohon['dataalamat']);
+                MasterKredit::insert($pengajuan['datamasterkredit']);
+                Pengajuan::insert($pengajuan['datapengajuan']);
+                Kendaraan::insert($pengajuan['datakendaraan']);
+                return redirect(route('nasabah'))->with('alert', 'Data Nasabah Berhasil Di Input!')->with('warna', 'success');
             }
         }
-
-        //     $this->addImagePemohon($kodetrx . '_bpkb.jpg', '/penyimpanan/bpkb', $data->file('fotobpkb'));
-        //     $this->addImagePemohon($kodetrx . '_stnk.jpg', '/penyimpanan/stnk', $data->file('fotostnk'));
-        //     MasterKredit::insert($datamasterkredit);
-        //     Pengajuan::insert($datapengajuan);
-        //     Kendaraan::insert($datakendaraan);
-
-        // if ($ceknik > 0) {
-        // } else {
-        //     // mengambil data pemohon ke dalam array variable
-
-        //     Nasabah::insert($datapemohon);
-        //     Hunian::insert($datahunian);
-        //     Pekerjaan::insert($datapekerjaan);
-        //     Alamat::insert($dataalamat);
-        //     return redirect(route('nasabah'))->with('alert', 'Data Nasabah Berhasil Di Input!')->with('warna', 'success');
-        // }
     }
 
     public function viewnasabah($id)
@@ -302,6 +308,7 @@ class MarketingController extends Controller
             ->select(
                 'nasabah.nama',
                 'nasabah.nik',
+                'master_kredit.id',
                 'master_kredit.trx_code',
                 'master_kredit.penilaian',
                 'kredit.tenor',
@@ -326,6 +333,10 @@ class MarketingController extends Controller
         ]);
     }
 
+    public function hapuspengajuan($id)
+    {
+        echo $id;
+    }
 
     #endregion
 
