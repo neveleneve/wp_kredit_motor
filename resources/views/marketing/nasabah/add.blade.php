@@ -478,7 +478,7 @@
                         {{-- Tombol --}}
                         <div class="row mb-3">
                             <div class="col-12">
-                                <button class="btn btn-primary btn-block" type="submit">Simpan</button>
+                                <button class="btn btn-primary btn-block" name="tambahnasabah" type="submit">Simpan</button>
                             </div>
                         </div>
                     </div>

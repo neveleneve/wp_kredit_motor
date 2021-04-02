@@ -112,7 +112,7 @@
                                             <div class="col-sm-12 col-xl-4">
                                                 <a class="btn btn-sm btn-block btn-info"
                                                     href="{{ route('pengajuannasabah', ['id' => $item->nik]) }}">
-                                                    Pengajuan
+                                                    Tambah Pengajuan
                                                 </a>
                                             </div>
                                         </div>
