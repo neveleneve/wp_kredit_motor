@@ -37,11 +37,15 @@ class MarketingController extends Controller
     #region DASHBOARD
     public function dashboard()
     {
-        $jumlahnasabah = Nasabah::count();
-        $jumlahkredit = MasterKredit::count();
+        $jumlahnasabah = Nasabah::where('id_marketing', Auth::user()->id)->count();
+        $jumlahkredit = MasterKredit::where('id_marketing', Auth::user()->id)->where('penilaian', '!=', '0')->count();
+        $targetbulanan = MasterKredit::where('id_marketing', Auth::user()->id)->where('penilaian', '!=', '0')->whereMonth('created_at', date('m'))->whereYear('created_at', date('Y'))->count();
+        $kreditpending = MasterKredit::where('id_marketing', Auth::user()->id)->where('penilaian', '=', '0')->count();
         $datax = [
             'jmlnsb' => $jumlahnasabah,
-            'jmlkrd' => $jumlahkredit
+            'jmlkrd' => $jumlahkredit,
+            'jmltarget' => $targetbulanan,
+            'jmlpending' => $kreditpending,
         ];
 
         return view('marketing.dashboard.index', [
@@ -228,6 +232,7 @@ class MarketingController extends Controller
                     'hunian.status_kepemilikan',
                     'hunian.bukti_kepemilikan',
                 )
+                ->where('nasabah.nik', $id)
                 ->get();
         } else {
             $datanasabah = DB::table('nasabah')
@@ -263,12 +268,42 @@ class MarketingController extends Controller
                 )
                 ->get();
         }
-
-        // dd($datanasabah[0]);
         return view('marketing.nasabah.view_data', [
             'datanasabah' => $datanasabah
         ]);
     }
+
+    public function transaksinasabah($id)
+    {
+        $datamaster = DB::table('master_kredit')
+            ->join('nasabah', 'master_kredit.nik_nasabah', '=', 'nasabah.nik')
+            ->join('pengajuan', 'master_kredit.trx_code', '=', 'pengajuan.trx_code')
+            ->join('kredit', 'pengajuan.id_kredit', '=', 'kredit.id')
+            ->select(
+                'nasabah.nama',
+                'nasabah.nik',
+                'master_kredit.trx_code',
+                'master_kredit.penilaian',
+                'kredit.tenor',
+                'kredit.pinjaman',
+                'kredit.angsuran',
+            )
+            ->where('master_kredit.nik_nasabah', $id)
+            ->get();
+        // dd($datamaster);
+        return view('marketing.nasabah.view_transaction', [
+            'data' => $datamaster,
+            'no' => 1
+        ]);
+    }
+
+    public function pengajuannasabah($id)
+    {
+        // $data = Nasabah::where;
+        return view('marketing.nasabah.pengajuan');
+    }
+
+
     #endregion
 
     #region SETTING

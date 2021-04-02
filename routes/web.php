@@ -27,7 +27,8 @@ Route::group(['middleware' => 'auth:marketing'], function () {
     Route::get('/marketing/nasabah/add', 'MarketingController@addnasabah')->name('addnasabah');
     Route::post('/marketing/nasabah/add', 'MarketingController@ceknasabah')->name('ceknasabah');
     Route::get('/marketing/nasabah/view/{id}', 'MarketingController@viewnasabah')->name('viewnasabah');
-    Route::get('/marketing/nasabah/transaksi/{id}', 'MarketingController@transaksinasabah')->name('transaksinasabah');
+    Route::get('/marketing/nasabah/pengajuan/{id}', 'MarketingController@transaksinasabah')->name('transaksinasabah');
+    Route::get('/marketing/nasabah/pengajuan/add/{id}', 'MarketingController@pengajuannasabah')->name('pengajuannasabah');
     #endregion
 
     #region MARKETING-KREDIT
@@ -48,8 +49,38 @@ Route::group(['middleware' => 'auth:marketing'], function () {
 #endregion
 
 #region CS
+Route::group(['middleware' => 'auth:cs'], function () {
+    #region CS-DASHBOARD 
+    Route::get('/cs', 'CSController@dashboard')->name('csdashboard');
+    #endregion
 
-Route::get('/cs', 'CSController@setting')->name('csdashboard');
-Route::get('/cs/setting', 'MarketingController@setting')->name('cssetting');
+    #region CS-KECAMATAN
+    Route::get('/cs/daerah', 'CSController@kecamatan')->name('cskecamatan');
+    #endregion
+
+    #region CS-NASABAH
+    Route::get('/cs/nasabah', 'CSController@nasabah')->name('csnasabah');
+    #endregion
+
+    #region CS-KREDIT
+    Route::get('/cs/kredit', 'CSController@kredit')->name('cskredit');
+    #endregion
+
+    #region CS-KENDARAAN
+    Route::get('/cs/kendaraan', 'CSController@kendaraan')->name('cskendaraan');
+    #endregion
+
+    #region CS-TRANSAKSI
+    Route::get('/cs/transaksi', 'CSController@transaksi')->name('cstransaksi');
+    #endregion
+
+    #region CS-PEMBAYARAN
+    Route::get('/cs/pembayaran', 'CSController@pembayaran')->name('cspembayaran');
+    #endregion
+
+    #region CS-SETTING
+    Route::get('/cs/setting', 'CSController@setting')->name('cssetting');
+    #endregion
+});
 
 #endregion

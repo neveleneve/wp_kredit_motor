@@ -29,22 +29,66 @@
             </a>
         </li>
         <hr class="sidebar-divider d-none d-md-block">
-        <div class="text-center d-none d-md-inline">
-            <button class="rounded-circle bg-gray-700 border-0" id="sidebarToggle"></button>
-        </div>
     @endauth
-    {{-- <li class="nav-item {{ Request::is('marketing/kredit*') ? 'active' : '' }}">
-        <a class="nav-link" href="{{ route('kredit') }}">
-            <i class="fas fa-handshake"></i>
-            <span>Kredit</span>
-        </a>
-    </li>
-    <hr class="sidebar-divider my-0">
-    <li class="nav-item {{ Request::is('marketing/payment*') ? 'active' : '' }}">
-        <a class="nav-link" href="{{ route('payment') }}">
-            <i class="fas fa-fw fa-receipt"></i>
-            <span>Payment</span>
-        </a>
-    </li>
-    <hr class="sidebar-divider my-0"> --}}
+    @auth('cs')
+        <li class="nav-item {{ Request::is('cs') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('csdashboard') }}">
+                <i class="fas fa-home"></i>
+                <span>Dashboard</span>
+            </a>
+        </li>
+        <hr class="sidebar-divider my-0">
+        <li class="nav-item {{ Request::is('cs/daerah*') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('cskecamatan') }}">
+                <i class="fas fa-map"></i>
+                <span>Data Daerah</span>
+            </a>
+        </li>
+        <hr class="sidebar-divider my-0">
+        <li class="nav-item {{ Request::is('cs/kredit*') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('cskredit') }}">
+                <i class="fas fa-dollar-sign"></i>
+                <span>Kredit</span>
+            </a>
+        </li>
+        <hr class="sidebar-divider my-0">
+        <li class="nav-item {{ Request::is('cs/kendaraan*') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('cskendaraan') }}">
+                <i class="fas fa-motorcycle"></i>
+                <span>Kendaraan</span>
+            </a>
+        </li>
+        <hr class="sidebar-divider my-0">
+        <li class="nav-item {{ Request::is('cs/nasabah*') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('csnasabah') }}">
+                <i class="fas fa-users"></i>
+                <span>Nasabah</span>
+            </a>
+        </li>
+        <hr class="sidebar-divider my-0">
+        <li class="nav-item {{ Request::is('cs/transaksi*') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('cstransaksi') }}">
+                <i class="fas fa-handshake"></i>
+                <span>Transaksi</span>
+            </a>
+        </li>
+        <hr class="sidebar-divider my-0">
+        <li class="nav-item {{ Request::is('cs/pembayaran*') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('cspembayaran') }}">
+                <i class="fas fa-receipt"></i>
+                <span>Pembayaran</span>
+            </a>
+        </li>
+        <hr class="sidebar-divider my-0">
+        <li class="nav-item {{ Request::is('cs/setting*') ? 'active' : '' }}">
+            <a class="nav-link" href="{{ route('cssetting') }}">
+                <i class="fas fa-cog"></i>
+                <span>Setting</span>
+            </a>
+        </li>
+        <hr class="sidebar-divider d-none d-md-block">
+    @endauth
+    <div class="text-center d-none d-md-inline">
+        <button class="rounded-circle bg-gray-700 border-0" id="sidebarToggle"></button>
+    </div>
 </ul>

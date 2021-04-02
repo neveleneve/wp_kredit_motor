@@ -1,12 +1,12 @@
 @extends('layouts.master')
 
 @section('title')
-    <title>Tambah Nasabah</title>
+    <title>Data Nasabah</title>
 @endsection
 
 @section('content')
     <div class="d-sm-flex align-items-center justify-content-between mb-3">
-        <h1 class="h3 mb-0 text-gray-800">Data Nasabah</h1>
+        <h1 class="h3 mb-0 text-gray-800 font-weight-bold">Data Nasabah</h1>
     </div>
     <div class="row mb-3">
         <div class="col-1">
