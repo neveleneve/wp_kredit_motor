@@ -20,6 +20,17 @@ class DataController extends Controller
         }
         return json_encode($data);
     }
+    public function tablekelurahan($id)
+    {
+        $data = null;
+        $no = 1;
+        $kelurahan = Kelurahan::where('id_kecamatan', $id)->get();
+        foreach ($kelurahan as $key) {
+            $confirm = '"Hapus Data Kelurahan ' . $key->kelurahan . '?"';
+            $data .= "<tr class=text-center><td>" . $no++ . "<td>" . $key->kelurahan . "<td><a class='btn btn-sm btn-danger' href='" . route('cshapuskelurahan', ['id' => $key->id]) . "' onclick='return confirm(" . $confirm . ")'>Hapus";
+        }
+        return json_encode($data);
+    }
     public function tipekendaraan($id)
     {
         $data = null;
@@ -28,6 +39,9 @@ class DataController extends Controller
             $data .= "<option value=" . $key->id . ">" . $key->tipe;
         }
         return json_encode($data);
+    }
+    public function tabletipekendaraan($id)
+    {
     }
     public function tahunharga($id)
     {
@@ -71,6 +85,17 @@ class DataController extends Controller
         }
         return json_encode($data);
     }
+    public function tabletenor($id)
+    {
+        $data = null;
+        $no = 1;
+        $kelurahan = Kredit::where('pinjaman', $id)->get();
+        foreach ($kelurahan as $key) {
+            $confirm = '"Hapus Data Tenor ' . $key->tenor . ' Bulan?"';
+            $data .= "<tr class=text-center><td>" . $no++ . "<td>" . $key->tenor . " Bulan<td>Rp. " . number_format($key->angsuran, 0, ',', '.') . "<td><a class='btn btn-sm btn-danger' href='" . route('cshapustenor', ['id' => $key->id]) . "' onclick='return confirm(" . $confirm . ")'>Hapus";
+        }
+        return json_encode($data);
+    }
 
     public function angsuran($id)
     {
@@ -85,6 +110,20 @@ class DataController extends Controller
             Session::remove('sidebarState');
         } else {
             Session::put('sidebarState', 'toggled');
+        }
+    }
+    public function pengajuan($id)
+    {
+        if ($id == 1) {
+            Session::remove('pengajuanall');
+            Session::put('pengajuanallx', 'fade');
+            Session::put('pengajuan', 'active');
+            Session::put('pengajuanx', 'active');
+        } else if ($id == 2) {
+            Session::remove('pengajuan');
+            Session::put('pengajuanx', 'fade');
+            Session::put('pengajuanall', 'active');
+            Session::put('pengajuanallx', 'active');
         }
     }
 }

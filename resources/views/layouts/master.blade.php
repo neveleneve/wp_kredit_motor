@@ -29,7 +29,7 @@
             </div>
         </div>
     </div>
-    <a class="scroll-to-top rounded" href="#page-top">
+    <a class="scroll-to-top rounded" href="#page-top" title="Ke Atas">
         <i class="fas fa-angle-up"></i>
     </a>
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"

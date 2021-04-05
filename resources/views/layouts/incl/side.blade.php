@@ -31,56 +31,58 @@
         <hr class="sidebar-divider d-none d-md-block">
     @endauth
     @auth('cs')
-        <li class="nav-item {{ Request::is('cs') ? 'active' : '' }}">
+        <li class="nav-item {{ Request::is('cs') ? 'active border-left-primary' : '' }}">
             <a class="nav-link" href="{{ route('csdashboard') }}">
                 <i class="fas fa-home"></i>
                 <span>Dashboard</span>
             </a>
         </li>
         <hr class="sidebar-divider my-0">
-        <li class="nav-item {{ Request::is('cs/daerah*') ? 'active' : '' }}">
+        <li class="nav-item {{ Request::is('cs/daerah*') ? 'active border-left-primary' : '' }}">
             <a class="nav-link" href="{{ route('cskecamatan') }}">
                 <i class="fas fa-map"></i>
                 <span>Data Daerah</span>
             </a>
         </li>
         <hr class="sidebar-divider my-0">
-        <li class="nav-item {{ Request::is('cs/kredit*') ? 'active' : '' }}">
+        <li class="nav-item {{ Request::is('cs/kredit*') ? 'active border-left-primary' : '' }}">
             <a class="nav-link" href="{{ route('cskredit') }}">
                 <i class="fas fa-dollar-sign"></i>
                 <span>Kredit</span>
             </a>
         </li>
         <hr class="sidebar-divider my-0">
-        <li class="nav-item {{ Request::is('cs/kendaraan*') ? 'active' : '' }}">
+        <li class="nav-item {{ Request::is('cs/kendaraan*') ? 'active border-left-primary' : '' }}">
             <a class="nav-link" href="{{ route('cskendaraan') }}">
                 <i class="fas fa-motorcycle"></i>
                 <span>Kendaraan</span>
             </a>
         </li>
         <hr class="sidebar-divider my-0">
-        <li class="nav-item {{ Request::is('cs/nasabah*') ? 'active' : '' }}">
+        <li class="nav-item {{ Request::is('cs/nasabah*') ? 'active border-left-primary' : '' }}">
             <a class="nav-link" href="{{ route('csnasabah') }}">
                 <i class="fas fa-users"></i>
                 <span>Nasabah</span>
             </a>
         </li>
         <hr class="sidebar-divider my-0">
-        <li class="nav-item {{ Request::is('cs/transaksi*') ? 'active' : '' }}">
+        <li class="nav-item {{ Request::is('cs/pengajuan*') ? 'active border-left-primary' : '' }}">
             <a class="nav-link" href="{{ route('cstransaksi') }}">
                 <i class="fas fa-handshake"></i>
-                <span>Transaksi</span>
+                <span>                    
+                    Pengajuan
+                </span>
             </a>
         </li>
         <hr class="sidebar-divider my-0">
-        <li class="nav-item {{ Request::is('cs/pembayaran*') ? 'active' : '' }}">
+        <li class="nav-item {{ Request::is('cs/pembayaran*') ? 'active border-left-primary' : '' }}">
             <a class="nav-link" href="{{ route('cspembayaran') }}">
                 <i class="fas fa-receipt"></i>
                 <span>Pembayaran</span>
             </a>
         </li>
         <hr class="sidebar-divider my-0">
-        <li class="nav-item {{ Request::is('cs/setting*') ? 'active' : '' }}">
+        <li class="nav-item {{ Request::is('cs/setting*') ? 'active border-left-primary' : '' }}">
             <a class="nav-link" href="{{ route('cssetting') }}">
                 <i class="fas fa-cog"></i>
                 <span>Setting</span>

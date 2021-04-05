@@ -28,6 +28,10 @@ class LoginController extends Controller
             if (Hash::check($data->password, $datalogin[0]['password'])) {
                 // Berhasil login
                 if ($datalogin[0]['level'] == 0) {
+                    Session::remove('pengajuan');
+                    Session::put('pengajuanx', 'fade');
+                    Session::put('pengajuanall', 'active');
+                    Session::put('pengajuanallx', 'active');
                     Auth::guard('cs')->LoginUsingId($datalogin[0]['id']);
                     return redirect(route('csdashboard'));
                 } elseif ($datalogin[0]['level'] == 1) {
@@ -49,6 +53,10 @@ class LoginController extends Controller
             Auth::guard('marketing')->logout();
         } elseif (Auth::guard('cs')->check()) {
             Auth::guard('cs')->logout();
+            Session::remove('pengajuan');
+            Session::remove('pengajuanx');
+            Session::remove('pengajuanall');
+            Session::remove('pengajuanallx');
         }
         return redirect('/');
     }

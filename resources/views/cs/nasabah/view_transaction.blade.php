@@ -10,7 +10,7 @@
     </div>
     <div class="row mb-3">
         <div class="col-1">
-            <a class="btn btn-danger btn-block" href="{{ route('nasabah') }}">
+            <a class="btn btn-danger btn-block" href="{{ route('csnasabah') }}">
                 <i class="fa fa-chevron-left"></i>
             </a>
         </div>
@@ -81,18 +81,27 @@
                                                     @if ($item->penilaian == 0)
                                                         Belum Verifikasi
                                                     @else
-                                                        Sudah Diverifikasi
+                                                        @if ($item->penilaian >= 0.6)
+                                                            Pengajuan Diterima
+                                                        @else
+                                                            Pengajuan Ditolak
+                                                        @endif
                                                     @endif
                                                 </td>
                                                 <td class="text-center">
                                                     @if ($item->penilaian == 0)
-                                                        <a onclick="return confirm('Hapus Data Pengajuan?')"
-                                                            class="btn btn-danger btn-sm"
-                                                            href="{{ route('hapuspengajuan', ['id' => $item->trx_code]) }}">
-                                                            Hapus Pengajuan
+                                                        <a class="btn btn-warning btn-sm"
+                                                            href="{{ route('csverifikasitransaksi', ['id' => $item->trx_code]) }}">
+                                                            Verifikasi Pengajuan
                                                         </a>
                                                     @else
-
+                                                        @if ($item->penilaian >= 0.6)
+                                                            <a class="btn btn-primary btn-sm" href="">Lihat Pembayaran</a>
+                                                        @else
+                                                            <button class="btn btn-danger btn-sm" title="Pengajuan Ditolak">
+                                                                <i class="fa fa-ban"></i>
+                                                            </button>
+                                                        @endif
                                                     @endif
                                                 </td>
                                             </tr>
@@ -106,7 +115,7 @@
             </div>
         </div>
     </div>
-    <a class="scroll-to-top rounded bg-danger" href="{{ route('nasabah') }}" style="margin-right: 50px">
+    <a class="scroll-to-top rounded bg-danger" href="{{ route('csnasabah') }}" style="margin-right: 50px">
         <i class="fas fa-angle-left"></i>
     </a>
 @endsection

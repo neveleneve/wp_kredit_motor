@@ -4,12 +4,55 @@
     </button>
     <ul class="navbar-nav">
         <a class="navbar-brand" href="{{ route('dashboard') }}">
-            <img class="d-none d-md-inline" src="{{ asset('/penyimpanan/logo/alco-width.png') }}" style="width: 10%" alt="">
+            <img class="d-none d-md-inline" src="{{ asset('/penyimpanan/logo/alco-width.png') }}" style="width: 10%"
+                alt="">
         </a>
         @yield('search1')
     </ul>
     <ul class="navbar-nav ml-auto">
         @yield('search2')
+        @auth('cs')
+
+            <li class="nav-item dropdown no-arrow mx-1">
+                <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-bell fa-fw"></i>
+                    @if (count($tertunda) == 0)
+
+                    @else
+                        <span class="badge badge-danger badge-counter">
+                            {{ count($tertunda) }}
+                        </span>
+                    @endif
+                </a>
+                <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                    aria-labelledby="messagesDropdown">
+                    <h6 class="dropdown-header">
+                        Pengajuan
+                    </h6>
+                    @if (count($tertunda) > 0)
+                        @foreach ($tertunda as $item)
+                            <a class="dropdown-item d-flex align-items-center "
+                                href="{{ route('csverifikasitransaksi', ['id' => $item->trx_code]) }}">
+                                <div>
+                                    Pengajuan <span class="font-weight-bold"> {{ $item->trx_code }}</span> sedang
+                                    menunggu
+                                    untuk diverifikasi!
+                                </div>
+                            </a>
+                        @endforeach
+                        <a class="dropdown-item text-center small text-gray-500" href="{{ route('cstransaksi') }}">
+                            Lihat Pengajuan Lainnya
+                        </a>
+                    @else
+                        <a class="dropdown-item align-items-center text-center" href="{{ route('cstransaksi') }}">
+                            Tidak Ada Pengajuan Terbaru
+                        </a>
+                    @endif
+                </div>
+            </li>
+            <div class="topbar-divider d-none d-sm-block"></div>
+        @endauth
         <li class="nav-item dropdown no-arrow">
             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">

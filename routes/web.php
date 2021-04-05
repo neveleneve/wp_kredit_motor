@@ -1,20 +1,25 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-// General
+
 Route::get('/', 'LoginController@index')->name('login')->middleware('guest');
 Route::get('/credit-check', 'KreditController@index')->name('credit-check');
 Route::post('/login', 'LoginController@loggingin')->name('loggingin');
 Route::get('/logout', 'LoginController@logout')->name('logout');
 
+#region AJAX
 Route::get('/kelurahan/{id}', 'DataController@kelurahan');
+Route::get('/kelurahan/table/{id}', 'DataController@tablekelurahan');
 Route::get('/tipekendaraan/{id}', 'DataController@tipekendaraan');
+Route::get('/tipekendaraan/table/{id}', 'DataController@tabletipekendaraan');
 Route::get('/tahunharga/{id}', 'DataController@tahunharga');
 Route::get('/harga/{id}', 'DataController@harga');
 Route::get('/tenor/{id}', 'DataController@tenor');
+Route::get('/tenor/table/{id}', 'DataController@tabletenor');
 Route::get('/angsuran/{id}', 'DataController@angsuran');
-
 Route::get('/sidebar', 'DataController@sidebar');
+Route::get('/pengajuan/{id}', 'DataController@pengajuan');
+#endregion
 
 #region MARKETING
 Route::group(['middleware' => 'auth:marketing'], function () {
@@ -57,14 +62,20 @@ Route::group(['middleware' => 'auth:cs'], function () {
 
     #region CS-KECAMATAN
     Route::get('/cs/daerah', 'CSController@kecamatan')->name('cskecamatan');
+    Route::get('/cs/daerah/kecamatan/hapus/{id}', 'CSController@hapuskecamatan')->name('cshapuskecamatan');
+    Route::get('/cs/daerah/kelurahan/hapus/{id}', 'CSController@hapuskelurahan')->name('cshapuskelurahan');
     #endregion
 
     #region CS-NASABAH
     Route::get('/cs/nasabah', 'CSController@nasabah')->name('csnasabah');
+    Route::get('/cs/nasabah/view/{id}', 'CSController@viewnasabah')->name('csviewnasabah');
+    Route::get('/cs/nasabah/pengajuan/{id}', 'CSController@transaksinasabah')->name('cstransaksinasabah');
+
     #endregion
 
     #region CS-KREDIT
     Route::get('/cs/kredit', 'CSController@kredit')->name('cskredit');
+    Route::get('/cs/kredit/tenor/{id}', 'CSController@hapustenor')->name('cshapustenor');
     #endregion
 
     #region CS-KENDARAAN
@@ -72,7 +83,8 @@ Route::group(['middleware' => 'auth:cs'], function () {
     #endregion
 
     #region CS-TRANSAKSI
-    Route::get('/cs/transaksi', 'CSController@transaksi')->name('cstransaksi');
+    Route::get('/cs/pengajuan', 'CSController@transaksi')->name('cstransaksi');
+    Route::get('/cs/pengajuan/verifikasi/{id}', 'CSController@verifikasitransaksi')->name('csverifikasitransaksi');
     #endregion
 
     #region CS-PEMBAYARAN

@@ -9,9 +9,10 @@
         <h1 class="h3 mb-0 text-gray-800 font-weight-bold">Tambah Nasabah</h1>
     </div>
     <div class="row mb-3">
-        <div class="col-1">
+        <div class="col-lg-2 col-md-12">
             <a class="btn btn-danger btn-block" href="{{ route('nasabah') }}">
                 <i class="fa fa-chevron-left"></i>
+                Kembali
             </a>
         </div>
     </div>
@@ -31,51 +32,54 @@
                                 <h1 class="h4 font-weight-bold">Data Pemohon</h1>
                             </div>
                         </div>
-                        <div class="row mb-3">
-                            <div class="col-4">
+                        <div class="row">
+                            <div class="col-lg-12 col-xl-4 mb-3">
                                 <label class="font-weight-bold" for="nik">Nomor Induk Kependudukan <strong
                                         class="text-danger">*</strong></label>
                                 <input type="text" pattern="^[0-9]{16}" minlength="16" maxlength="16" name="nik" id="nik"
                                     class="form-control" placeholder="Masukkan 16 digit angka NIK"
-                                    title="- Masukkan 16 digit pada NIK">
+                                    title="Masukkan 16 digit pada NIK">
                             </div>
-                            <div class="col-4">
+                            <div class="col-lg-12 col-xl-4 mb-3">
                                 <label class="font-weight-bold" for="fotoktp">Foto KTP <strong
                                         class="text-danger">*</strong></label>
                                 <input class="form-control" type="file" name="fotoktp" id="fotoktp"
-                                    accept="image/x-png,image/gif,image/jpeg">
+                                    accept="image/x-png,image/gif,image/jpeg" required>
                             </div>
-                            <div class="col-4">
+                            <div class="col-lg-12 col-xl-4 mb-3">
                                 <label class="font-weight-bold" for="fotoktp">Foto Kartu Keluarga <strong
                                         class="text-danger">*</strong></label>
                                 <input class="form-control" type="file" name="fotokk" id="fotokk"
-                                    accept="image/x-png,image/gif,image/jpeg">
+                                    accept="image/x-png,image/gif,image/jpeg" required>
                             </div>
                         </div>
-                        <div class="row mb-3">
-                            <div class="col-12">
-                                <label class="font-weight-bold" for="nama">Nama Pemohon
-                                    <strong class="text-danger">*</strong></label>
-                                <input name="nama" id="nama" type="text" class="form-control" placeholder="Budi Cokro Dewo">
+                        <div class="row">
+                            <div class="col-12 mb-3">
+                                <label class="font-weight-bold" for="nama">
+                                    Nama Pemohon
+                                    <strong class="text-danger">*</strong>
+                                </label>
+                                <input name="nama" id="nama" type="text" class="form-control" placeholder="Budi Cokro Dewo"
+                                    required>
                             </div>
                         </div>
-                        <div class="row mb-3">
-                            <div class="col-6">
+                        <div class="row">
+                            <div class="col-sm-12 col-md-6 mb-3">
                                 <label class="font-weight-bold" for="jeniskelamin">Jenis Kelamin <strong
                                         class="text-danger">*</strong></label>
-                                <select class="form-control" name="jeniskelamin" id="jeniskelamin">
+                                <select class="form-control" name="jeniskelamin" id="jeniskelamin" required>
                                     <option disabled selected>Pilih Jenis Kelamin</option>
                                     <option value="L">Laki - laki</option>
                                     <option value="P">Perempuan</option>
                                 </select>
                             </div>
-                            <div class="col-6">
+                            <div class="col-sm-12 col-md-6 mb-3">
                                 <label class="font-weight-bold" for="statusperkawinan">
                                     Status Pernikahan
                                     <strong class="text-danger">*</strong>
                                 </label>
                                 <select class="form-control" name="statusperkawinan" id="statusperkawinan"
-                                    onchange="pilihankawin(this.value)">
+                                    onchange="pilihankawin(this.value)" required>
                                     <option disabled selected>Pilih Status Penikahan</option>
                                     <option value="1">Sudah Menikah</option>
                                     <option value="2">Belum Menikah</option>
@@ -84,29 +88,30 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="row mb-3">
-                            <div class="col-3">
+                        <div class="row">
+                            <div class="col-md-6 col-lg-3 col-sm-12 mb-3">
                                 <label class="font-weight-bold" for="tempatlahir">Tempat Lahir <strong
                                         class="text-danger">*</strong></label>
                                 <input type="text" name="tempatlahir" id="tempatlahir" class="form-control"
-                                    placeholder="Tanjungpinang">
+                                    placeholder="Tanjungpinang" required>
                             </div>
-                            <div class="col-3">
+                            <div class="col-md-6 col-lg-3 col-sm-12 mb-3">
                                 <label class="font-weight-bold" for="tanggallahir">Tanggal Lahir <strong
                                         class="text-danger">*</strong></label>
                                 <input type="date" name="tanggallahir" id="tanggallahir" value="{{ date('Y-m-d') }}"
-                                    onchange="getAge(this.value, 'usia')" class="form-control">
+                                    onchange="getAge(this.value, 'usia')" class="form-control" required>
                             </div>
-                            <div class="col-3">
+                            <div class="col-md-6 col-lg-3 col-sm-12 mb-3">
                                 <label class="font-weight-bold" for="usia">Usia <strong
                                         class="text-danger">*</strong></label>
                                 <input type="number" name="usia" id="usia" class="form-control" min="21"
                                     placeholder="Minimal usia : 21" required>
                             </div>
-                            <div class="col-3">
+                            <div class="col-md-6 col-lg-3 col-sm-12 mb-3">
                                 <label class="font-weight-bold" for="nohp">Nomor Handphone <strong
                                         class="text-danger">*</strong></label>
-                                <input type="tel" name="nohp" id="nohp" class="form-control" placeholder="081234567890">
+                                <input type="tel" name="nohp" id="nohp" class="form-control" placeholder="081234567890"
+                                    required>
                             </div>
                         </div>
                         {{-- Data Pasangan (bila sudah menikah) --}}
@@ -116,29 +121,29 @@
                                     <h1 class="h4 font-weight-bold">Data Pasangan</h1>
                                 </div>
                             </div>
-                            <div class="row mb-3">
-                                <div class="col-12">
+                            <div class="row">
+                                <div class="col-12 mb-3">
                                     <label class="font-weight-bold" for="namapasangan">Nama Pasangan <strong
                                             class="text-danger">*</strong></label>
                                     <input type="text" name="namapasangan" id="namapasangan" class="form-control"
                                         placeholder="Eka Fitria Gultom">
                                 </div>
                             </div>
-                            <div class="row mb-3">
-                                <div class="col-4">
+                            <div class="row">
+                                <div class="col-sm-12 col-md-4 mb-3">
                                     <label class="font-weight-bold" for="tanggallahirpasangan">Tanggal Lahir <strong
                                             class="text-danger">*</strong></label>
                                     <input type="date" value="{{ date('Y-m-d') }}"
                                         onchange="getAge(this.value, 'usiapasangan')" name="tanggallahirpasangan"
                                         id="tanggallahirpasangan" class="form-control">
                                 </div>
-                                <div class="col-4">
+                                <div class="col-sm-12 col-md-4 mb-3">
                                     <label class="font-weight-bold" for="usiapasangan">Usia <strong
                                             class="text-danger">*</strong></label>
                                     <input type="number" name="usiapasangan" id="usiapasangan" class="form-control"
-                                        placeholder="Minimal usia : 21" readonly>
+                                        placeholder="Minimal usia : 21" min="21">
                                 </div>
-                                <div class="col-4">
+                                <div class="col-sm-12 col-md-4 mb-3">
                                     <label class="font-weight-bold" for="nohppasangan">Nomor Handphone <strong
                                             class="text-danger">*</strong></label>
                                     <input type="text" name="nohppasangan" id="nohppasangan" class="form-control"
@@ -154,7 +159,7 @@
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <div class="col-12">
+                                <div class="col-12 mb-3">
                                     <label class="font-weight-bold" for="namapenjamin">Nama Penjamin <strong
                                             class="text-danger">*</strong></label>
                                     <input type="text" name="namapenjamin" id="namapenjamin" class="form-control"
@@ -162,26 +167,26 @@
                                 </div>
                             </div>
                             <div class="row mb-3">
-                                <div class="col-3">
+                                <div class="col-sm-12 col-md-6 col-xl-3 mb-3">
                                     <label class="font-weight-bold" for="tanggallahirpenjamin">Tanggal Lahir <strong
                                             class="text-danger">*</strong></label>
                                     <input type="date" value="{{ date('Y-m-d') }}"
                                         onchange="getAge(this.value, 'usiapenjamin')" name="tanggallahirpenjamin"
                                         id="tanggallahirpenjamin" class="form-control">
                                 </div>
-                                <div class="col-3">
+                                <div class="col-sm-12 col-md-6 col-xl-3 mb-3">
                                     <label class="font-weight-bold" for="usiapenjamin">Usia <strong
                                             class="text-danger">*</strong></label>
                                     <input type="number" name="usiapenjamin" id="usiapenjamin" class="form-control"
-                                        placeholder="Minimal usia : 21" readonly>
+                                        placeholder="Minimal usia : 21" min="21">
                                 </div>
-                                <div class="col-3">
+                                <div class="col-sm-12 col-md-6 col-xl-3 mb-3">
                                     <label class="font-weight-bold" for="nohppenjamin">Nomor Handphone <strong
                                             class="text-danger">*</strong></label>
                                     <input type="text" name="nohppenjamin" id="nohppenjamin" class="form-control"
                                         placeholder="081234567890">
                                 </div>
-                                <div class="col-3">
+                                <div class="col-sm-12 col-md-6 col-xl-3 mb-3">
                                     <label for="statuspenjamin" class="font-weight-bold">Status Hubungan <strong
                                             class="text-danger">*</strong></label>
                                     <select class="form-control" name="statuspenjamin" id="statuspenjamin">
@@ -486,7 +491,7 @@
             </div>
         </div>
     </form>
-    <a class="scroll-to-top rounded bg-danger" href="{{ route('nasabah') }}" style="margin-right: 50px">
+    <a class="scroll-to-top rounded bg-danger" href="{{ route('nasabah') }}" style="margin-right: 50px" title="Kembali">
         <i class="fas fa-angle-left"></i>
     </a>
 @endsection
@@ -632,6 +637,11 @@
                 document.getElementById('nohppasangan').required = true;
 
                 document.getElementById('penjamin').style.display = 'none';
+                document.getElementById('namapenjamain').required = false;
+                document.getElementById('tanggallahirpenjamin').required = false;
+                document.getElementById('usiapenjamin').required = false;
+                document.getElementById('nohppenjamin').required = false;
+                document.getElementById('statuspenjamin').required = false;
             } else {
                 document.getElementById('pasangan').style.display = 'none';
                 document.getElementById('namapasangan').required = false;
@@ -640,6 +650,11 @@
                 document.getElementById('nohppasangan').required = false;
 
                 document.getElementById('penjamin').style.display = 'block';
+                document.getElementById('namapenjamain').required = true;
+                document.getElementById('tanggallahirpenjamin').required = true;
+                document.getElementById('usiapenjamin').required = true;
+                document.getElementById('nohppenjamin').required = true;
+                document.getElementById('statuspenjamin').required = true;
             }
         }
 

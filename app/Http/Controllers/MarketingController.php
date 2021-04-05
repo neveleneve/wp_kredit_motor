@@ -14,10 +14,11 @@ use App\Pasangan;
 use App\Pekerjaan;
 use App\Pengajuan;
 use App\Penjamin;
-use Dotenv\Regex\Success;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Input;
 
 class MarketingController extends Controller
@@ -133,6 +134,17 @@ class MarketingController extends Controller
         ];
         return $datax;
     }
+
+    private function cekPengajuanTerkahir($nik)
+    {
+        $datapengajuan = MasterKredit::where('nik_nasabah', $nik)->orderBy('created_at', 'asc')->get();
+        $tglpengajuanterakhir = strtotime($datapengajuan[0]->created_at);
+        $tglhariini = strtotime(date('Y-m-d H:i:s'));
+        $diff = abs($tglhariini - $tglpengajuanterakhir);
+        $tahun = floor($diff / (365 * 60 * 60 * 24));
+        $bulan = floor(($diff - $tahun * 365 * 60 * 60 * 24) / (30 * 60 * 60 * 24));
+        return $bulan;
+    }
     #endregion
 
     #region DASHBOARD
@@ -192,12 +204,17 @@ class MarketingController extends Controller
         $pengajuan = $this->generateDataPengajuan($data, $kodetrx, $tanggal, $nik);
         $pemohon = $this->generateDataPemohon($data, $tanggal, $nik);
         if ($data->has('pengajuan')) {
-            $this->addImagePemohon($kodetrx . '_bpkb.jpg', '/penyimpanan/bpkb', $data->file('fotobpkb'));
-            $this->addImagePemohon($kodetrx . '_stnk.jpg', '/penyimpanan/stnk', $data->file('fotostnk'));
-            MasterKredit::insert($pengajuan['datamasterkredit']);
-            Pengajuan::insert($pengajuan['datapengajuan']);
-            Kendaraan::insert($pengajuan['datakendaraan']);
-            return redirect(route('nasabah'))->with('alert', 'Data Pengajuan Berhasil Ditambah!')->with('warna', 'success');
+            $bulan = $this->cekPengajuanTerkahir($nik);
+            if ($bulan >= 3) {
+                $this->addImagePemohon($kodetrx . '_bpkb.jpg', '/penyimpanan/bpkb', $data->file('fotobpkb'));
+                $this->addImagePemohon($kodetrx . '_stnk.jpg', '/penyimpanan/stnk', $data->file('fotostnk'));
+                MasterKredit::insert($pengajuan['datamasterkredit']);
+                Pengajuan::insert($pengajuan['datapengajuan']);
+                Kendaraan::insert($pengajuan['datakendaraan']);
+                return redirect(route('transaksinasabah', ['id' => $nik]))->with('alert', 'Data Pengajuan Berhasil Ditambah!')->with('warna', 'success');
+            } else {
+                return redirect(route('transaksinasabah', ['id' => $nik]))->with('alert', 'Data Pengajuan Gagal Ditambah! Pengajuan sebelumnya belum mencapai 3 Bulan')->with('warna', 'success');
+            }
         } else if ($data->has('tambahnasabah')) {
             if ($ceknik > 0) {
                 return redirect(route('nasabah'))->with('alert', 'Data Nasabah Sudah Ada!!!')->with('warna', 'danger');
@@ -256,7 +273,7 @@ class MarketingController extends Controller
                     'pekerjaan.pengeluaran',
                     'pekerjaan.alamat_kerja',
                     'hunian.status_kepemilikan',
-                    'hunian.bukti_kepemilikan',
+                    'hunian.bukti_kepemilikan'
                 )
                 ->where('nasabah.nik', $id)
                 ->get();
@@ -290,8 +307,9 @@ class MarketingController extends Controller
                     'pekerjaan.pengeluaran',
                     'pekerjaan.alamat_kerja',
                     'hunian.status_kepemilikan',
-                    'hunian.bukti_kepemilikan',
+                    'hunian.bukti_kepemilikan'
                 )
+                ->where('nasabah.nik', $id)
                 ->get();
         }
         return view('marketing.nasabah.view_data', [
@@ -301,27 +319,29 @@ class MarketingController extends Controller
 
     public function transaksinasabah($id)
     {
+        $niknasabah = Nasabah::where('nik', $id)->get(['nik', 'nama']);
         $datamaster = DB::table('master_kredit')
-            ->join('nasabah', 'master_kredit.nik_nasabah', '=', 'nasabah.nik')
             ->join('pengajuan', 'master_kredit.trx_code', '=', 'pengajuan.trx_code')
             ->join('kredit', 'pengajuan.id_kredit', '=', 'kredit.id')
             ->select(
-                'nasabah.nama',
-                'nasabah.nik',
-                'master_kredit.id',
                 'master_kredit.trx_code',
                 'master_kredit.penilaian',
+                'master_kredit.created_at',
                 'kredit.tenor',
                 'kredit.pinjaman',
-                'kredit.angsuran',
+                'kredit.angsuran'
             )
             ->where('master_kredit.nik_nasabah', $id)
             ->get();
-        // dd($datamaster);
-        return view('marketing.nasabah.view_transaction', [
-            'data' => $datamaster,
-            'no' => 1
-        ]);
+        if (count($niknasabah) == 0) {
+            return redirect(route('nasabah'))->with('alert', 'Transaksi tidak tersedia. NIK Nasabah tidak terdaftar!')->with('warna', 'info');
+        } else {
+            return view('marketing.nasabah.view_transaction', [
+                'data' => $datamaster,
+                'datanasabah' => $niknasabah,
+                'no' => 1
+            ]);
+        }
     }
 
     public function pengajuannasabah($id)
@@ -335,9 +355,19 @@ class MarketingController extends Controller
 
     public function hapuspengajuan($id)
     {
-        echo $id;
+        $niknasabah = MasterKredit::where('trx_code', $id)->get()[0]['nik_nasabah'];
+        $penilaian = MasterKredit::where('trx_code', $id)->get()[0]['penilaian'];
+        if ($penilaian != 0) {
+            return redirect(route('transaksinasabah', ['id' => $niknasabah]))->with('alert', 'Data pengajuan tidak dapat dihapus karena sudah di verifikasi')->with('warna', 'danger');
+        } else {
+            MasterKredit::where('trx_code', $id)->delete();
+            Pengajuan::where('trx_code', $id)->delete();
+            Kendaraan::where('trx_code', $id)->delete();
+            File::delete(public_path('/penyimpanan/bpkb/' . $id . '_bpkb.jpg'));
+            File::delete(public_path('/penyimpanan/stnk/' . $id . '_stnk.jpg'));
+            return redirect(route('transaksinasabah', ['id' => $niknasabah]))->with('alert', 'Data pengajuan berhasil dihapus!')->with('warna', 'info');
+        }
     }
-
     #endregion
 
     #region SETTING
