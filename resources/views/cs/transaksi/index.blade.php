@@ -18,10 +18,10 @@
     @endif
     <div class="row mb-3">
         <div class="col-12">
-            <ul class="nav nav-pills">
+            <ul class="nav nav-pills justify-content-center">
                 <li class="nav-item">
                     <a id="merkpill" class="nav-link {{ Session::get('pengajuanall') }}" data-toggle="pill"
-                        href="#merk">Pengajuan</a>
+                        href="#merk">Pengajuan Terverifikasi</a>
                 </li>
                 <li class="nav-item">
                     <a id="tipepill" class="nav-link {{ Session::get('pengajuan') }}" data-toggle="pill"
@@ -95,7 +95,7 @@
                                                 <td>{{ $nopengajuan++ }}</td>
                                                 <td>{{ $item->trx_code }}</td>
                                                 <td>
-                                                    <a class="btn btn-sm btn-warning" href="#">Verifikasi Pengajuan</a>
+                                                    <a class="btn btn-sm btn-warning" href="{{ route('csverifikasitransaksi', ['id'=>$item->trx_code]) }}">Verifikasi Pengajuan</a>
                                                 </td>
                                             </tr>
                                         @endforeach

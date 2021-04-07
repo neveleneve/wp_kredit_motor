@@ -104,6 +104,7 @@ class MarketingController extends Controller
 
     private function generateDataPengajuan($data, $kodetrx, $tanggal, $nik)
     {
+        
         $datakendaraan = [
             'trx_code' => $kodetrx,
             'id_tahun_harga_kendaraan' => $data->tahunkendaraan,

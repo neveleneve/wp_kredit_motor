@@ -210,16 +210,38 @@ class CSController extends Controller
     }
     #endregion
 
-    #region TRANSAKSI
+    #region PENGAJUAN
     public function transaksi()
     {
-        $pengajuanall = MasterKredit::orderBy('penilaian', 'asc')->get();
+        $pengajuanall = MasterKredit::where('penilaian', '!=', '0')->get();
         $pengajuan = MasterKredit::where('penilaian', '0')->get();
         return view('cs.transaksi.index', [
             'pengajuanall' => $pengajuanall,
             'nopengajuanall' => 1,
             'pengajuan' => $pengajuan,
             'nopengajuan' => 1,
+        ]);
+    }
+    public function verifikasitransaksi($id)
+    {
+        $data = DB::table('master_kredit')
+            ->join('nasabah', 'master_kredit.nik_nasabah', '=', 'nasabah.nik')
+            ->join('pekerjaan', 'nasabah.nik', '=', 'pekerjaan.nik_nasabah')
+            ->join('hunian', 'nasabah.nik', '=', 'pekerjaan.nik_nasabah')
+            ->select(
+                'master_kredit.trx_code',
+                'master_kredit.nik_nasabah',
+                'pekerjaan.jenis_kerja',
+                'pekerjaan.desk_kerja',
+                'pekerjaan.pengeluaran',
+                'pekerjaan.penghasilan',
+                'hunian.status_kepemilikan',
+                'hunian.bukti_kepemilikan'
+            )
+            ->where('master_kredit.trx_code', $id)
+            ->get();
+        return view('cs.transaksi.verifikasi', [
+            'data' => $data
         ]);
     }
     #endregion

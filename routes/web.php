@@ -70,7 +70,6 @@ Route::group(['middleware' => 'auth:cs'], function () {
     Route::get('/cs/nasabah', 'CSController@nasabah')->name('csnasabah');
     Route::get('/cs/nasabah/view/{id}', 'CSController@viewnasabah')->name('csviewnasabah');
     Route::get('/cs/nasabah/pengajuan/{id}', 'CSController@transaksinasabah')->name('cstransaksinasabah');
-
     #endregion
 
     #region CS-KREDIT

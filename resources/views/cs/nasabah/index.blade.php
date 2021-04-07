@@ -4,7 +4,6 @@
     <title>Nasabah</title>
 @endsection
 
-
 @section('search1')
     <form method="get" class="d-none d-md-inline-block form-inline ml-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
         <div class="input-group">
@@ -82,19 +81,16 @@
                                     <td>{{ $item->nama }}</td>
                                     <td>
                                         <div class="row">
-                                            <div class="col-4">
+                                            <div class="col-6">
                                                 <a class="btn btn-info btn-sm btn-block"
                                                     href="{{ route('csviewnasabah', ['id' => $item->nik]) }}">
                                                     Lihat Data Nasabah
                                                 </a>
                                             </div>
-                                            <div class="col-4">
+                                            <div class="col-6">
                                                 <a class="btn btn-dark btn-sm btn-block"
                                                     href="{{ route('cstransaksinasabah', ['id' => $item->nik]) }}">Lihat
                                                     Data Pengajuan</a>
-                                            </div>
-                                            <div class="col-4">
-                                                <a class="btn btn-warning btn-sm btn-block" href="">Pengajuan Tertunda</a>
                                             </div>
                                         </div>
                                     </td>

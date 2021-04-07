@@ -27,8 +27,8 @@
         <div class="row mb-3">
             <div class="col-4">
                 <label class="font-weight-bold" for="merk">Merk <strong class="text-danger">*</strong></label>
-                <select class="form-control" name="merk" id="merk">
-                    <option selected disabled>Pilih Merk Kendaraan</option>
+                <select class="form-control" name="merk" id="merk" required>
+                    <option selected disabled hidden value="">Pilih Merk Kendaraan</option>
                     @foreach ($merk as $item)
                         <option value="{{ $item->id }}">{{ $item->merk }}</option>
                     @endforeach
@@ -36,14 +36,14 @@
             </div>
             <div class="col-4">
                 <label class="font-weight-bold" for="tipe">Type <strong class="text-danger">*</strong></label>
-                <select class="form-control" name="tipe" id="tipe">
-                    <option selected disabled>Pilih Nama Kendaraan</option>
+                <select class="form-control" name="tipe" id="tipe" required>
+                    <option selected disabled hidden value="">Pilih Nama Kendaraan</option>
                 </select>
             </div>
             <div class="col-4">
                 <label class="font-weight-bold" for="tahunkendaraan">Tahun <strong class="text-danger">*</strong></label>
-                <select class="form-control" name="tahunkendaraan" id="tahunkendaraan">
-                    <option selected disabled>Pilih Tahun Kendaraan</option>
+                <select class="form-control" name="tahunkendaraan" id="tahunkendaraan" required>
+                    <option selected disabled hidden value="">Pilih Tahun Kendaraan</option>
                 </select>
             </div>
 
@@ -62,7 +62,7 @@
                     <strong class="text-danger">*</strong>
                 </label>
                 <select class="form-control" name="pengajuanplafon" id="pengajuanplafon">
-                    <option disabled selected>Pilih Dana Peminjaman (Maks. Pencairan : Rp. x.xxx.xxx)
+                    <option disabled selected hidden value="">Pilih Dana Peminjaman (Maks. Pencairan : Rp. x.xxx.xxx)
                     </option>
                 </select>
             </div>
@@ -73,8 +73,8 @@
                     Tenor
                     <strong class="text-danger">*</strong>
                 </label>
-                <select class="form-control" name="tenor" id="tenor">
-                    <option selected disabled>Pilih Tenor Kredit</option>
+                <select class="form-control" name="tenor" id="tenor" required>
+                    <option selected disabled hidden value="">Pilih Tenor Kredit</option>
                 </select>
             </div>
             <div class="col-6">
@@ -93,7 +93,7 @@
                     <strong class="text-danger">*</strong>
                 </label>
                 <input pattern="^[A-Z]{1,2}[0-9]{1,4}[A-Z]{2,3}" type="text" class="form-control" placeholder="BP1234XZ"
-                    name="nopol" id="nopol">
+                    name="nopol" id="nopol" required>
             </div>
             <div class="col-4">
                 <label class="font-weight-bold" for="masaberlakupajak">
@@ -116,12 +116,12 @@
             <div class="col-6">
                 <label class="font-weight-bold" for="fotobpkb">Foto BPKP <strong class="text-danger">*</strong></label>
                 <input type="file" class="form-control" name="fotobpkb" id="fotobpkb"
-                    accept="image/x-png,image/gif,image/jpeg">
+                    accept="image/x-png,image/gif,image/jpeg" required>
             </div>
             <div class="col-6">
                 <label class="font-weight-bold" for="fotostnk">Foto STNK <strong class="text-danger">*</strong></label>
                 <input type="file" class="form-control" name="fotostnk" id="fotostnk"
-                    accept="image/x-png,image/gif,image/jpeg">
+                    accept="image/x-png,image/gif,image/jpeg" required>
             </div>
         </div>
         <div class="row mb-3">
@@ -156,7 +156,7 @@
                     success: function(datax) {
                         tipe.empty();
                         tipe.append(
-                            '<option selected disabled>Pilih Nama Kendaraan');
+                            '<option selected disabled hidden value=>Pilih Nama Kendaraan');
                         var data = datax.replace('"', '');
                         tipe.append(data.replace('"', ''));
                     },
@@ -174,7 +174,7 @@
                     success: function(datax) {
                         tahun.empty();
                         tahun.append(
-                            '<option selected disabled>Pilih Tahun Kendaraan');
+                            '<option selected disabled hidden value=>Pilih Tahun Kendaraan');
                         var data = datax.replace('"', '');
                         tahun.append(data.replace('"', ''));
                     },
@@ -195,7 +195,7 @@
                         if (datax.otr == 0) {
                             hargaotr.val("Pencairan Bersih");
                             pengajuan.append(
-                                "<option selected disabled>Pilih Dana Peminjaman (Maks. Pencairan : Rp. " +
+                                "<option selected disabled value=>Pilih Dana Peminjaman (Maks. Pencairan : Rp. " +
                                 new Intl
                                 .NumberFormat(
                                     'de-DE').format(datax.cair) + ")");
@@ -204,7 +204,7 @@
                             hargaotr.val("Rp. " + new Intl.NumberFormat('de-DE').format(datax
                                 .otr));
                             pengajuan.append(
-                                "<option selected disabled>Pilih Dana Peminjaman (Maks. Pencairan : Rp. " +
+                                "<option selected disabled hidden value=>Pilih Dana Peminjaman (Maks. Pencairan : Rp. " +
                                 new Intl
                                 .NumberFormat(
                                     'de-DE').format(datax.cair) + ")");
@@ -225,7 +225,7 @@
                     dataType: 'json',
                     success: function(datax) {
                         tenor.empty();
-                        tenor.append('<option selected disabled>Pilih Tenor Kredit');
+                        tenor.append('<option selected disabled hidden value=>Pilih Tenor Kredit');
                         tenor.append(datax);
                     }
                 });
