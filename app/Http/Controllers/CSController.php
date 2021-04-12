@@ -228,6 +228,8 @@ class CSController extends Controller
             ->join('nasabah', 'master_kredit.nik_nasabah', '=', 'nasabah.nik')
             ->join('pekerjaan', 'nasabah.nik', '=', 'pekerjaan.nik_nasabah')
             ->join('hunian', 'nasabah.nik', '=', 'pekerjaan.nik_nasabah')
+            ->join('pengajuan', 'master_kredit.trx_code', '=', 'pengajuan.trx_code')
+            ->join('kredit', 'pengajuan.id_kredit', '=', 'kredit.id')
             ->select(
                 'master_kredit.trx_code',
                 'master_kredit.nik_nasabah',
@@ -236,20 +238,16 @@ class CSController extends Controller
                 'pekerjaan.pengeluaran',
                 'pekerjaan.penghasilan',
                 'hunian.status_kepemilikan',
-                'hunian.bukti_kepemilikan'
+                'hunian.bukti_kepemilikan',
+                'kredit.pinjaman',
+                'kredit.tenor',
+                'kredit.angsuran'
             )
             ->where('master_kredit.trx_code', $id)
             ->get();
         return view('cs.transaksi.verifikasi', [
             'data' => $data
         ]);
-    }
-    #endregion
-
-    #region PEMBAYARAN
-    public function pembayaran()
-    {
-        return view('cs.pembayaran.index');
     }
     #endregion
 

@@ -16,7 +16,7 @@
     </div>
     <div class="row mb-3">
         <div class="col-12">
-            <table class="table table-hover table-bordered text-center text-nowrap">
+            <table class="table table-bordered text-center text-nowrap">
                 <thead class="bg-light font-weight-bold">
                     <tr>
                         <td>No</td>
@@ -47,14 +47,7 @@
                             <h6 class="text-left font-weight-bold">Penilaian Pekerjaan</h6>
                         </td>
                         <td>
-                            <select class="form-control" name="nilaipekerjaan" id="nilaipekerjaan" required>
-                                <option selected disabled hidden>Pilih Penilaian...</option>
-                                <option value="5">Sangat Baik</option>
-                                <option value="4">Baik</option>
-                                <option value="3">Netral</option>
-                                <option value="2">Buruk</option>
-                                <option value="1">Sangat Buruk</option>
-                            </select>
+                            <input type="number" class="form-control" placeholder="Penilaian 0-100" min="0" max="100">
                         </td>
                     </tr>
                     <tr class="bg-primary text-light">
@@ -73,6 +66,32 @@
                         <td>2</td>
                         <td>Pengeluaran per Bulan (Estimasi)</td>
                         <td>Rp. {{ number_format($data[0]->pengeluaran, 0, ',', '.') }}</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Pendapatan Bersih (Estimasi)</td>
+                        <td>
+                            @php
+                                $selisih = $data[0]->penghasilan - $data[0]->pengeluaran;
+                            @endphp
+                            <input type="text" class="form-control form-control-plaintext text-center bg-gray-100"
+                                value="Rp. {{ number_format($selisih, 0, ',', '.') }}" readonly>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>Pengajuan Kredit</td>
+                        <td>Rp. {{ number_format($data[0]->pinjaman, 0, ',', '.') }}</td>
+                    </tr>
+                    <tr>
+                        <td>5</td>
+                        <td>Angsuran</td>
+                        <td>Rp. {{ number_format($data[0]->angsuran, 0, ',', '.') }}</td>
+                    </tr>
+                    <tr>
+                        <td>6</td>
+                        <td>Tenor</td>
+                        <td>{{ $data[0]->tenor }} Bulan</td>
                     </tr>
                     <tr>
                         <td colspan="2">

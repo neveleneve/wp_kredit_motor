@@ -20,11 +20,11 @@
         <div class="col-12">
             <ul class="nav nav-pills justify-content-center">
                 <li class="nav-item">
-                    <a id="merkpill" class="nav-link {{ Session::get('pengajuanall') }}" data-toggle="pill"
+                    <a id="pillmerk" class="nav-link {{ Session::get('pengajuanall') }}" data-toggle="pill"
                         href="#merk">Pengajuan Terverifikasi</a>
                 </li>
                 <li class="nav-item">
-                    <a id="tipepill" class="nav-link {{ Session::get('pengajuan') }}" data-toggle="pill"
+                    <a id="pilltype" class="nav-link {{ Session::get('pengajuan') }}" data-toggle="pill"
                         href="#tipe">Pengajuan Tertunda
                         ({{ count($pengajuan) }})</a>
                 </li>
@@ -114,28 +114,4 @@
             </div>
         </div>
     </div>
-@endsection
-
-@section('customjs')
-    <script>
-        $(document).ready(function() {
-            $('#merkpill').on('click', function(e) {
-                e.preventDefault();
-                $.ajax({
-                    url: "/pengajuan/2",
-                    type: "GET",
-                    success: function() {}
-                });
-            });
-            $('#tipepill').on('click', function(e) {
-                e.preventDefault();
-                $.ajax({
-                    url: "/pengajuan/1",
-                    type: "GET",
-                    success: function() {}
-                });
-            });
-        });
-
-    </script>
 @endsection

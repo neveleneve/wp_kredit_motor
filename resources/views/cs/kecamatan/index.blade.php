@@ -105,35 +105,3 @@
         </div>
     </div>
 @endsection
-
-@section('customjs')
-    @if (count($kecamatan) > 0)
-        <script>
-            function kecamatan(id, kecamatan) {
-                $("#listkelurahan").empty();
-                $("#listkelurahan").append(
-                    '<tr><td class="text-center font-weight-bold" colspan=3><h4>Memuat <i class="fa fa-spinner fa-spin">'
-                );
-                $('#modaltitle').empty();
-                $('#modaltitle').append('Data Kelurahan : Kecamatan ' + kecamatan);
-                $.ajax({
-                    url: '/kelurahan/table/' + id,
-                    type: 'GET',
-                    dataType: 'json',
-                    success: function(datax) {
-                        setTimeout(function() {
-                            $("#listkelurahan").empty();
-                            $("#listkelurahan").append(datax);
-                        }, 1000);
-                    },
-                    error: function(xhr, ajaxOptions, thrownError) {
-                        alert(xhr.status);
-                    },
-                });
-            }
-
-        </script>
-    @else
-
-    @endif
-@endsection

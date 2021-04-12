@@ -41,7 +41,7 @@
                                 <td>Rp. {{ number_format($item->pinjaman, 0, ',', '.') }}</td>
                                 <td>
                                     <a class="btn btn-primary btn-sm" href="#" data-toggle="modal" data-target="#modaltenor"
-                                        onclick="kecamatan({{ $item->pinjaman }})">
+                                        onclick="tenor({{ $item->pinjaman }})">
                                         Lihat Tenor
                                     </a>
                                 </td>
@@ -87,37 +87,4 @@
             </div>
         </div>
     </div>
-@endsection
-
-@section('customjs')
-    @if (count($data) > 0)
-        <script>
-            function kecamatan(pinjaman) {
-                $("#listtenor").empty();
-                $("#listtenor").append(
-                    '<tr><td class="text-center font-weight-bold" colspan=4><h4>Memuat <i class="fa fa-spinner fa-spin">'
-                );
-                $('#modaltitle').empty();
-                $('#modaltitle').append('Data Tenor Pinjaman Rp. ' + new Intl.NumberFormat('de-DE').format(parseInt(
-                    pinjaman)));
-                $.ajax({
-                    url: '/tenor/table/' + pinjaman,
-                    type: 'GET',
-                    dataType: 'json',
-                    success: function(datax) {
-                        setTimeout(function() {
-                            $("#listtenor").empty();
-                            $("#listtenor").append(datax);
-                        }, 1000);
-                    },
-                    error: function(xhr, ajaxOptions, thrownError) {
-                        alert(xhr.status);
-                    },
-                });
-            }
-
-        </script>
-    @else
-
-    @endif
 @endsection

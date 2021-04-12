@@ -68,7 +68,7 @@
                                 <label class="font-weight-bold" for="jeniskelamin">Jenis Kelamin <strong
                                         class="text-danger">*</strong></label>
                                 <select class="form-control" name="jeniskelamin" id="jeniskelamin" required>
-                                    <option disabled selected>Pilih Jenis Kelamin</option>
+                                    <option disabled selected hidden value="">Pilih Jenis Kelamin</option>
                                     <option value="L">Laki - laki</option>
                                     <option value="P">Perempuan</option>
                                 </select>
@@ -80,7 +80,7 @@
                                 </label>
                                 <select class="form-control" name="statusperkawinan" id="statusperkawinan"
                                     onchange="pilihankawin(this.value)" required>
-                                    <option disabled selected>Pilih Status Penikahan</option>
+                                    <option disabled selected hidden value="">Pilih Status Penikahan</option>
                                     <option value="1">Sudah Menikah</option>
                                     <option value="2">Belum Menikah</option>
                                     <option value="3">Cerai Hidup</option>
@@ -219,7 +219,7 @@
                                     <strong class="text-danger">*</strong>
                                 </label>
                                 <select class="form-control" name="kecamatan" id="kecamatan">
-                                    <option selected disabled>Pilih Kecamatan</option>
+                                    <option selected disabled hidden value="">Pilih Kecamatan</option>
                                     @foreach ($kecamatan as $item)
                                         <option value="{{ $item->id }}">{{ $item->kecamatan }}</option>
                                     @endforeach
@@ -231,7 +231,7 @@
                                     <strong class="text-danger">*</strong>
                                 </label>
                                 <select class="form-control" name="kelurahan" id="kelurahan">
-                                    <option selected disabled>Pilih Kelurahan</option>
+                                    <option selected disabled hidden value="">Pilih Kelurahan</option>
                                 </select>
                             </div>
                             <div class="col-4">
@@ -378,8 +378,8 @@
                             <div class="col-4">
                                 <label class="font-weight-bold" for="merk">Merk <strong
                                         class="text-danger">*</strong></label>
-                                <select class="form-control" name="merk" id="merk">
-                                    <option selected disabled>Pilih Merk Kendaraan</option>
+                                <select class="form-control" name="merk" id="merk" required>
+                                    <option selected disabled hidden value="">Pilih Merk Kendaraan</option>
                                     @foreach ($merk as $item)
                                         <option value="{{ $item->id }}">{{ $item->merk }}</option>
                                     @endforeach
@@ -388,15 +388,15 @@
                             <div class="col-4">
                                 <label class="font-weight-bold" for="tipe">Type <strong
                                         class="text-danger">*</strong></label>
-                                <select class="form-control" name="tipe" id="tipe">
-                                    <option selected disabled>Pilih Nama Kendaraan</option>
+                                <select class="form-control" name="tipe" id="tipe" required>
+                                    <option selected disabled hidden value="">Pilih Nama Kendaraan</option>
                                 </select>
                             </div>
                             <div class="col-4">
                                 <label class="font-weight-bold" for="tahunkendaraan">Tahun <strong
                                         class="text-danger">*</strong></label>
-                                <select class="form-control" name="tahunkendaraan" id="tahunkendaraan">
-                                    <option selected disabled>Pilih Tahun Kendaraan</option>
+                                <select class="form-control" name="tahunkendaraan" id="tahunkendaraan" required>
+                                    <option selected disabled hidden value="">Pilih Tahun Kendaraan</option>
                                 </select>
                             </div>
 
@@ -415,8 +415,8 @@
                                     Pengajuan Plafon
                                     <strong class="text-danger">*</strong>
                                 </label>
-                                <select class="form-control" name="pengajuanplafon" id="pengajuanplafon">
-                                    <option disabled selected>Pilih Dana Peminjaman (Maks. Pencairan : Rp. x.xxx.xxx)
+                                <select class="form-control" name="pengajuanplafon" id="pengajuanplafon" required>
+                                    <option disabled selected hidden value="">Pilih Dana Peminjaman (Maks. Pencairan : Rp. x.xxx.xxx)
                                     </option>
                                 </select>
                             </div>
@@ -428,7 +428,7 @@
                                     <strong class="text-danger">*</strong>
                                 </label>
                                 <select class="form-control" name="tenor" id="tenor">
-                                    <option selected disabled>Pilih Tenor Kredit</option>
+                                    <option selected disabled hidden value="">Pilih Tenor Kredit</option>
                                 </select>
                             </div>
                             <div class="col-6">
@@ -494,180 +494,4 @@
     <a class="scroll-to-top rounded bg-danger" href="{{ route('nasabah') }}" style="margin-right: 50px" title="Kembali">
         <i class="fas fa-angle-left"></i>
     </a>
-@endsection
-
-@section('customjs')
-    <script>
-        $(document).ready(function() {
-            var kecamatan = $('#kecamatan');
-            var kelurahan = $('#kelurahan');
-            var merk = $('#merk');
-            var pengajuan = $('#pengajuanplafon');
-            var hargaotr = $('#hargaotr');
-            var tipe = $('#tipe');
-            var tahun = $('#tahunkendaraan');
-            var tenor = $('#tenor');
-            var angsuran = $('#angsuran');
-            var tahunkendaraan = $('#id_tahun_kendaraan');
-            kecamatan.on('change', function(e) {
-                e.preventDefault();
-                var id = $(this).val();
-                $.ajax({
-                    url: '/kelurahan/' + id,
-                    type: 'GET',
-                    success: function(datax) {
-                        kelurahan.empty();
-                        kelurahan.append(
-                            '<option selected disabled>Pilih Kelurahan');
-                        var data = datax.replace('"', '');
-                        kelurahan.append(data.replace('"', ''));
-                        kelurahan.prop("disabled", false);
-                    },
-                    error: function(xhr, ajaxOptions, thrownError) {
-                        alert(xhr.status);
-                    },
-                });
-            });
-            merk.on('change', function(e) {
-                e.preventDefault();
-                var id = $(this).val();
-                $.ajax({
-                    url: '/tipekendaraan/' + id,
-                    type: 'GET',
-                    success: function(datax) {
-                        tipe.empty();
-                        tipe.append(
-                            '<option selected disabled>Pilih Nama Kendaraan');
-                        var data = datax.replace('"', '');
-                        tipe.append(data.replace('"', ''));
-                    },
-                    error: function(xhr, ajaxOptions, thrownError) {
-                        alert(xhr.status);
-                    },
-                });
-            });
-            tipe.on('change', function(e) {
-                e.preventDefault();
-                var id = $(this).val();
-                $.ajax({
-                    url: '/tahunharga/' + id,
-                    type: 'GET',
-                    success: function(datax) {
-                        tahun.empty();
-                        tahun.append(
-                            '<option selected disabled>Pilih Tahun Kendaraan');
-                        var data = datax.replace('"', '');
-                        tahun.append(data.replace('"', ''));
-                    },
-                    error: function(xhr, ajaxOptions, thrownError) {
-                        alert(xhr.status);
-                    },
-                });
-            });
-            tahun.on('change', function(e) {
-                e.preventDefault();
-                var id = $(this).val();
-                $.ajax({
-                    url: '/harga/' + id,
-                    type: 'GET',
-                    dataType: 'json',
-                    success: function(datax) {
-                        pengajuan.empty();
-                        if (datax.otr == 0) {
-                            hargaotr.val("Pencairan Bersih");
-                            pengajuan.append(
-                                "<option selected disabled>Pilih Dana Peminjaman (Maks. Pencairan : Rp. " +
-                                new Intl
-                                .NumberFormat(
-                                    'de-DE').format(datax.cair) + ")");
-                            pengajuan.append(datax.kredit);
-                        } else {
-                            hargaotr.val("Rp. " + new Intl.NumberFormat('de-DE').format(datax
-                                .otr));
-                            pengajuan.append(
-                                "<option selected disabled>Pilih Dana Peminjaman (Maks. Pencairan : Rp. " +
-                                new Intl
-                                .NumberFormat(
-                                    'de-DE').format(datax.cair) + ")");
-                            pengajuan.append(datax.kredit);
-                        }
-                    },
-                    error: function(xhr, ajaxOptions, thrownError) {
-                        alert(xhr.status);
-                    },
-                });
-            });
-            pengajuan.on('change', function(e) {
-                e.preventDefault();
-                var id = $(this).val();
-                $.ajax({
-                    url: '/tenor/' + id,
-                    type: 'GET',
-                    dataType: 'json',
-                    success: function(datax) {
-                        tenor.empty();
-                        tenor.append('<option selected disabled>Pilih Tenor Kredit');
-                        tenor.append(datax);
-                    }
-                });
-            });
-            tenor.on('change', function(e) {
-                e.preventDefault();
-                var id = $(this).val();
-                $.ajax({
-                    url: '/angsuran/' + id,
-                    type: 'GET',
-                    dataType: 'json',
-                    success: function(datax) {
-                        angsuran.attr("placeholder", "Sedang Mendapatkan Data...");
-                        setTimeout(function() {
-                            angsuran.val(datax);
-                        }, 3000);
-                    }
-                });
-            });
-        });
-
-        function pilihankawin(id) {
-            if (id == 1) {
-                document.getElementById('pasangan').style.display = 'block';
-                document.getElementById('namapasangan').required = true;
-                document.getElementById('tanggallahirpasangan').required = true;
-                document.getElementById('usiapasangan').required = true;
-                document.getElementById('nohppasangan').required = true;
-
-                document.getElementById('penjamin').style.display = 'none';
-                document.getElementById('namapenjamain').required = false;
-                document.getElementById('tanggallahirpenjamin').required = false;
-                document.getElementById('usiapenjamin').required = false;
-                document.getElementById('nohppenjamin').required = false;
-                document.getElementById('statuspenjamin').required = false;
-            } else {
-                document.getElementById('pasangan').style.display = 'none';
-                document.getElementById('namapasangan').required = false;
-                document.getElementById('tanggallahirpasangan').required = false;
-                document.getElementById('usiapasangan').required = false;
-                document.getElementById('nohppasangan').required = false;
-
-                document.getElementById('penjamin').style.display = 'block';
-                document.getElementById('namapenjamain').required = true;
-                document.getElementById('tanggallahirpenjamin').required = true;
-                document.getElementById('usiapenjamin').required = true;
-                document.getElementById('nohppenjamin').required = true;
-                document.getElementById('statuspenjamin').required = true;
-            }
-        }
-
-        function getAge(dateString, target) {
-            var today = new Date();
-            var birthDate = new Date(dateString);
-            var age = today.getFullYear() - birthDate.getFullYear();
-            var m = today.getMonth() - birthDate.getMonth();
-            if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-                age--;
-            }
-            document.getElementById(target).value = age;
-        }
-
-    </script>
 @endsection

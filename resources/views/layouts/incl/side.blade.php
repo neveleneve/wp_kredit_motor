@@ -75,13 +75,6 @@
             </a>
         </li>
         <hr class="sidebar-divider my-0">
-        <li class="nav-item {{ Request::is('cs/pembayaran*') ? 'active border-left-primary' : '' }}">
-            <a class="nav-link" href="{{ route('cspembayaran') }}">
-                <i class="fas fa-receipt"></i>
-                <span>Pembayaran</span>
-            </a>
-        </li>
-        <hr class="sidebar-divider my-0">
         <li class="nav-item {{ Request::is('cs/setting*') ? 'active border-left-primary' : '' }}">
             <a class="nav-link" href="{{ route('cssetting') }}">
                 <i class="fas fa-cog"></i>

@@ -54,20 +54,8 @@
     <script src="{{ asset('template/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('template/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
     <script src="{{ asset('template/js/sb-admin-2.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('js/ajax.js') }}"></script>
     @yield('customjs')
-    <script>
-        $(document).ready(function() {
-            $('#sidebarToggle').on('click', function(e) {
-                e.preventDefault();
-                $.ajax({
-                    url: "/sidebar",
-                    type: "GET",
-                    success: function() {}
-                });
-            });
-        });
-
-    </script>
 </body>
 
 </html>
