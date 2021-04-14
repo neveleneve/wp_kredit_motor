@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\View;
 
 class CSController extends Controller
 {
+    #region CUSTOM FUNCTION
     public function __construct()
     {
         $jmltertunda = MasterKredit::where('penilaian', '0')->paginate(3);
@@ -24,6 +25,8 @@ class CSController extends Controller
             'tertunda' => $jmltertunda
         ]);
     }
+    #endregion
+
     #region DASHBOARD
     public function dashboard()
     {
@@ -248,13 +251,18 @@ class CSController extends Controller
                 'tipe_kendaraan.tipe',
                 'kendaraan.nopol',
                 'kendaraan.tgl_pajak',
-                'kendaraan.tgl_stnk'
+                'kendaraan.tgl_stnk',
+                'tahun_harga_kendaraan.harga_otr',
             )
             ->where('master_kredit.trx_code', $id)
             ->get();
         return view('cs.transaksi.verifikasi', [
             'data' => $data
         ]);
+    }
+    public function verification(Request $data)
+    {
+        dd($data->all());
     }
     #endregion
 

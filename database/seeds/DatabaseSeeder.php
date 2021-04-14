@@ -20,5 +20,6 @@ class DatabaseSeeder extends Seeder
         $this->call(MerkSeeder::class);
         $this->call(TipeKendaraanSeeder::class);
         $this->call(TahunHargaSeeder::class);
+        $this->call(BobotSeeder::class);
     }
 }
