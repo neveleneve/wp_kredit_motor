@@ -53,7 +53,7 @@
                     <tr class="bg-primary text-light">
                         <td colspan="4">
                             <h6 class="text-left font-weight-bold">
-                                Penghasilan
+                                Penghasilan dan Pengajuan
                             </h6>
                         </td>
                     </tr>
@@ -143,6 +143,48 @@
                         </td>
                         <td>
                             <select class="form-control" name="nilaikepemilkanrumah" id="nilaikepemilkanrumah" required>
+                                <option selected disabled hidden>Pilih Penilaian...</option>
+                                <option value="5">Sangat Baik</option>
+                                <option value="4">Baik</option>
+                                <option value="3">Netral</option>
+                                <option value="2">Buruk</option>
+                                <option value="1">Sangat Buruk</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr class="bg-primary text-light">
+                        <td colspan="4">
+                            <h6 class="text-left font-weight-bold">
+                                Status Kendaraan
+                            </h6>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>1</td>
+                        <td>Penilaian Kendaraan</td>
+                        <td>{{ ucwords($data[0]->tipe) }}</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Nomor Polisi</td>
+                        <td>{{ ucwords($data[0]->nopol) }}</td>
+                    </tr>
+                    <tr>
+                        <td>3</td>
+                        <td>Masa Pajak</td>
+                        <td>{{ date('d F Y', strtotime($data[0]->tgl_pajak)) }}</td>
+                    </tr>
+                    <tr>
+                        <td>4</td>
+                        <td>Masa STNK</td>
+                        <td>{{ date('d F Y', strtotime($data[0]->tgl_stnk)) }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            <h6 class="text-left font-weight-bold">Penilaian Kendaraan</h6>
+                        </td>
+                        <td>
+                            <select class="form-control" name="nilaitipekendaraan" id="nilaitipekendaraan" required>
                                 <option selected disabled hidden>Pilih Penilaian...</option>
                                 <option value="5">Sangat Baik</option>
                                 <option value="4">Baik</option>

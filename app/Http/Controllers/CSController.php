@@ -230,6 +230,9 @@ class CSController extends Controller
             ->join('hunian', 'nasabah.nik', '=', 'pekerjaan.nik_nasabah')
             ->join('pengajuan', 'master_kredit.trx_code', '=', 'pengajuan.trx_code')
             ->join('kredit', 'pengajuan.id_kredit', '=', 'kredit.id')
+            ->join('kendaraan', 'master_kredit.trx_code', '=', 'kendaraan.trx_code')
+            ->join('tahun_harga_kendaraan', 'kendaraan.id_tahun_harga_kendaraan', '=', 'tahun_harga_kendaraan.id')
+            ->join('tipe_kendaraan', 'tahun_harga_kendaraan.id_tipe_kendaraan', '=', 'tipe_kendaraan.id')
             ->select(
                 'master_kredit.trx_code',
                 'master_kredit.nik_nasabah',
@@ -241,7 +244,11 @@ class CSController extends Controller
                 'hunian.bukti_kepemilikan',
                 'kredit.pinjaman',
                 'kredit.tenor',
-                'kredit.angsuran'
+                'kredit.angsuran',
+                'tipe_kendaraan.tipe',
+                'kendaraan.nopol',
+                'kendaraan.tgl_pajak',
+                'kendaraan.tgl_stnk'
             )
             ->where('master_kredit.trx_code', $id)
             ->get();
