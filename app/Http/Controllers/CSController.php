@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Bobot;
 use App\Kecamatan;
 use App\Kelurahan;
 use App\Kredit;
@@ -24,6 +25,26 @@ class CSController extends Controller
         View::share([
             'tertunda' => $jmltertunda
         ]);
+    }
+    private function vectorS($c, $w, $tipe)
+    {
+        $s = null;
+        for ($i = 0; $i < count($c); $i++) {
+            if ($i == 0) {
+                if ($tipe[$i] == 0) {
+                    $s = number_format(pow($c[$i], $w[$i]), 3, '.', ',');
+                } elseif ($tipe[$i] == 1) {
+                    $s = number_format(pow($c[$i], (-$w[$i])), 3, '.', ',');
+                }
+            } else {
+                if ($tipe[$i] == 0) {
+                    $s = $s *  number_format(pow($c[$i], $w[$i]), 3, '.', ',');
+                } elseif ($tipe[$i] == 1) {
+                    $s = $s * number_format(pow($c[$i], (-$w[$i])), 3, '.', ',');
+                }
+            }
+        }
+        return number_format($s, 3, '.', ',');
     }
     #endregion
 
@@ -262,7 +283,26 @@ class CSController extends Controller
     }
     public function verification(Request $data)
     {
-        dd($data->all());
+        $bobot = Bobot::get();
+        $totalbobot = Bobot::sum('bobot');
+        $s = 0;
+        $c = [
+            0 => $data->nilaipekerjaan,
+            1 => $data->nilaipenghasilan,
+            2 => $data->nilaikepemilikanrumah,
+            3 => $data->nilaitipekendaraan
+        ];
+        $w = [];
+        $tipe = [];
+        for ($i = 0; $i < count($bobot); $i++) {
+            array_push($w, number_format($bobot[$i]['bobot'] / $totalbobot, 3, '.', ','));
+            array_push($tipe, $bobot[$i]['tipe']);
+        }
+        $s = $this->vectorS($c, $w, $tipe);
+        MasterKredit::where('trx_code', $data->trx_code)->update([
+            'penilaian' => $s
+        ]);
+        return redirect(route('cstransaksi'));
     }
     #endregion
 

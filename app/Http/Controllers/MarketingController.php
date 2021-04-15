@@ -124,7 +124,7 @@ class MarketingController extends Controller
             'id_marketing' => $data->id_marketing,
             'trx_code' => $kodetrx,
             'nik_nasabah' => $nik,
-            'penilaian' => '0',
+            'penilaian' => null,
             'created_at' => $tanggal,
             'updated_at' => $tanggal
         ];
