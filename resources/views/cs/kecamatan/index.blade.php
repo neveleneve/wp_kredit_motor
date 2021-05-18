@@ -51,10 +51,13 @@
                                             onclick="kecamatan({{ $item->id }}, '{{ $item->kecamatan }}')">
                                             Lihat Kelurahan
                                         </button>
-                                        <a class="btn btn-sm btn-danger"
-                                            onclick="return confirm('Data Kelurahan pada Kecamatan {{ $item->kecamatan }} akan ikut terhapus! Yakin akan menghapus Data Kecamatan {{ $item->kecamatan }}?')"
-                                            href="{{ route('cshapuskecamatan', ['id' => $item->id]) }}">
-                                            Hapus Kecamatan
+                                        <a class="btn btn-sm btn-danger" @if ($item->status == 1) onclick="return confirm('Data Kelurahan pada Kecamatan {{ $item->kecamatan }} akan ikut di-non-aktifkan! Yakin akan non-aktifkan Data Kecamatan {{ $item->kecamatan }}?')"
+                                            @else onclick="return confirm('Data Kelurahan pada Kecamatan {{ $item->kecamatan }} akan ikut diaktifkan! Yakin akan aktifkan Data Kecamatan {{ $item->kecamatan }}?')" @endif href="{{ route('cshapuskecamatan', ['id' => $item->id]) }}">
+                                            @if ($item->status == 1)
+                                                Non-aktifkan Kecamatan
+                                            @else
+                                                Aktifkan Kecamatan
+                                            @endif
                                         </a>
                                     </td>
                                 </tr>

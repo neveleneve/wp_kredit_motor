@@ -46,7 +46,7 @@ class CSController extends Controller
     #region DAERAH
     public function kecamatan()
     {
-        $kecamatan = Kecamatan::get();
+        $kecamatan = Kecamatan::where('status', 1)->get();
         return view('cs.kecamatan.index', [
             'kecamatan' => $kecamatan,
             'no' => 1
@@ -54,14 +54,23 @@ class CSController extends Controller
     }
     public function hapuskecamatan($id)
     {
+        
         Kecamatan::where('id', $id)->delete();
         Kelurahan::where('id_kecamatan', $id)->delete();
         return redirect(route('cskecamatan'))->with('alert', 'Data Kecamatan berhasil dihapus!')->with('warna', 'success');
     }
     public function hapuskelurahan($id)
     {
-        // Kelurahan::where('id', $id)->delete();
-        return redirect(route('cskecamatan'))->with('alert', 'Data Kelurahan berhasil dihapus!')->with('warna', 'success');
+        $data = Kelurahan::where('id', $id)->get();
+
+        if ($data[0]['status'] == 1) {
+            Kelurahan::where('id', $id)->update(['status' => 0]);
+            return redirect(route('cskecamatan'))->with('alert', 'Data Kelurahan berhasil dinon-aktifkan!')->with('warna', 'success');
+        } elseif ($data[0]['status'] == 0) {
+            Kelurahan::where('id', $id)->update(['status' => 1]);
+            return redirect(route('cskecamatan'))->with('alert', 'Data Kelurahan berhasil diaktifkan!')->with('warna', 'success');
+        }
+
     }
     #endregion
 

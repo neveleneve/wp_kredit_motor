@@ -10,6 +10,7 @@ class Kelurahan extends Model
 
     protected $fillable = [
         'id_kecamatan', 
-        'kelurahan'
+        'kelurahan',
+        'status'
     ];
 }

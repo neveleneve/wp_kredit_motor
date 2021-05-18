@@ -26,8 +26,13 @@ class DataController extends Controller
         $no = 1;
         $kelurahan = Kelurahan::where('id_kecamatan', $id)->get();
         foreach ($kelurahan as $key) {
-            $confirm = '"Hapus Data Kelurahan ' . $key->kelurahan . '?"';
-            $data .= "<tr class=text-center><td>" . $no++ . "<td>" . $key->kelurahan . "<td><a class='btn btn-sm btn-danger' href='" . route('cshapuskelurahan', ['id' => $key->id]) . "' onclick='return confirm(" . $confirm . ")'>Hapus";
+            if ($key->status == 1) {
+                $confirm = '"Non-Aktifkan Data Kelurahan ' . $key->kelurahan . '?"';
+                $data .= "<tr class=text-center><td>" . $no++ . "<td>" . $key->kelurahan . "<td><a class='btn btn-sm btn-danger' href='" . route('cshapuskelurahan', ['id' => $key->id]) . "' onclick='return confirm(" . $confirm . ")'>Non-Aktifkan";
+            }else {
+                $confirm = '"Aktifkan Data Kelurahan ' . $key->kelurahan . '?"';
+                $data .= "<tr class=text-center><td>" . $no++ . "<td>" . $key->kelurahan . "<td><a class='btn btn-sm btn-success' href='" . route('cshapuskelurahan', ['id' => $key->id]) . "' onclick='return confirm(" . $confirm . ")'>Aktifkan";
+            }
         }
         return json_encode($data);
     }
