@@ -78,10 +78,10 @@
                                                     {{ date('d F Y', strtotime($item->created_at)) }}
                                                 </td>
                                                 <td class="text-center">
-                                                    @if ($item->penilaian == 0)
+                                                    @if ($item->penilaian == null)
                                                         Belum Verifikasi
                                                     @else
-                                                        @if ($item->penilaian >= 0.6)
+                                                        @if ($item->penilaian >= 1.800)
                                                             Pengajuan Diterima
                                                         @else
                                                             Pengajuan Ditolak
@@ -89,14 +89,14 @@
                                                     @endif
                                                 </td>
                                                 <td class="text-center">
-                                                    @if ($item->penilaian == 0)
+                                                    @if ($item->penilaian == null)
                                                         <a class="btn btn-warning btn-sm"
                                                             href="{{ route('csverifikasitransaksi', ['id' => $item->trx_code]) }}">
                                                             Verifikasi Pengajuan
                                                         </a>
                                                     @else
-                                                        @if ($item->penilaian >= 0.6)
-                                                            <a class="btn btn-primary btn-sm" href="">Lihat Pembayaran</a>
+                                                        @if ($item->penilaian >= 1.800)
+                                                            {{-- <a class="btn btn-primary btn-sm" href="">Lihat Pembayaran</a> --}}
                                                         @else
                                                             <button class="btn btn-danger btn-sm" title="Pengajuan Ditolak">
                                                                 <i class="fa fa-ban"></i>

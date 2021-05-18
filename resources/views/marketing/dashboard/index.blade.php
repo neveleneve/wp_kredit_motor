@@ -83,7 +83,7 @@
                                 Jumlah Transaksi Tertunda
                             </div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                {{$data['jmlpending']}} Transaksi
+                                {{ $data['jmlpending'] }} Transaksi
                             </div>
                         </div>
                         <div class="col-auto">
@@ -109,32 +109,22 @@
                         <th>Bobot</th>
                     </tr>
                 </thead>
+                @php
+                    $no = 1;
+                @endphp
                 <tbody class="text-center">
-                    <tr>
-                        <td>1</td>
-                        <td>Pekerjaan</td>
-                        <td>5</td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>Penghasilan</td>
-                        <td>4</td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>Status Kepemilikan Rumah</td>
-                        <td>3</td>
-                    </tr>
-                    <tr>
-                        <td>4</td>
-                        <td>Status Kendaraan</td>
-                        <td>3</td>
-                    </tr>
+                    @foreach ($bobot as $item)
+                        <tr>
+                            <td>{{ $no++ }}</td>
+                            <td>{{ $item->nama }}</td>
+                            <td>{{ $item->bobot }}</td>
+                        </tr>
+                    @endforeach
                 </tbody>
                 <tfoot class="bg-primary text-light text-center">
                     <tr>
                         <td class="font-weight-bold" colspan="2">Total Bobot</td>
-                        <td class="font-weight-bold">15</td>
+                        <td class="font-weight-bold">{{ $jumlahbobot }}</td>
                     </tr>
                 </tfoot>
             </table>

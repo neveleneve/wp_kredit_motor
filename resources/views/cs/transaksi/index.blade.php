@@ -49,14 +49,13 @@
                                                 <td>{{ $nopengajuanall++ }}</td>
                                                 <td>{{ $item->trx_code }}</td>
                                                 <td>
-                                                    @if ($item->penilaian == 0)
+                                                    @if ($item->penilaian == null)
                                                         Belum Diverifikasi
                                                     @else
-                                                        @if ($item->penilaian >= 0.6)
+                                                        @if ($item->penilaian >= 1.800)
                                                             Pengajuan Diterima
                                                         @else
                                                             Pengajuan Ditolak
-
                                                         @endif
                                                     @endif
                                                 </td>

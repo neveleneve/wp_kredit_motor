@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Alamat;
+use App\Bobot;
 use App\Hunian;
 use App\Kecamatan;
 use App\Kelurahan;
@@ -14,7 +15,6 @@ use App\Pasangan;
 use App\Pekerjaan;
 use App\Pengajuan;
 use App\Penjamin;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -104,7 +104,7 @@ class MarketingController extends Controller
 
     private function generateDataPengajuan($data, $kodetrx, $tanggal, $nik)
     {
-        
+
         $datakendaraan = [
             'trx_code' => $kodetrx,
             'id_tahun_harga_kendaraan' => $data->tahunkendaraan,
@@ -124,7 +124,7 @@ class MarketingController extends Controller
             'id_marketing' => $data->id_marketing,
             'trx_code' => $kodetrx,
             'nik_nasabah' => $nik,
-            'penilaian' => '0',
+            'penilaian' => null,
             'created_at' => $tanggal,
             'updated_at' => $tanggal
         ];
@@ -155,6 +155,8 @@ class MarketingController extends Controller
         $jumlahkredit = MasterKredit::where('id_marketing', Auth::user()->id)->where('penilaian', '!=', '0')->count();
         $targetbulanan = MasterKredit::where('id_marketing', Auth::user()->id)->where('penilaian', '!=', '0')->whereMonth('created_at', date('m'))->whereYear('created_at', date('Y'))->count();
         $kreditpending = MasterKredit::where('id_marketing', Auth::user()->id)->where('penilaian', '=', '0')->count();
+        $bobot = Bobot::all();
+        $sumbobot = Bobot::sum('bobot');
         $datax = [
             'jmlnsb' => $jumlahnasabah,
             'jmlkrd' => $jumlahkredit,
@@ -163,7 +165,9 @@ class MarketingController extends Controller
         ];
 
         return view('marketing.dashboard.index', [
-            'data' => $datax
+            'data' => $datax,
+            'bobot' => $bobot,
+            'jumlahbobot' => $sumbobot,
         ]);
     }
     #endregion
