@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\BaseKredit;
 use App\Bobot;
 use App\Kecamatan;
 use App\Kelurahan;
@@ -70,7 +71,7 @@ class CSController extends Controller
     #region DAERAH
     public function kecamatan()
     {
-        $kecamatan = Kecamatan::where('status', 1)->get();
+        $kecamatan = Kecamatan::get();
         return view('cs.kecamatan.index', [
             'kecamatan' => $kecamatan,
             'no' => 1
@@ -78,10 +79,25 @@ class CSController extends Controller
     }
     public function hapuskecamatan($id)
     {
-        
-        Kecamatan::where('id', $id)->delete();
-        Kelurahan::where('id_kecamatan', $id)->delete();
-        return redirect(route('cskecamatan'))->with('alert', 'Data Kecamatan berhasil dihapus!')->with('warna', 'success');
+
+        $data = Kecamatan::where('id', $id)->get();
+        if ($data[0]->status == 1) {
+            Kecamatan::where('id', $id)->update([
+                'status' => 0
+            ]);
+            Kelurahan::where('id_kecamatan', $id)->update([
+                'status' => 0
+            ]);
+            return redirect(route('cskecamatan'))->with('alert', 'Data Kecamatan dan Kelurahan berhasil di-non-aktifkan!')->with('warna', 'success');
+        } else {
+            Kecamatan::where('id', $id)->update([
+                'status' => 1
+            ]);
+            Kelurahan::where('id_kecamatan', $id)->update([
+                'status' => 1
+            ]);
+            return redirect(route('cskecamatan'))->with('alert', 'Data Kecamatan dan Kelurahan berhasil diaktifkan!')->with('warna', 'success');
+        }
     }
     public function hapuskelurahan($id)
     {
@@ -94,7 +110,31 @@ class CSController extends Controller
             Kelurahan::where('id', $id)->update(['status' => 1]);
             return redirect(route('cskecamatan'))->with('alert', 'Data Kelurahan berhasil diaktifkan!')->with('warna', 'success');
         }
-
+    }
+    public function addkecamatan(Request $data)
+    {
+        Kecamatan::insert([
+            'kecamatan' => $data->kecamatan,
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s')
+        ]);
+        return redirect(route('cskecamatan'))->with([
+            'alert' => 'Data Kecamatan berhasil ditambah',
+            'warna' => 'success'
+        ]);
+    }
+    public function addkelurahan(Request $data)
+    {
+        Kelurahan::insert([
+            'id_kecamatan' => $data->id_kecamatan,
+            'kelurahan' => $data->kelurahan,
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s')
+        ]);
+        return redirect(route('cskecamatan'))->with([
+            'alert' => 'Data Kelurahan berhasil ditambah',
+            'warna' => 'success'
+        ]);
     }
     #endregion
 
@@ -221,10 +261,80 @@ class CSController extends Controller
     #region KREDIT
     public function kredit()
     {
-        $data = Kredit::groupBy('pinjaman')->get();
+        $data = Kredit::orderBy('pinjaman')->groupBy('pinjaman')->get();
+        $basekredit = BaseKredit::orderBy('pinjaman')->get();
         return view('cs.kredit.index', [
             'data' => $data,
+            'basekredit' => $basekredit,
             'no' => 1
+        ]);
+    }
+    public function addbasekredit(Request $data)
+    {
+        // dd($data->all());
+        $datapinjaman = $data->pinjaman;
+        $data = BaseKredit::where('pinjaman', $datapinjaman)->get();
+        if (count($data)  > 0) {
+            $warna = 'danger';
+            $alert = 'Data Kredit Sudah Tersedia. Silahkan Ulangi!';
+        } else {
+            BaseKredit::insert([
+                'pinjaman' => $datapinjaman,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s')
+            ]);
+            $warna = 'success';
+            $alert = 'Data Kredit Berhasil Ditambahkan!';
+        }
+        return redirect(route('cskredit'))->with([
+            'alert' => $alert,
+            'warna' => $warna
+        ]);
+    }
+    public function addkredit(Request $data)
+    {
+        $pinjam = $data->pinjaman;
+        $tenor = $data->tenor;
+        $angsuran = $data->angsuran;
+        $datakredit = Kredit::where('pinjaman', $pinjam)->where('tenor', $tenor)->get();
+        if (count($datakredit) > 0) {
+            $warna = 'danger';
+            $alert = 'Data Tenor Kredit Sudah Tersedia. Silahkan Ulangi!';
+        } else {
+            Kredit::insert([
+                'pinjaman' => $pinjam,
+                'tenor' => $tenor,
+                'angsuran' => $angsuran,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s')
+            ]);
+            $warna = 'success';
+            $alert = 'Data Tenor Kredit Berhasil Ditambahkan!';
+        }
+        return redirect(route('cskredit'))->with([
+            'alert' => $alert,
+            'warna' => $warna
+        ]);
+    }
+    public function hapustenor($id)
+    {
+        $data = Kredit::where('id', $id)->get();
+        if ($data[0]['status'] == 0) {
+            Kredit::where('id', $id)->update([
+                'status' => 1
+            ]);
+            $alert = 'Data Tenor Berhasil Diaktifkan!';
+            $warna = 'success';
+        } else {
+            Kredit::where('id', $id)->update([
+                'status' => 0
+            ]);
+            $alert = 'Data Tenor Berhasil Di-non-aktifkan!';
+            $warna = 'success';
+        }
+        return redirect(route('cskredit'))->with([
+            'alert' => $alert,
+            'warna' => $warna
         ]);
     }
     #endregion
@@ -282,7 +392,7 @@ class CSController extends Controller
                 'kendaraan.nopol',
                 'kendaraan.tgl_pajak',
                 'kendaraan.tgl_stnk',
-                'tahun_harga_kendaraan.harga_otr',
+                'tahun_harga_kendaraan.harga_otr'
             )
             ->where('master_kredit.trx_code', $id)
             ->get();

@@ -62,8 +62,12 @@ Route::group(['middleware' => 'auth:cs'], function () {
 
     #region CS-KECAMATAN
     Route::get('/cs/daerah', 'CSController@kecamatan')->name('cskecamatan');
+
     Route::get('/cs/daerah/kecamatan/hapus/{id}', 'CSController@hapuskecamatan')->name('cshapuskecamatan');
     Route::get('/cs/daerah/kelurahan/hapus/{id}', 'CSController@hapuskelurahan')->name('cshapuskelurahan');
+
+    Route::post('/cs/daerah/kecamatan/add', 'CSController@addkecamatan')->name('cstambahkecamatan');
+    Route::post('/cs/daerah/kelurahan/add', 'CSController@addkelurahan')->name('cstambahkelurahan');
     #endregion
 
     #region CS-NASABAH
@@ -75,6 +79,10 @@ Route::group(['middleware' => 'auth:cs'], function () {
     #region CS-KREDIT
     Route::get('/cs/kredit', 'CSController@kredit')->name('cskredit');
     Route::get('/cs/kredit/tenor/{id}', 'CSController@hapustenor')->name('cshapustenor');
+    
+    Route::post('/cs/kredit/add/base', 'CSController@addbasekredit')->name('csaddbasekredit');
+    Route::post('/cs/kredit/add', 'CSController@addkredit')->name('csaddkredit');
+
     #endregion
 
     #region CS-KENDARAAN

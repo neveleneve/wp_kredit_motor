@@ -21,5 +21,6 @@ class DatabaseSeeder extends Seeder
         $this->call(TipeKendaraanSeeder::class);
         $this->call(TahunHargaSeeder::class);
         $this->call(BobotSeeder::class);
+        $this->call(BaseKreditSeeder::class);
     }
 }

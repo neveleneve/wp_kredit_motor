@@ -97,7 +97,11 @@ class DataController extends Controller
         $kelurahan = Kredit::where('pinjaman', $id)->get();
         foreach ($kelurahan as $key) {
             $confirm = '"Hapus Data Tenor ' . $key->tenor . ' Bulan?"';
-            $data .= "<tr class=text-center><td>" . $no++ . "<td>" . $key->tenor . " Bulan<td>Rp. " . number_format($key->angsuran, 0, ',', '.') . "<td><a class='btn btn-sm btn-danger' href='" . route('cshapustenor', ['id' => $key->id]) . "' onclick='return confirm(" . $confirm . ")'>Hapus";
+            if ($key->status == 1) {
+                $data .= "<tr class=text-center><td>" . $no++ . "<td>" . $key->tenor . " Bulan<td>Rp. " . number_format($key->angsuran, 0, ',', '.') . "<td><a class='btn btn-sm btn-danger' href='" . route('cshapustenor', ['id' => $key->id]) . "' onclick='return confirm(" . $confirm . ")'>Non-Aktifkan";
+            }else {
+                $data .= "<tr class=text-center><td>" . $no++ . "<td>" . $key->tenor . " Bulan<td>Rp. " . number_format($key->angsuran, 0, ',', '.') . "<td><a class='btn btn-sm btn-success' href='" . route('cshapustenor', ['id' => $key->id]) . "' onclick='return confirm(" . $confirm . ")'>Aktifkan";                
+            }
         }
         return json_encode($data);
     }
