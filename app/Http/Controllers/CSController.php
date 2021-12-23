@@ -22,7 +22,7 @@ class CSController extends Controller
     #region CUSTOM FUNCTION
     public function __construct()
     {
-        $jmltertunda = MasterKredit::where('penilaian', '0')->paginate(3);
+        $jmltertunda = MasterKredit::where('penilaian', null)->paginate(3);
         View::share([
             'tertunda' => $jmltertunda
         ]);
@@ -301,15 +301,21 @@ class CSController extends Controller
             $warna = 'danger';
             $alert = 'Data Tenor Kredit Sudah Tersedia. Silahkan Ulangi!';
         } else {
-            Kredit::insert([
-                'pinjaman' => $pinjam,
-                'tenor' => $tenor,
-                'angsuran' => $angsuran,
-                'created_at' => date('Y-m-d H:i:s'),
-                'updated_at' => date('Y-m-d H:i:s')
-            ]);
-            $warna = 'success';
-            $alert = 'Data Tenor Kredit Berhasil Ditambahkan!';
+            if ($datakredit[0]['status'] == 0) {
+                Kredit::where('pinjaman', $pinjam)->where('tenor', $tenor)->update([
+                    'angsuran' => $angsuran
+                ]);
+            } else {
+                Kredit::insert([
+                    'pinjaman' => $pinjam,
+                    'tenor' => $tenor,
+                    'angsuran' => $angsuran,
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'updated_at' => date('Y-m-d H:i:s')
+                ]);
+                $warna = 'success';
+                $alert = 'Data Tenor Kredit Berhasil Ditambahkan!';
+            }
         }
         return redirect(route('cskredit'))->with([
             'alert' => $alert,
@@ -356,8 +362,8 @@ class CSController extends Controller
     #region PENGAJUAN
     public function transaksi()
     {
-        $pengajuanall = MasterKredit::where('penilaian', '!=', '0')->get();
-        $pengajuan = MasterKredit::where('penilaian', '0')->get();
+        $pengajuanall = MasterKredit::where('penilaian', '!=', null)->get();
+        $pengajuan = MasterKredit::where('penilaian', null)->get();
         return view('cs.transaksi.index', [
             'pengajuanall' => $pengajuanall,
             'nopengajuanall' => 1,
@@ -418,6 +424,7 @@ class CSController extends Controller
             array_push($tipe, $bobot[$i]['tipe']);
         }
         $s = $this->vectorS($c, $w, $tipe);
+        // dd($s);
         MasterKredit::where('trx_code', $data->trx_code)->update([
             'penilaian' => $s
         ]);

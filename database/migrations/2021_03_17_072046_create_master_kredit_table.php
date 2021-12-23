@@ -18,7 +18,7 @@ class CreateMasterKreditTable extends Migration
             $table->integer('id_marketing');
             $table->string('trx_code');
             $table->string('nik_nasabah', 16);
-            $table->string('penilaian');
+            $table->string('penilaian')->nullable();
             $table->timestamps();
         });
     }
