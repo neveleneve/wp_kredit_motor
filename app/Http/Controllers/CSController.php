@@ -349,12 +349,38 @@ class CSController extends Controller
     public function kendaraan()
     {
         $merk = Merk::get();
-        $tipe = TipeKendaraan::get();
+        $tipe = DB::table('tipe_kendaraan')
+        ->join('merk','tipe_kendaraan.id_merk', '=','merk.id')
+        ->select('tipe_kendaraan.id', 'merk', 'tipe')
+        ->get();
         return view('cs.kendaraan.index', [
             'merk' => $merk,
             'tipe' => $tipe,
             'nomerk' => 1,
             'notipe' => 1
+        ]);
+    }
+
+    public function addmerk(Request $data)
+    {
+        $datamerk = Merk::where('merk', $data->merk)->get();
+        if (count($datamerk) > 0) {
+            $alert = "Data merk sudah tersedia!";
+            $warna = "danger";
+        } else {
+            Merk::insert([
+                'merk' => ucwords($data->merk),
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s')
+            ]);
+            $alert = "Data merk berhasil ditambah!";
+            $warna = "success";
+        }
+        // dd($data->all());
+
+        return redirect(route('cskendaraan'))->with([
+            'alert' => $alert,
+            'warna' => $warna,
         ]);
     }
     #endregion

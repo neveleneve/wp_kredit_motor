@@ -147,7 +147,7 @@ class TahunHargaSeeder extends Seeder
             // id 4
             [
                 'id_tipe_kendaraan' => 4,
-                'tahun' => '2015 Ke Atas',
+                'tahun' => '2015',
                 'harga_otr' => 0,
                 'maks_pencairan' => 3000000,
                 'created_at' => date('Y-m-d H:i:s'),
@@ -155,7 +155,7 @@ class TahunHargaSeeder extends Seeder
             ],
             [
                 'id_tipe_kendaraan' => 4,
-                'tahun' => '2014 Ke Bawah',
+                'tahun' => '2014',
                 'harga_otr' => 0,
                 'maks_pencairan' => 2000000,
                 'created_at' => date('Y-m-d H:i:s'),

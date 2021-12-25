@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', 'LoginController@index')->name('login')->middleware('guest');
 Route::get('/credit-check', 'KreditController@index')->name('credit-check');
+Route::post('/credit-check/nik', 'KreditController@nikcheck')->name('credit-check-nik');
+Route::get('/credit-check/{id}', 'KreditController@nikchecking')->name('credit-checking-nik');
 Route::post('/login', 'LoginController@loggingin')->name('loggingin');
 Route::get('/logout', 'LoginController@logout')->name('logout');
 
@@ -87,6 +89,15 @@ Route::group(['middleware' => 'auth:cs'], function () {
 
     #region CS-KENDARAAN
     Route::get('/cs/kendaraan', 'CSController@kendaraan')->name('cskendaraan');
+
+    Route::post('/cs/kendaraan/merk/add', 'CSController@addmerk')->name('csaddmerk');
+    Route::get('/cs/kendaraan/merk/view/{id}', 'CSController@viewmerk')->name('csviewmerk');
+    Route::post('/cs/kendaraan/merk/edit', 'CSController@editmerk')->name('cseditmerk');
+
+    Route::post('/cs/kendaraan/tipe/add', 'CSController@addtipe')->name('csaddtipe');
+    Route::get('/cs/kendaraan/tipe/view/{id}', 'CSController@viewtipe')->name('csviewtipe');
+    Route::get('/cs/kendaraan/tipe/view/{id}/otr', 'CSController@viewotrtipe')->name('csviewotrtipe');
+    Route::post('/cs/kendaraan/tipe/edit', 'CSController@edittipe')->name('csedittipe');
     #endregion
 
     #region CS-TRANSAKSI

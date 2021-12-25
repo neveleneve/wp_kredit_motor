@@ -11,7 +11,6 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
     <link href="{{ asset('template/css/sb-admin-2.css') }}" rel="stylesheet">
 </head>
-</nav>
 
 <body id="page-top">
     <div id="wrapper">
@@ -37,31 +36,25 @@
                     </nav>
                     <div class="container-fluid">
                         <h1 class="h3 mb-0 text-gray-800 text-center font-weight-bold">Cek Status Kredit</h1>
-                        {{-- <div class="d-sm-flex align-items-center justify-content-between mb-4">
-                        </div> --}}
                         <div class="row d-flex justify-content-center">
                             <div class="col-10">
                                 <div class="card">
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-12">
-                                                <form action="" method="POST">
-                                                    <input type="text" class="form-control mb-3" placeholder="Masukkan NIK Anda...">
+                                                @if(session('alert'))
+                                                    <div class="alert alert-{{ session('warna') }} alert-dismissable fade show">
+                                                        {{ session('alert') }}
+                                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                @endif
+                                                <form action="{{ route('credit-check-nik') }}" method="POST">
+                                                    {{ csrf_field() }}
+                                                    <input value="{{ session('value') ? session('value') : null }}" type="text" class="form-control mb-3" placeholder="Masukkan NIK Anda..." name="nik">
                                                     <input type="submit" value="Cari NIK" class="btn btn-dark btn-block">
                                                 </form>
-                                            </div>
-                                        </div>
-                                        <div class="row" style="display: none">
-                                            <div class="col-12">
-                                                <table>
-                                                    <thead>
-                                                        <tr>
-                                                            <th>No</th>
-                                                            <th>ID Kredit</th>
-                                                            <th></th>
-                                                        </tr>
-                                                    </thead>
-                                                </table>
                                             </div>
                                         </div>
                                     </div>
@@ -77,7 +70,7 @@
     <script src="{{ asset('template/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
     <script src="{{ asset('template/vendor/jquery-easing/jquery.easing.min.js') }}"></script>
     <script src="{{ asset('template/js/sb-admin-2.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/ajax.js') }}"></script>
+    {{-- <script type="text/javascript" src="{{ asset('js/ajax.js') }}"></script> --}}
 </body>
 
 </html>

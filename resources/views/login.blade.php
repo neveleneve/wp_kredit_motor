@@ -9,9 +9,7 @@
     <meta name="author" content="">
     <title>Log In - PT. ALCO MOTOR</title>
     <link href="{{ asset('template/vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
     <link href="{{ asset('template/css/sb-admin-2.css') }}" rel="stylesheet">
 </head>
 
@@ -31,20 +29,21 @@
                                     <form action="{{ route('loggingin') }}" method="POST" class="user">
                                         {{ csrf_field() }}
                                         <div class="form-group">
-                                            <input type="text" class="form-control" name="username"
-                                                placeholder="Masukkan Nama Pengguna">
+                                            <input type="text" class="form-control" name="username" placeholder="Masukkan Nama Pengguna">
                                         </div>
                                         <div class="form-group">
-                                            <input type="password" class="form-control" name="password"
-                                                placeholder="Masukkan Kata Sandi">
+                                            <input type="password" class="form-control" name="password" placeholder="Masukkan Kata Sandi">
                                         </div>
                                         <input type="submit" value="Login" class="btn btn-primary btn-block">
-                                        @if (session('infousername'))
+                                        @if(session('infousername'))
                                             <div class="text-center text-{{ session('color') }}">
                                                 {{ session('infousername') }}
                                             </div>
                                         @endif
                                     </form>
+                                    <div class="text-center">
+                                        <a href="{{ route('credit-check') }}" class="text-dark">Cek Kredit?</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
