@@ -107,7 +107,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <input type="text" class="form-control" name="merk" placeholder="Input Merk Kendaraan">
+                    <input type="text" class="form-control" name="merk" placeholder="Input Merk Kendaraan" required>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
@@ -120,25 +120,28 @@
 <div class="modal fade" id="tipeModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title font-weight-bold" id="exampleModalLabel">Tambah Tipe Kendaraan</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <select class="form-control mb-3" name="merk" id="merk">
-                    <option selected disabled hidden>Pilihan Merk</option>
-                    @foreach($merk as $item)
-                        <option value="{{ $item->id }}">{{ $item->merk }}</option>
-                    @endforeach
-                </select>
-                <input type="text" class="form-control" name="merk" placeholder="Input Tipe Kendaraan">
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
-                <button type="button" class="btn btn-primary">Tambah</button>
-            </div>
+            <form action="{{ route('csaddtipe') }}" method="post">
+                {{ csrf_field() }}
+                <div class="modal-header">
+                    <h5 class="modal-title font-weight-bold" id="exampleModalLabel">Tambah Tipe Kendaraan</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <select class="form-control mb-3" name="merk" id="merk">
+                        <option selected disabled hidden>Pilihan Merk</option>
+                        @foreach($merk as $item)
+                            <option value="{{ $item->id }}">{{ $item->merk }}</option>
+                        @endforeach
+                    </select>
+                    <input type="text" class="form-control" name="tipe" placeholder="Input Tipe Kendaraan" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Tutup</button>
+                    <button type="submit" class="btn btn-primary">Tambah</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

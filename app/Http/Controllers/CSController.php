@@ -11,6 +11,7 @@ use App\MasterKredit;
 use App\Merk;
 use App\Nasabah;
 use App\Pengajuan;
+use App\TahunHarga;
 use App\TipeKendaraan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -350,9 +351,9 @@ class CSController extends Controller
     {
         $merk = Merk::get();
         $tipe = DB::table('tipe_kendaraan')
-        ->join('merk','tipe_kendaraan.id_merk', '=','merk.id')
-        ->select('tipe_kendaraan.id', 'merk', 'tipe')
-        ->get();
+            ->join('merk', 'tipe_kendaraan.id_merk', '=', 'merk.id')
+            ->select('tipe_kendaraan.id', 'merk', 'tipe')
+            ->get();
         return view('cs.kendaraan.index', [
             'merk' => $merk,
             'tipe' => $tipe,
@@ -382,6 +383,100 @@ class CSController extends Controller
             'alert' => $alert,
             'warna' => $warna,
         ]);
+    }
+    public function viewmerk($id)
+    {
+        $data = Merk::where('id', $id)->get();
+        return view('cs.kendaraan.viewmerk', [
+            'data' => $data
+        ]);
+    }
+    public function editmerk(Request $data)
+    {
+        Merk::where('id', $data->id)->update([
+            'merk' => ucwords($data->merk)
+        ]);
+        return redirect(route('cskendaraan'))->with([
+            'alert' => 'Data merk kendaraan berhasil diubah',
+            'warna' => 'success'
+        ]);
+    }
+
+    public function addtipe(Request $data)
+    {
+        // dd($data->all());
+        TipeKendaraan::insert([
+            'id_merk' => $data->merk,
+            'tipe' => $data->tipe,
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s')
+        ]);
+        return redirect(route('cskendaraan'))->with([
+            'alert' => 'Data tipe kendaraan berhasil ditambah',
+            'warna' => 'success'
+        ]);
+    }
+    public function viewtipe($id)
+    {
+        $data = TipeKendaraan::where('id', $id)->get();
+        $datamerk = Merk::get();
+        return view('cs.kendaraan.viewtipe', [
+            'data' => $data,
+            'datamerk' => $datamerk
+        ]);
+    }
+    public function edittipe(Request $data)
+    {
+        // dd($data->all());
+        TipeKendaraan::where('id', $data->id)->update([
+            'id_merk' => $data->merk,
+            'tipe' => $data->tipe,
+        ]);
+        return redirect(route('cskendaraan'))->with([
+            'alert' => 'Data tipe kendaraan berhasil diubah',
+            'warna' => 'success'
+        ]);
+    }
+
+    public function viewotrtipe($id)
+    {
+        $tipekendaraan = TipeKendaraan::where('id', $id)->get();
+        $data = TahunHarga::where('id_tipe_kendaraan', $id)->get();
+        return view('cs.kendaraan.viewotrs', [
+            'data' => $data,
+            'tipe' => $tipekendaraan
+        ]);
+    }
+
+    public function addotr(Request $data)
+    {
+        // dd($data->all());
+        TahunHarga::insert([
+            'id_tipe_kendaraan'=>$data->id_tipe_kendaraan,
+            'tahun'=>$data->tahun,
+            'harga_otr'=>$data->harga_otr,
+            'maks_pencairan'=>$data->maks_pencairan
+        ]);
+        return redirect(route('csviewotrtipe', ['id'=>$data->id_tipe_kendaraan]));
+    }
+    public function viewotr($id)
+    {
+        $data = TahunHarga::where('id', $id)->get();
+        $tipekendaraan = TipeKendaraan::where('id', $data[0]->id_tipe_kendaraan)->get();
+        return view('cs.kendaraan.viewotr', [
+            'data' => $data,
+            'tipe' => $tipekendaraan,
+        ]);
+    }
+    public function editotr(Request $data)
+    {
+        // dd($data->all());
+        TahunHarga::where('id', $data->id)->update([
+            'tahun' => $data->tahun,
+            'harga_otr' => $data->harga_otr,
+            'maks_pencairan' => $data->maks_pencairan,
+        ]);
+        return redirect(route('csviewotrtipe', ['id' => $data->idtipekendaraan]));
     }
     #endregion
 

@@ -39,7 +39,7 @@
                                         <td>No.</td>
                                         <td>No. Pengajuan</td>
                                         <td>Status</td>
-                                        <td>Aksi</td>
+                                        {{-- <td>Aksi</td> --}}
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -59,9 +59,9 @@
                                                         @endif
                                                     @endif
                                                 </td>
-                                                <td>
+                                                {{-- <td>
                                                     <a class="btn btn-sm btn-warning" href="#">Lihat Detail</a>
-                                                </td>
+                                                </td> --}}
                                             </tr>
                                         @endforeach
                                     @else

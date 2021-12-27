@@ -96,8 +96,14 @@ Route::group(['middleware' => 'auth:cs'], function () {
 
     Route::post('/cs/kendaraan/tipe/add', 'CSController@addtipe')->name('csaddtipe');
     Route::get('/cs/kendaraan/tipe/view/{id}', 'CSController@viewtipe')->name('csviewtipe');
-    Route::get('/cs/kendaraan/tipe/view/{id}/otr', 'CSController@viewotrtipe')->name('csviewotrtipe');
     Route::post('/cs/kendaraan/tipe/edit', 'CSController@edittipe')->name('csedittipe');
+
+    Route::get('/cs/kendaraan/tipe/view/{id}/otr', 'CSController@viewotrtipe')->name('csviewotrtipe');
+    
+    Route::post('/cs/kendaraan/otr/add', 'CSController@addotr')->name('csaddotr');
+    Route::get('/cs/kendaraan/otr/view/{id}', 'CSController@viewotr')->name('csviewotr');
+    Route::post('/cs/kendaraan/otr/edit', 'CSController@editotr')->name('cseditotr');
+
     #endregion
 
     #region CS-TRANSAKSI

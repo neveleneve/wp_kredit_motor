@@ -21,13 +21,13 @@
                 <span>Nasabah</span>
             </a>
         </li>
-        <hr class="sidebar-divider my-0">
+        {{-- <hr class="sidebar-divider my-0">
         <li class="nav-item {{ Request::is('marketing/setting*') ? 'active' : '' }}">
             <a class="nav-link" href="{{ route('setting') }}">
                 <i class="fas fa-fw fa-tools"></i>
                 <span>Setting</span>
             </a>
-        </li>
+        </li> --}}
         <hr class="sidebar-divider d-none d-md-block">
     @endauth
     @auth('cs')
@@ -74,13 +74,13 @@
                 </span>
             </a>
         </li>
-        <hr class="sidebar-divider my-0">
+        {{-- <hr class="sidebar-divider my-0">
         <li class="nav-item {{ Request::is('cs/setting*') ? 'active border-left-primary' : '' }}">
             <a class="nav-link" href="{{ route('cssetting') }}">
                 <i class="fas fa-cog"></i>
                 <span>Setting</span>
             </a>
-        </li>
+        </li> --}}
         <hr class="sidebar-divider d-none d-md-block">
     @endauth
     <div class="text-center d-none d-md-inline">
