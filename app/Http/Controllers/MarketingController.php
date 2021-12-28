@@ -144,7 +144,10 @@ class MarketingController extends Controller
         $diff = abs($tglhariini - $tglpengajuanterakhir);
         $tahun = floor($diff / (365 * 60 * 60 * 24));
         $bulan = floor(($diff - $tahun * 365 * 60 * 60 * 24) / (30 * 60 * 60 * 24));
-        return $bulan;
+        return [
+            'bulan' => $bulan,
+            'nilai' => $datapengajuan[0]->penilaian
+        ];
     }
     #endregion
 
@@ -202,6 +205,7 @@ class MarketingController extends Controller
     // proses add nasabah
     public function ceknasabah(Request $data)
     {
+        // dd($data->all());
         $kodetrx = $this->randomstringlah();
         $nik = $data->nik;
         $tanggal = date('Y-m-d H:i:s');
@@ -209,16 +213,34 @@ class MarketingController extends Controller
         $pengajuan = $this->generateDataPengajuan($data, $kodetrx, $tanggal, $nik);
         $pemohon = $this->generateDataPemohon($data, $tanggal, $nik);
         if ($data->has('pengajuan')) {
-            $bulan = $this->cekPengajuanTerkahir($nik);
-            if ($bulan >= 3) {
+            $cekpengajuan = $this->cekPengajuanTerkahir($nik);
+            // dd($cekpengajuan);
+            if (($cekpengajuan['bulan'] >= 3 && $cekpengajuan['nilai'] >= 1.850) ||
+                ($cekpengajuan['bulan'] >= 3 && $cekpengajuan['nilai'] < 1.850 && $cekpengajuan['nilai'] != null) ||
+                ($cekpengajuan['bulan'] < 3 && $cekpengajuan['nilai'] < 1.850 && $cekpengajuan['nilai'] != null)
+            ) {
                 $this->addImagePemohon($kodetrx . '_bpkb.jpg', '/penyimpanan/bpkb', $data->file('fotobpkb'));
                 $this->addImagePemohon($kodetrx . '_stnk.jpg', '/penyimpanan/stnk', $data->file('fotostnk'));
                 MasterKredit::insert($pengajuan['datamasterkredit']);
                 Pengajuan::insert($pengajuan['datapengajuan']);
                 Kendaraan::insert($pengajuan['datakendaraan']);
-                return redirect(route('transaksinasabah', ['id' => $nik]))->with('alert', 'Data Pengajuan Berhasil Ditambah!')->with('warna', 'success');
+                return redirect(route('transaksinasabah', ['id' => $nik]))->with([
+                    'alert' => 'Data Pengajuan Berhasil Ditambah!',
+                    'warna' => 'success'
+                ]);
             } else {
-                return redirect(route('transaksinasabah', ['id' => $nik]))->with('alert', 'Data Pengajuan Gagal Ditambah! Pengajuan sebelumnya belum mencapai 3 Bulan')->with('warna', 'success');
+                $warna = 'danger';
+                if (($cekpengajuan['bulan'] < 3 && $cekpengajuan['nilai'] == null)) {
+                    $alert = 'Data pengajuan gagal ditambah! Pengajuan sebelumnya belum diberi penilaian';
+                } elseif (($cekpengajuan['bulan'] >= 3 && $cekpengajuan['nilai'] == null)) {
+                    $alert = 'Data pengajuan gagal ditambah! Pengajuan sebelumnya belum diberi penilaian';
+                } elseif (($cekpengajuan['bulan'] < 3 && $cekpengajuan['nilai'] >= 1.850)) {
+                    $alert = 'Data pengajuan gagal ditambah! Pengajuan sebelumnya belum mencapai waktu 3 bulan';
+                }
+                return redirect(route('transaksinasabah', ['id' => $nik]))->with([
+                    'alert' => $alert,
+                    'warna' => $warna,
+                ]);
             }
         } else if ($data->has('tambahnasabah')) {
             if ($ceknik > 0) {

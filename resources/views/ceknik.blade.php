@@ -48,10 +48,10 @@
                                                 <strong>Nomor Induk Kependudukan :&nbsp;</strong> {{ $datanasabah[0]->nik }}
                                             </div>
                                         </div>
-                                        <div class="row">
+                                        <div class="row mb-3">
                                             <div class="col-12">
                                                 <table class="table table-bordered">
-                                                    <thead class="text-center">
+                                                    <thead class="bg-primary text-light text-center">
                                                         <tr>
                                                             <th>No</th>
                                                             <th>ID Kredit</th>
@@ -89,6 +89,13 @@
                                                         @endforelse
                                                     </tbody>
                                                 </table>
+                                            </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="col-2">
+                                                <a class="btn btn-danger btn-block" href="{{ route('credit-check') }}" title="Kembali">
+                                                    <i class="fa fa-chevron-left"></i>
+                                                </a>
                                             </div>
                                         </div>
                                     </div>

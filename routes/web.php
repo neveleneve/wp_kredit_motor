@@ -108,8 +108,10 @@ Route::group(['middleware' => 'auth:cs'], function () {
 
     #region CS-TRANSAKSI
     Route::get('/cs/pengajuan', 'CSController@transaksi')->name('cstransaksi');
+    Route::get('/cs/pengajuan/{id}', 'CSController@viewtransaksi')->name('csviewtransaksi');
     Route::get('/cs/pengajuan/verifikasi/{id}', 'CSController@verifikasitransaksi')->name('csverifikasitransaksi');
     Route::post('/cs/pengajuan/verifikasi', 'CSController@verification')->name('csverification');
+    Route::post('/cs/pengajuan/print', 'CSController@printpengajuan')->name('csprintpengajuan');
     #endregion
 
     #region CS-SETTING

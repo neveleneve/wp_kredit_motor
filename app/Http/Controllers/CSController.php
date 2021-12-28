@@ -450,14 +450,13 @@ class CSController extends Controller
 
     public function addotr(Request $data)
     {
-        // dd($data->all());
         TahunHarga::insert([
-            'id_tipe_kendaraan'=>$data->id_tipe_kendaraan,
-            'tahun'=>$data->tahun,
-            'harga_otr'=>$data->harga_otr,
-            'maks_pencairan'=>$data->maks_pencairan
+            'id_tipe_kendaraan' => $data->id_tipe_kendaraan,
+            'tahun' => $data->tahun,
+            'harga_otr' => $data->harga_otr,
+            'maks_pencairan' => $data->maks_pencairan
         ]);
-        return redirect(route('csviewotrtipe', ['id'=>$data->id_tipe_kendaraan]));
+        return redirect(route('csviewotrtipe', ['id' => $data->id_tipe_kendaraan]));
     }
     public function viewotr($id)
     {
@@ -491,6 +490,65 @@ class CSController extends Controller
             'pengajuan' => $pengajuan,
             'nopengajuan' => 1,
         ]);
+    }
+    public function viewtransaksi($id)
+    {
+        $datamaster = MasterKredit::where('trx_code', $id)->get();
+        if (count($datamaster) == 0) {
+            return redirect(route('cstransaksi'))->with([
+                'alert' => 'Pengajuan yang akan anda lihat tidak tersedia!',
+                'warna' => 'danger'
+            ]);
+        } elseif ($datamaster[0]->penilaian == null) {
+            return redirect(route('cstransaksi'))->with([
+                'alert' => 'Pengajuan yang akan anda lihat belum dinilai!',
+                'warna' => 'danger'
+            ]);
+        } else {
+            $data = DB::table('master_kredit')
+                // ->join('login', 'master_kredit.id_marketing', '=', 'login.id')
+                ->join('nasabah', 'master_kredit.nik_nasabah', '=', 'nasabah.nik')
+                ->join('alamat', 'nasabah.nik', '=', 'alamat.nik_nasabah')
+                ->join('kelurahan', 'alamat.kelurahan', '=', 'kelurahan.id')
+                ->join('kecamatan', 'kelurahan.id_kecamatan', '=', 'kecamatan.id')
+                ->join('pengajuan', 'master_kredit.trx_code', '=', 'pengajuan.trx_code')
+                ->join('kredit', 'pengajuan.id_kredit', '=', 'kredit.id')
+                ->leftJoin('penjamin', 'nasabah.nik', '=', 'penjamin.nik_nasabah')
+                ->leftJoin('pasangan', 'nasabah.nik', '=', 'pasangan.nik_nasabah')
+                ->join('kendaraan', 'master_kredit.trx_code', '=', 'kendaraan.trx_code')
+                ->join('tahun_harga_kendaraan', 'kendaraan.id_tahun_harga_kendaraan', '=', 'tahun_harga_kendaraan.id')
+                ->join('tipe_kendaraan', 'tahun_harga_kendaraan.id_tipe_kendaraan', '=', 'tipe_kendaraan.id')
+                ->join('merk', 'tipe_kendaraan.id_merk', '=', 'merk.id')
+                ->select([
+                    'master_kredit.trx_code',
+                    'master_kredit.penilaian',
+                    'nasabah.nama',
+                    'nasabah.nik',
+                    'nasabah.status_nikah',
+                    'nasabah.no_hp',
+                    'alamat.alamat',
+                    'kecamatan.kecamatan',
+                    'kelurahan.kelurahan',
+                    'kredit.pinjaman',
+                    'kredit.tenor',
+                    'kredit.angsuran',
+                    'penjamin.nama as nama_penjamin',
+                    'penjamin.no_hp as no_hp_penjamin',
+                    'penjamin.tgl_lahir as tgl_lahir_penjamin',
+                    'penjamin.status_penjamin',
+                    'pasangan.nama as nama_pasangan',
+                    'pasangan.no_hp as no_hp_pasangan',
+                    'pasangan.tgl_lahir as tgl_lahir_pasangan',
+                    'merk.merk',
+                    'tipe_kendaraan.tipe',
+                    'tahun_harga_kendaraan.tahun',
+                ])
+                ->where('master_kredit.trx_code', $id)
+                ->get();
+            return view('cs.transaksi.view', [
+                'data' => $data
+            ]);
+        }
     }
     public function verifikasitransaksi($id)
     {
@@ -545,11 +603,73 @@ class CSController extends Controller
             array_push($tipe, $bobot[$i]['tipe']);
         }
         $s = $this->vectorS($c, $w, $tipe);
-        // dd($s);
         MasterKredit::where('trx_code', $data->trx_code)->update([
             'penilaian' => $s
         ]);
         return redirect(route('cstransaksi'));
+    }
+    public function printpengajuan(Request $data)
+    {
+        // dd($data->all());
+        $data = DB::table('master_kredit')
+            ->join('login', 'master_kredit.id_marketing', '=', 'login.id')
+            ->join('nasabah', 'master_kredit.nik_nasabah', '=', 'nasabah.nik')
+            ->join('pekerjaan', 'master_kredit.nik_nasabah', '=', 'pekerjaan.nik_nasabah')
+            ->join('hunian', 'master_kredit.nik_nasabah', '=', 'hunian.nik_nasabah')
+            ->join('alamat', 'nasabah.nik', '=', 'alamat.nik_nasabah')
+            ->join('kelurahan', 'alamat.kelurahan', '=', 'kelurahan.id')
+            ->join('kecamatan', 'kelurahan.id_kecamatan', '=', 'kecamatan.id')
+            ->join('pengajuan', 'master_kredit.trx_code', '=', 'pengajuan.trx_code')
+            ->join('kredit', 'pengajuan.id_kredit', '=', 'kredit.id')
+            ->leftJoin('penjamin', 'nasabah.nik', '=', 'penjamin.nik_nasabah')
+            ->leftJoin('pasangan', 'nasabah.nik', '=', 'pasangan.nik_nasabah')
+            ->join('kendaraan', 'master_kredit.trx_code', '=', 'kendaraan.trx_code')
+            ->join('tahun_harga_kendaraan', 'kendaraan.id_tahun_harga_kendaraan', '=', 'tahun_harga_kendaraan.id')
+            ->join('tipe_kendaraan', 'tahun_harga_kendaraan.id_tipe_kendaraan', '=', 'tipe_kendaraan.id')
+            ->join('merk', 'tipe_kendaraan.id_merk', '=', 'merk.id')
+            ->select([
+                'master_kredit.trx_code',
+                'login.nama as nama_marketing',
+                'pekerjaan.jenis_kerja',
+                'pekerjaan.desk_kerja',
+                'pekerjaan.penghasilan',
+                'pekerjaan.pengeluaran',
+                'pekerjaan.alamat_kerja',
+                'nasabah.nama',
+                'nasabah.nik',
+                'nasabah.status_nikah',
+                'nasabah.no_hp',
+                'nasabah.tgl_lahir',
+                'nasabah.jenis_kelamin',
+                'alamat.alamat',
+                'alamat.lama_tinggal',
+                'kecamatan.kecamatan',
+                'kelurahan.kelurahan',
+                'kredit.pinjaman',
+                'kredit.tenor',
+                'kredit.angsuran',
+                'penjamin.nama as nama_penjamin',
+                'penjamin.no_hp as no_hp_penjamin',
+                'penjamin.tgl_lahir as tgl_lahir_penjamin',
+                'penjamin.status_penjamin',
+                'pasangan.nama as nama_pasangan',
+                'pasangan.no_hp as no_hp_pasangan',
+                'pasangan.tgl_lahir as tgl_lahir_pasangan',
+                'merk.merk',
+                'tipe_kendaraan.tipe',
+                'tahun_harga_kendaraan.tahun',
+                'tahun_harga_kendaraan.harga_otr',
+                'kendaraan.nopol',
+                'kendaraan.tgl_pajak',
+                'kendaraan.tgl_stnk',
+                'hunian.status_kepemilikan',
+                'hunian.bukti_kepemilikan',
+            ])
+            ->where('master_kredit.trx_code', $data->trx_code)
+            ->get();
+        return view('cs.transaksi.detailpengajuan', [
+            'data' => $data
+        ]);
     }
     #endregion
 
