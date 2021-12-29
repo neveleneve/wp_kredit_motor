@@ -14,7 +14,7 @@ class DataController extends Controller
     public function kelurahan($id)
     {
         $data = null;
-        $kelurahan = Kelurahan::where('id_kecamatan', $id)->get();
+        $kelurahan = Kelurahan::where('id_kecamatan', $id)->where('status', 1)->get();
         foreach ($kelurahan as $key) {
             $data .= "<option value=" . $key->id . ">" . $key->kelurahan;
         }
