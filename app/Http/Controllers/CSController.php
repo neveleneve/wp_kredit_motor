@@ -555,7 +555,7 @@ class CSController extends Controller
         $data = DB::table('master_kredit')
             ->join('nasabah', 'master_kredit.nik_nasabah', '=', 'nasabah.nik')
             ->join('pekerjaan', 'nasabah.nik', '=', 'pekerjaan.nik_nasabah')
-            ->join('hunian', 'nasabah.nik', '=', 'pekerjaan.nik_nasabah')
+            ->join('hunian', 'nasabah.nik', '=', 'hunian.nik_nasabah')
             ->join('pengajuan', 'master_kredit.trx_code', '=', 'pengajuan.trx_code')
             ->join('kredit', 'pengajuan.id_kredit', '=', 'kredit.id')
             ->join('kendaraan', 'master_kredit.trx_code', '=', 'kendaraan.trx_code')
@@ -603,6 +603,7 @@ class CSController extends Controller
             array_push($tipe, $bobot[$i]['tipe']);
         }
         $s = $this->vectorS($c, $w, $tipe);
+        // dd($s);
         MasterKredit::where('trx_code', $data->trx_code)->update([
             'penilaian' => $s
         ]);

@@ -81,7 +81,7 @@
                                                 @if($item->penilaian == null)
                                                     Belum Verifikasi
                                                 @else
-                                                    @if($item->penilaian >= 1.850)
+                                                    @if($item->penilaian >= 2.5)
                                                         Pengajuan Diterima
                                                     @else
                                                         Pengajuan Ditolak
@@ -89,7 +89,7 @@
                                                 @endif
                                             </td>
                                             <td class="text-center">
-                                                @if($item->penilaian == 0)
+                                                @if($item->penilaian == null)
                                                     <a onclick="return confirm('Hapus Data Pengajuan?')" class="btn btn-danger btn-sm" href="{{ route('hapuspengajuan', ['id' => $item->trx_code]) }}">
                                                         Hapus Pengajuan
                                                     </a>

@@ -15,10 +15,10 @@
         </div>
     </div>
     <div class="row mb-3">
-        <form action="{{ route('csverification') }}" method="post">
+        <form action="{{ route('csverification') }}" method="post" class="col-12">
             {{ csrf_field() }}
             <input type="hidden" name="trx_code" value="{{ $data[0]->trx_code }}">
-            <div class="col-12">
+            {{-- <div class="col-12"> --}}
                 <table class="table table-bordered text-center text-nowrap">
                     <thead class="bg-light font-weight-bold">
                         <tr>
@@ -50,8 +50,8 @@
                                 <h6 class="text-left font-weight-bold">Penilaian Pekerjaan</h6>
                             </td>
                             <td>
-                                <input type="number" name="nilaipekerjaan" class="form-control" placeholder="Penilaian 0-5"
-                                    min="0" max="5" required>
+                                <input type="number" name="nilaipekerjaan" class="form-control" placeholder="Penilaian 1-5 (Semakin besar nilai, semakin bagus)"
+                                    min="1" max="5" required>
                             </td>
                         </tr>
                         <tr class="bg-primary text-light">
@@ -101,16 +101,14 @@
                             $val = null;
                             $selisihtotal = $selisih - $data[0]->angsuran;
                             if ($selisihtotal <= 0) {
-                                $val = 0;
-                            } elseif ($selisihtotal <= 1000000 && $selisihtotal > 0) {
                                 $val = 1;
-                            } elseif ($selisihtotal <= 2500000 && $selisihtotal > 1000000) {
+                            } elseif ($selisihtotal <= 1000000 && $selisihtotal > 0) {
                                 $val = 2;
-                            } elseif ($selisihtotal <= 4500000 && $selisihtotal > 2500000) {
+                            } elseif ($selisihtotal <= 2500000 && $selisihtotal > 1000000) {
                                 $val = 3;
-                            } elseif ($selisihtotal <= 7500000 && $selisihtotal > 4500000) {
+                            } elseif ($selisihtotal <= 4500000 && $selisihtotal > 2500000) {
                                 $val = 4;
-                            } elseif ($selisihtotal > 7500000) {
+                            } elseif ($selisihtotal > 4500000) {
                                 $val = 5;
                             }
                         @endphp
@@ -161,11 +159,11 @@
                                 @php
                                     $nilai = 0;
                                     if ($data[0]->status_kepemilikan == 'sendiri') {
-                                        $nilai = 2;
+                                        $nilai = 5;
                                     } elseif ($data[0]->status_kepemilikan == 'keluarga') {
-                                        $nilai = 1;
+                                        $nilai = 3;
                                     } else {
-                                        $nilai = 0;
+                                        $nilai = 1;
                                     }
                                 @endphp
                                 <input value="{{ $nilai }}" class="form-control" name="nilaikepemilikanrumah"
@@ -209,16 +207,16 @@
                                 <h6 class="text-left font-weight-bold">Penilaian Kendaraan</h6>
                             </td>
                             <td>
-                                <input type="number" placeholder="Penilaian 0-5" class="form-control"
-                                    name="nilaitipekendaraan" id="nilaitipekendaraan" min="0" max="5" required>
+                                <input type="number" placeholder="Penilaian 1-5 (Semakin besar nilai, semakin bagus)" class="form-control"
+                                    name="nilaitipekendaraan" id="nilaitipekendaraan" min="1" max="5" required>
                             </td>
                         </tr>
                     </tbody>
                 </table>
-            </div>
-            <div class="col-12">
+            {{-- </div> --}}
+            {{-- <div class="col-12"> --}}
                 <input type="submit" class="btn btn-sm btn-primary btn-block" value="Verifikasi">
-            </div>
+            {{-- </div> --}}
         </form>
     </div>
 @endsection

@@ -16,7 +16,7 @@ class BobotSeeder extends Seeder
             [
                 'nama' => 'Pekerjaan',
                 'bobot' => 5,
-                'tipe' => 0,
+                'tipe' => 1,
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s')
             ],
@@ -30,14 +30,14 @@ class BobotSeeder extends Seeder
             [
                 'nama' => 'Status Kepemilikan Rumah',
                 'bobot' => 3,
-                'tipe' => 0,
+                'tipe' => 1,
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s')
             ],
             [
                 'nama' => 'Status Kendaraan',
                 'bobot' => 3,
-                'tipe' => 0,
+                'tipe' => 1,
                 'created_at' => date('Y-m-d H:i:s'),
                 'updated_at' => date('Y-m-d H:i:s')
             ]

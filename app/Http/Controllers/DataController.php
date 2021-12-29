@@ -67,9 +67,9 @@ class DataController extends Controller
         $pencairan = $tahunharga[0]['maks_pencairan'];
         if ($pencairan >= '10000000') {
             $pencairan = '10000000';
-            $kredit = Kredit::where('pinjaman', '<=', $pencairan)->groupBy('pinjaman')->get();
+            $kredit = Kredit::where('pinjaman', '<=', $pencairan)->where('status', '1')->groupBy('pinjaman')->get();
         } else {
-            $kredit = Kredit::where('pinjaman', '<=', $pencairan)->groupBy('pinjaman')->get();
+            $kredit = Kredit::where('pinjaman', '<=', $pencairan)->where('status', '1')->groupBy('pinjaman')->get();
         }
         foreach ($kredit as $key) {
             $datakredit .= "<option value=" . $key->pinjaman . ">Rp. " . number_format($key->pinjaman, 0, ',', '.');

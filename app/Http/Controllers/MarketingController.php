@@ -215,9 +215,9 @@ class MarketingController extends Controller
         if ($data->has('pengajuan')) {
             $cekpengajuan = $this->cekPengajuanTerkahir($nik);
             // dd($cekpengajuan);
-            if (($cekpengajuan['bulan'] >= 3 && $cekpengajuan['nilai'] >= 1.850) ||
-                ($cekpengajuan['bulan'] >= 3 && $cekpengajuan['nilai'] < 1.850 && $cekpengajuan['nilai'] != null) ||
-                ($cekpengajuan['bulan'] < 3 && $cekpengajuan['nilai'] < 1.850 && $cekpengajuan['nilai'] != null)
+            if (($cekpengajuan['bulan'] >= 3 && $cekpengajuan['nilai'] >= 2.5) ||
+                ($cekpengajuan['bulan'] >= 3 && $cekpengajuan['nilai'] < 2.5 && $cekpengajuan['nilai'] != null) ||
+                ($cekpengajuan['bulan'] < 3 && $cekpengajuan['nilai'] < 2.5 && $cekpengajuan['nilai'] != null)
             ) {
                 $this->addImagePemohon($kodetrx . '_bpkb.jpg', '/penyimpanan/bpkb', $data->file('fotobpkb'));
                 $this->addImagePemohon($kodetrx . '_stnk.jpg', '/penyimpanan/stnk', $data->file('fotostnk'));
@@ -234,7 +234,7 @@ class MarketingController extends Controller
                     $alert = 'Data pengajuan gagal ditambah! Pengajuan sebelumnya belum diberi penilaian';
                 } elseif (($cekpengajuan['bulan'] >= 3 && $cekpengajuan['nilai'] == null)) {
                     $alert = 'Data pengajuan gagal ditambah! Pengajuan sebelumnya belum diberi penilaian';
-                } elseif (($cekpengajuan['bulan'] < 3 && $cekpengajuan['nilai'] >= 1.850)) {
+                } elseif (($cekpengajuan['bulan'] < 3 && $cekpengajuan['nilai'] >= 2.5)) {
                     $alert = 'Data pengajuan gagal ditambah! Pengajuan sebelumnya belum mencapai waktu 3 bulan';
                 }
                 return redirect(route('transaksinasabah', ['id' => $nik]))->with([

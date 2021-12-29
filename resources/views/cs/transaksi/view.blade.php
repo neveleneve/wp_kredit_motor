@@ -14,7 +14,7 @@
             <i class="fa fa-chevron-left"></i>
         </a>
     </div>
-    @if($data[0]->penilaian >= 1.850)
+    @if($data[0]->penilaian >= 2.5)
         <div class="col-1">
             <form action="{{ route('csprintpengajuan') }}" method="post" target="__blank">
                 {{ csrf_field() }}
