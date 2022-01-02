@@ -297,26 +297,21 @@ class CSController extends Controller
         $pinjam = $data->pinjaman;
         $tenor = $data->tenor;
         $angsuran = $data->angsuran;
+        // dd($data->all());
         $datakredit = Kredit::where('pinjaman', $pinjam)->where('tenor', $tenor)->get();
         if (count($datakredit) > 0) {
             $warna = 'danger';
             $alert = 'Data Tenor Kredit Sudah Tersedia. Silahkan Ulangi!';
-        } else {
-            if ($datakredit[0]['status'] == 0) {
-                Kredit::where('pinjaman', $pinjam)->where('tenor', $tenor)->update([
-                    'angsuran' => $angsuran
-                ]);
-            } else {
-                Kredit::insert([
-                    'pinjaman' => $pinjam,
-                    'tenor' => $tenor,
-                    'angsuran' => $angsuran,
-                    'created_at' => date('Y-m-d H:i:s'),
-                    'updated_at' => date('Y-m-d H:i:s')
-                ]);
-                $warna = 'success';
-                $alert = 'Data Tenor Kredit Berhasil Ditambahkan!';
-            }
+        } else { 
+            Kredit::insert([
+                'pinjaman' => $pinjam,
+                'tenor' => $tenor,
+                'angsuran' => $angsuran,
+                'created_at' => date('Y-m-d H:i:s'),
+                'updated_at' => date('Y-m-d H:i:s')
+            ]);
+            $warna = 'success';
+            $alert = 'Data Tenor Kredit Berhasil Ditambahkan!';
         }
         return redirect(route('cskredit'))->with([
             'alert' => $alert,

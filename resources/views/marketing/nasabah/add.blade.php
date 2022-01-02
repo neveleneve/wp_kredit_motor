@@ -38,7 +38,7 @@
                                         class="text-danger">*</strong></label>
                                 <input type="text" pattern="^[0-9]{16}" minlength="16" maxlength="16" name="nik" id="nik"
                                     class="form-control" placeholder="Masukkan 16 digit angka NIK"
-                                    title="Masukkan 16 digit pada NIK">
+                                    title="Masukkan 16 digit pada NIK" required>
                             </div>
                             <div class="col-lg-12 col-xl-4 mb-3">
                                 <label class="font-weight-bold" for="fotoktp">Foto KTP <strong
@@ -447,7 +447,7 @@
                                     <strong class="text-danger">*</strong>
                                 </label>
                                 <input pattern="^[A-Z]{1,2}[0-9]{1,4}[A-Z]{2,3}" type="text" class="form-control"
-                                    placeholder="BP1234XZ" name="nopol" id="nopol">
+                                    placeholder="BP1234XZ" name="nopol" id="nopol" required>
                             </div>
                             <div class="col-4">
                                 <label class="font-weight-bold" for="masaberlakupajak">
@@ -455,7 +455,7 @@
                                     <strong class="text-danger">*</strong>
                                 </label>
                                 <input type="date" value="{{ date('Y-m-d') }}" name="masaberlakupajak"
-                                    id="masaberlakupajak" class="form-control">
+                                    id="masaberlakupajak" class="form-control" required>
                             </div>
                             <div class="col-4">
                                 <label class="font-weight-bold" for="masaberlakustnk">
@@ -463,7 +463,7 @@
                                     <strong class="text-danger">*</strong>
                                 </label>
                                 <input type="date" value="{{ date('Y-m-d') }}" name="masaberlakustnk"
-                                    id="masaberlakustnk" class="form-control">
+                                    id="masaberlakustnk" class="form-control" required>
                             </div>
                         </div>
                         <div class="row mb-3">
@@ -471,13 +471,13 @@
                                 <label class="font-weight-bold" for="fotobpkb">Foto BPKP <strong
                                         class="text-danger">*</strong></label>
                                 <input type="file" class="form-control" name="fotobpkb" id="fotobpkb"
-                                    accept="image/x-png,image/gif,image/jpeg">
+                                    accept="image/x-png,image/gif,image/jpeg" required>
                             </div>
                             <div class="col-6">
                                 <label class="font-weight-bold" for="fotostnk">Foto STNK <strong
                                         class="text-danger">*</strong></label>
                                 <input type="file" class="form-control" name="fotostnk" id="fotostnk"
-                                    accept="image/x-png,image/gif,image/jpeg">
+                                    accept="image/x-png,image/gif,image/jpeg" required>
                             </div>
                         </div>
                         {{-- Tombol --}}
