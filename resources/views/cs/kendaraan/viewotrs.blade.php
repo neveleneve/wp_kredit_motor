@@ -32,7 +32,7 @@
                 <div class="row">
                     <div class="col-12">
                         <table class="table table-bordered">
-                            <thead>
+                            <thead class="text-light bg-primary">
                                 <tr>
                                     <th>No</th>
                                     <th>Tahun</th>
