@@ -30,19 +30,19 @@ class CSController extends Controller
     }
     private function vectorS($c, $w, $tipe)
     {
-        $s = null;
+        $s = 0;
         for ($i = 0; $i < count($c); $i++) {
             if ($i == 0) {
                 if ($tipe[$i] == 0) {
-                    $s = number_format(pow($c[$i], $w[$i]), 3, '.', ',');
+                    $s += number_format(pow($c[$i], $w[$i]), 3, '.', ',');
                 } elseif ($tipe[$i] == 1) {
-                    $s = number_format(pow($c[$i], (-$w[$i])), 3, '.', ',');
+                    $s += number_format(pow($c[$i], (-$w[$i])), 3, '.', ',');
                 }
             } else {
                 if ($tipe[$i] == 0) {
-                    $s = $s *  number_format(pow($c[$i], $w[$i]), 3, '.', ',');
+                    $s += number_format(pow($c[$i], $w[$i]), 3, '.', ',');
                 } elseif ($tipe[$i] == 1) {
-                    $s = $s * number_format(pow($c[$i], (-$w[$i])), 3, '.', ',');
+                    $s += number_format(pow($c[$i], (-$w[$i])), 3, '.', ',');
                 }
             }
         }
@@ -302,7 +302,7 @@ class CSController extends Controller
         if (count($datakredit) > 0) {
             $warna = 'danger';
             $alert = 'Data Tenor Kredit Sudah Tersedia. Silahkan Ulangi!';
-        } else { 
+        } else {
             Kredit::insert([
                 'pinjaman' => $pinjam,
                 'tenor' => $tenor,
@@ -486,6 +486,7 @@ class CSController extends Controller
             'nopengajuan' => 1,
         ]);
     }
+
     public function viewtransaksi($id)
     {
         $datamaster = MasterKredit::where('trx_code', $id)->get();
@@ -598,11 +599,16 @@ class CSController extends Controller
             array_push($tipe, $bobot[$i]['tipe']);
         }
         $s = $this->vectorS($c, $w, $tipe);
-        // dd($s);
-        MasterKredit::where('trx_code', $data->trx_code)->update([
-            'penilaian' => $s
+        dd([
+            'c' => $c,
+            'tipe' => $tipe,
+            'w' => $w,
+            'nilai' => $s
         ]);
-        return redirect(route('cstransaksi'));
+        // MasterKredit::where('trx_code', $data->trx_code)->update([
+        //     'penilaian' => $s
+        // ]);
+        // return redirect(route('cstransaksi'));
     }
     public function printpengajuan(Request $data)
     {
